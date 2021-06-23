@@ -11,8 +11,14 @@ use InvalidArgumentException;
 
 abstract class BaseChartType implements TypeInterface
 {
+    /**
+     * @var array
+     */
     private $customOptions = [];
 
+    /**
+     * @var array
+     */
     private $defaultOptions = [];
 
     public function __construct()
@@ -20,6 +26,11 @@ abstract class BaseChartType implements TypeInterface
         $this->defaultOptions = $this->defaultOptions();
     }
 
+    /**
+     * Get options
+     *
+     * @return array
+     */
     public function options(): array
     {
         if ( ! empty($this->customOptions)) {
@@ -29,6 +40,13 @@ abstract class BaseChartType implements TypeInterface
         return $this->defaultOptions;
     }
 
+    /**
+     * Set custom options
+     *
+     * @param $callback
+     *
+     * @return TypeInterface
+     */
     public function customOptions($callback): TypeInterface
     {
         if ( ! is_callable($callback)) {
@@ -49,6 +67,8 @@ abstract class BaseChartType implements TypeInterface
     }
 
     /**
+     * Change any default option
+     *
      * @throws ErrorException
      */
     public function changeDefaultOption(string $key,string $value): TypeInterface
@@ -62,6 +82,11 @@ abstract class BaseChartType implements TypeInterface
         return $this;
     }
 
+    /**
+     * Default options
+     *
+     * @return array
+     */
     protected function defaultOptions(): array
     {
         return [

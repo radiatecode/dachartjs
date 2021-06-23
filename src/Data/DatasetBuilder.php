@@ -8,14 +8,31 @@ use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
 
-class Dataset
+class DatasetBuilder
 {
     use Conditionable;
 
+    /**
+     * store the record for callable property
+     *
+     * @var array $callableMethods
+     */
     private $callableMethods = [];
 
-    private $dataset = [];
+    /**
+     * Datasets
+     *
+     * @var array $datasets
+     */
+    private $datasets = [];
 
+    /**
+     * Dataset generate with verities property
+     *
+     * These properties can be access by calling as a methods and set it value by the method args
+     *
+     * @var array[] $properties
+     */
     private $properties = [
         'label' => ['type' => 'string','callable' => 1],
         'stack' => ['type' => 'string','callable' => 1],
@@ -46,14 +63,14 @@ class Dataset
     ];
 
     /**
-     * It will use when a dataset need to make by all callable methods
+     * It will use when a dataset need to make by all callable methods/properties
      *
      * @return $this
      */
-    public function make(): Dataset
+    public function make(): DatasetBuilder
     {
         if (!empty($this->callableMethods)) {
-            $this->dataset[] = $this->callableMethods;
+            $this->datasets[] = $this->callableMethods;
         }
 
         $this->callableMethods = []; // reset after making a dataset
@@ -66,7 +83,7 @@ class Dataset
      *
      * @return $this
      */
-    public function dataset(string $label,array $data,string $backgroundColor,string $borderColor = null): Dataset
+    public function dataset(string $label,array $data,string $backgroundColor,string $borderColor = null): DatasetBuilder
     {
         $this->label($label)
             ->backgroundColor($backgroundColor)
@@ -85,7 +102,7 @@ class Dataset
      */
     public function render(): array
     {
-        return $this->dataset;
+        return $this->datasets;
     }
 
     /**
@@ -97,7 +114,7 @@ class Dataset
      *
      * @return $this
      */
-    protected function pushProperty(string $name,string $type,bool $isCallable): Dataset
+    protected function addProperty(string $name,string $type,bool $isCallable): DatasetBuilder
     {
         $this->properties[$name] = ['type'=>$type,'callable'=>$isCallable];
 

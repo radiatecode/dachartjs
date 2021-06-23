@@ -4,16 +4,16 @@
 namespace DaCode\DaChart\Data\TypeBaseDataset;
 
 
-use DaCode\DaChart\Data\Dataset;
+use DaCode\DaChart\Data\DatasetBuilder;
 
-class SteppedLineChartDataset extends Dataset
+class SteppedLineChartDataset extends DatasetBuilder
 {
     /**
      * Generate dataset by these properties
      *
      * @return $this
      */
-    public function steppedDataset(string $label,array $data,string $backgroundColor,bool $fill,bool $stepped, string $borderColor = null): Dataset
+    public function steppedDataset(string $label,array $data,string $backgroundColor,bool $fill,bool $stepped, string $borderColor = null): DatasetBuilder
     {
         $this->label($label)
             ->backgroundColor($backgroundColor)

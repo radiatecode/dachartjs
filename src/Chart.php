@@ -6,7 +6,7 @@ namespace DaCode\DaChart;
 use DaCode\DaChart\Contracts\ChartInterface;
 use DaCode\DaChart\Contracts\TypeInterface;
 use DaCode\DaChart\Data\Data;
-use DaCode\DaChart\Data\Dataset;
+use DaCode\DaChart\Data\DatasetBuilder;
 use DaCode\DaChart\Facades\ChartBuilder as Builder;
 use Illuminate\Support\Str;
 use \InvalidArgumentException;
@@ -59,7 +59,7 @@ class Chart implements ChartInterface
 
     /**
      * Pass a callback function with dataset.
-     * Dataset can be generate by dataset class or plain array
+     * Dataset can be generate by dataset builder or plain array
      *
      * @param $callback
      *
@@ -71,9 +71,9 @@ class Chart implements ChartInterface
             throw new \TypeError('Argument should be a callback function!');
         }
 
-        $call = call_user_func($callback,new Dataset());
+        $call = call_user_func($callback,new DatasetBuilder());
 
-        if ($call instanceof Dataset) {
+        if ($call instanceof DatasetBuilder) {
            $this->datasets = $call->render();
 
             return $this;
@@ -141,7 +141,8 @@ class Chart implements ChartInterface
     {
         return (new ChartConfig())
             ->chartName($this->chartName)
-            ->type($this->chartType->type())            ->data($this->renderData())
+            ->type($this->chartType->type())
+            ->data($this->renderData())
             ->options($this->chartType->options())
             ->render();
     }

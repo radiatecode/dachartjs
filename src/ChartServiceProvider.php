@@ -3,7 +3,7 @@
 
 namespace DaCode\DaChart;
 
-use DaCode\DaChart\Data\Dataset;
+use DaCode\DaChart\Data\DatasetBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class ChartServiceProvider extends ServiceProvider
@@ -14,8 +14,8 @@ class ChartServiceProvider extends ServiceProvider
             return $this->app->make(ChartBuilder::class);
         });
 
-        $this->app->singleton('dataset',function ($app){
-            return $this->app->make(Dataset::class);
+        $this->app->singleton('dataset.builder',function ($app){
+            return $this->app->make(DatasetBuilder::class);
         });
     }
 
