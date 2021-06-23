@@ -141,8 +141,7 @@ class Chart implements ChartInterface
     {
         return (new ChartConfig())
             ->chartName($this->chartName)
-            ->type($this->chartType->type())
-            ->data($this->renderData())
+            ->type($this->chartType->type())            ->data($this->renderData())
             ->options($this->chartType->options())
             ->render();
     }

@@ -14,10 +14,6 @@ class ChartServiceProvider extends ServiceProvider
             return $this->app->make(ChartBuilder::class);
         });
 
-        $this->app->singleton('option.builder',function ($app){
-            return $this->app->make(OptionBuilder::class);
-        });
-
         $this->app->singleton('dataset',function ($app){
             return $this->app->make(Dataset::class);
         });

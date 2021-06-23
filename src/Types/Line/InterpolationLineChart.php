@@ -6,11 +6,6 @@ namespace DaCode\DaChart\Types\Line;
 
 use DaCode\DaChart\Abstracts\BaseChartType;
 use DaCode\DaChart\Enums\ChartType;
-use DaCode\DaChart\Facades\OptionBuilder as Builder;
-use DaCode\DaChart\Options\Interaction;
-use DaCode\DaChart\Options\Responsive;
-use DaCode\DaChart\Options\Scales;
-use DaCode\DaChart\Options\Title;
 
 class InterpolationLineChart extends BaseChartType
 {
@@ -21,10 +16,26 @@ class InterpolationLineChart extends BaseChartType
 
     protected function defaultOptions(): array
     {
-        return Builder::option(Responsive::class)
-            ->option(Interaction::class,['mode'=>'index','intersect'=>false])
-            ->option(Title::class)
-            ->option(Scales::class,[
+        return [
+            'responsive' => true,
+            'interaction' => [
+                'intersect' => false,
+                'mode' => 'index',
+                'axis' => 'x'
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => true,
+                    'position' => 'top'
+                ],
+                'title' => [
+                    'text' => 'My Chart',
+                    'position' => 'top',
+                    'display' => true,
+                    'color' => 'black'
+                ]
+            ],
+            'scales' => [
                 'x' => [
                     'display' => true,
                     'title' => [
@@ -41,7 +52,8 @@ class InterpolationLineChart extends BaseChartType
                 ],
                 'suggestedMin' => -10,
                 'suggestedMax'=> 200
-            ])->render();
+            ]
+        ];
     }
 
 }
