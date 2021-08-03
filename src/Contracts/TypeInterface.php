@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DaCode\DaChart\Contracts;
+namespace RadiateCode\DaChart\Contracts;
 
 
 interface TypeInterface

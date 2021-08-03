@@ -1,10 +1,10 @@
 <?php
 
 
-namespace DaCode\DaChart\Abstracts;
+namespace RadiateCode\DaChart\Abstracts;
 
 
-use DaCode\DaChart\Contracts\TypeInterface;
+use RadiateCode\DaChart\Contracts\TypeInterface;
 use ErrorException;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;

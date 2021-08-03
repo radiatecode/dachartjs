@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DaCode\DaChart\Enums;
+namespace RadiateCode\DaChart\Enums;
 
 
 class ChartType

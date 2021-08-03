@@ -1,14 +1,14 @@
 <?php
 
 
-namespace DaCode\DaChart\Facades;
+namespace RadiateCode\DaChart\Facades;
 
-use DaCode\DaChart\Contracts\ChartInterface;
+use RadiateCode\DaChart\Contracts\ChartInterface;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
 
 /**
- * @method static mixed|\DaCode\DaChart\ChartBuilder resolve(ChartInterface $chart))
+ * @method static mixed|\RadiateCode\DaChart\ChartBuilder resolve(ChartInterface $chart))
  * @method static mixed|HtmlString chartHtml()
  * @method static mixed|HtmlString chartScripts()
  * @method static mixed|string chartLibrary()

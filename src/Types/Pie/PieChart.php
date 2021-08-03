@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DaCode\DaChart\Types\Pie;
+namespace RadiateCode\DaChart\Types\Pie;
 
 
-use DaCode\DaChart\Abstracts\BaseChartType;
-use DaCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Abstracts\BaseChartType;
+use RadiateCode\DaChart\Enums\ChartType;
 
 class PieChart extends BaseChartType
 {

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DaCode\DaChart\Types\PolarArea;
+namespace RadiateCode\DaChart\Types\PolarArea;
 
 
-use DaCode\DaChart\Abstracts\BaseChartType;
-use DaCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Abstracts\BaseChartType;
+use RadiateCode\DaChart\Enums\ChartType;
 
 class PolarAreaChart extends BaseChartType
 {

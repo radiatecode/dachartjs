@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DaCode\DaChart\Types\Scatter;
+namespace RadiateCode\DaChart\Types\Scatter;
 
 
-use DaCode\DaChart\Abstracts\BaseChartType;
-use DaCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Abstracts\BaseChartType;
+use RadiateCode\DaChart\Enums\ChartType;
 
 class ScatterChart extends BaseChartType
 {

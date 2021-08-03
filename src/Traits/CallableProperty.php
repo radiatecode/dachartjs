@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DaCode\DaChart\Traits;
+namespace RadiateCode\DaChart\Traits;
 
 
 use BadMethodCallException;

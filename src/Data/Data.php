@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DaCode\DaChart\Data;
+namespace RadiateCode\DaChart\Data;
 
 
 class Data

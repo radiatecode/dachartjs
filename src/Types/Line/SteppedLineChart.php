@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DaCode\DaChart\Types\Line;
+namespace RadiateCode\DaChart\Types\Line;
 
 
-use DaCode\DaChart\Abstracts\BaseChartType;
-use DaCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Abstracts\BaseChartType;
+use RadiateCode\DaChart\Enums\ChartType;
 
 class SteppedLineChart extends BaseChartType
 {

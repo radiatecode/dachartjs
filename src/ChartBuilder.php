@@ -1,9 +1,9 @@
 <?php
 
 
-namespace DaCode\DaChart;
+namespace RadiateCode\DaChart;
 
-use DaCode\DaChart\Contracts\ChartInterface;
+use RadiateCode\DaChart\Contracts\ChartInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\HtmlString;

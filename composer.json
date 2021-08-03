@@ -1,6 +1,6 @@
 {
-    "name": "dacode/dachart",
-    "description": "A chart generate package using the chart js",
+    "name": "radiatecode/dachart",
+    "description": "laravel package to generate chart using the chart.js",
     "license": "MIT",
     "authors": [
         {
@@ -18,18 +18,18 @@
     },
     "autoload": {
         "psr-4": {
-            "DaCode\\DaChart\\" : "src/"
+            "RadiateCode\\DaChart\\" : "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DaCode\\DaChart\\tests\\" : "tests/"
+            "RadiateCode\\DaChart\\tests\\" : "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers" : [
-                "DaCode\\DaChart\\ChartServiceProvider"
+                "RadiateCode\\DaChart\\ChartServiceProvider"
             ]
         }
     }

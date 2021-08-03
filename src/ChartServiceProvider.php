@@ -1,9 +1,9 @@
 <?php
 
 
-namespace DaCode\DaChart;
+namespace RadiateCode\DaChart;
 
-use DaCode\DaChart\Data\DatasetBuilder;
+use RadiateCode\DaChart\Data\DatasetBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class ChartServiceProvider extends ServiceProvider

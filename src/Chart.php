@@ -1,14 +1,14 @@
 <?php
 
 
-namespace DaCode\DaChart;
+namespace RadiateCode\DaChart;
 
-use DaCode\DaChart\Contracts\ChartInterface;
-use DaCode\DaChart\Contracts\TypeInterface;
-use DaCode\DaChart\Data\Data;
-use DaCode\DaChart\Data\DatasetBuilder;
-use DaCode\DaChart\Facades\ChartBuilder as Builder;
-use DaCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChart\Contracts\ChartInterface;
+use RadiateCode\DaChart\Contracts\TypeInterface;
+use RadiateCode\DaChart\Data\Data;
+use RadiateCode\DaChart\Data\DatasetBuilder;
+use RadiateCode\DaChart\Facades\ChartBuilder as Builder;
+use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use Illuminate\Support\Str;
 use \InvalidArgumentException;
 use TypeError;

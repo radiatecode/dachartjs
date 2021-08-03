@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DaCode\DaChart;
+namespace RadiateCode\DaChart;
 
 class ChartConfig
 {

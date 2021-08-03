@@ -1,12 +1,10 @@
 <?php
 
 
-namespace DaCode\DaChart\Data;
+namespace RadiateCode\DaChart\Data;
 
 
-use BadMethodCallException;
-use DaCode\DaChart\Traits\CallableProperty;
-use Illuminate\Support\Arr;
+use RadiateCode\DaChart\Traits\CallableProperty;
 use Illuminate\Support\Traits\Conditionable;
 
 class DatasetBuilder

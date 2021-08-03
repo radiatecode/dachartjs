@@ -1,18 +1,18 @@
 <?php
 
 
-namespace DaCode\DaChart\tests\Feature;
+namespace RadiateCode\DaChart\tests\Feature;
 
-use DaCode\DaChart\Chart;
-use DaCode\DaChart\Data\TypeBaseDataset\BorderBarChartDataset;
-use DaCode\DaChart\Data\TypeBaseDataset\SteppedLineChartDataset;
-use DaCode\DaChart\Types\Bar\HorizontalBarChart;
-use DaCode\DaChart\Types\Bar\StackedBarChart;
-use DaCode\DaChart\Types\Bar\VerticalBarChart;
-use DaCode\DaChart\Types\Line\MultiAxisLineChart;
-use DaCode\DaChart\Types\Line\SteppedLineChart;
+use RadiateCode\DaChart\Chart;
+use RadiateCode\DaChart\Data\TypeBaseDataset\BorderBarChartDataset;
+use RadiateCode\DaChart\Data\TypeBaseDataset\SteppedLineChartDataset;
+use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChart\Types\Bar\StackedBarChart;
+use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChart\Types\Line\MultiAxisLineChart;
+use RadiateCode\DaChart\Types\Line\SteppedLineChart;
 use Illuminate\Support\HtmlString;
-use DaCode\DaChart\tests\TestCase;
+use RadiateCode\DaChart\tests\TestCase;
 
 class ChartGenerateTest extends TestCase
 {

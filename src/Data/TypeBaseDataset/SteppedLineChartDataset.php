@@ -1,10 +1,10 @@
 <?php
 
 
-namespace DaCode\DaChart\Data\TypeBaseDataset;
+namespace RadiateCode\DaChart\Data\TypeBaseDataset;
 
 
-use DaCode\DaChart\Data\DatasetBuilder;
+use RadiateCode\DaChart\Data\DatasetBuilder;
 
 class SteppedLineChartDataset extends DatasetBuilder
 {

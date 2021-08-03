@@ -1,11 +1,11 @@
 <?php
 
 
-namespace DaCode\DaChart\Types\Bar;
+namespace RadiateCode\DaChart\Types\Bar;
 
 
-use DaCode\DaChart\Abstracts\BaseChartType;
-use DaCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Abstracts\BaseChartType;
+use RadiateCode\DaChart\Enums\ChartType;
 
 class VerticalBarChart extends BaseChartType
 {
