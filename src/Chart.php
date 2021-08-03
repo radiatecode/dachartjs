@@ -203,18 +203,16 @@ class Chart implements ChartInterface
      */
     private function resolveType($chart): void
     {
-        if (class_exists($chart)){
-            $chartType = new $chart();
-
-            if ($chartType instanceof TypeInterface){
-                $this->chartType = $chartType;
-
-                return;
-            }
-
-            throw new TypeError('Argument 2 must be a class of TypeInterface!');
+        if (! class_exists($chart)){
+            throw new InvalidArgumentException('Argument 2 must be a class path!');
         }
 
-        throw new TypeError('Argument 2 must be a class path!');
+        $chartType = new $chart();
+
+        if (! $chartType instanceof TypeInterface){
+            throw new InvalidArgumentException('Argument 2 must be a class of TypeInterface!');
+        }
+
+        $this->chartType = $chartType;
     }
 }
