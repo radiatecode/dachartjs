@@ -31,11 +31,9 @@ class BorderBarChartDataset extends DatasetBuilder
             ->borderWith($borderWith)
             ->borderRadius($borderRadius)
             ->borderSkipped($borderSkipped)
-            ->when(
-                $borderColor, function ($action) use ($borderColor) {
+            ->when($borderColor, function ($action) use ($borderColor) {
                 return $action->borderColor($borderColor);
-            }
-            )->make();
+            })->make();
 
         return $this;
     }

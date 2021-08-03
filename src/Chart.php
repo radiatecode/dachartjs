@@ -8,8 +8,10 @@ use DaCode\DaChart\Contracts\TypeInterface;
 use DaCode\DaChart\Data\Data;
 use DaCode\DaChart\Data\DatasetBuilder;
 use DaCode\DaChart\Facades\ChartBuilder as Builder;
+use DaCode\DaChart\Types\Bar\HorizontalBarChart;
 use Illuminate\Support\Str;
 use \InvalidArgumentException;
+use TypeError;
 
 class Chart implements ChartInterface
 {
@@ -33,13 +35,28 @@ class Chart implements ChartInterface
      */
     private $labels = [];
 
-    public function __construct(string $title,string $typeClass)
-    {
-        $this->resolveType($typeClass);
 
+    /**
+     * Chart constructor.
+     *
+     * @param  string  $title
+     *
+     * @param  string  $type // $type should be a class path [ex: HorizontalBarChart::class]
+     */
+    public function __construct(string $title,string $type)
+    {
         $this->chartName($title);
 
-        // change the default title text || [ side note: every dot key used to access the nested array keys]
+        /**
+         * Resolve the chart type class
+         */
+        $this->resolveType($type);
+
+        /*
+         * change the default title text
+         *
+         * [ side note: every dot key used to access the nested array keys]
+         */
         $this->changeDefaultOption('plugins.title.text',$title);
     }
 
@@ -59,7 +76,7 @@ class Chart implements ChartInterface
 
     /**
      * Pass a callback function with dataset.
-     * Dataset can be generate by dataset builder or plain array
+     *
      *
      * @param $callback
      *
@@ -68,7 +85,7 @@ class Chart implements ChartInterface
     public function data($callback): Chart
     {
         if ( ! is_callable($callback)) {
-            throw new \TypeError('Argument should be a callback function!');
+            throw new TypeError('Argument should be a callback function!');
         }
 
         $call = call_user_func($callback,new DatasetBuilder());
@@ -118,7 +135,7 @@ class Chart implements ChartInterface
     }
 
     /**
-     * When needed this one might be helpful to change or modify the value of any "default" option
+     * This one might be helpful to change or modify the value of any "default" option
      *
      * @param  string  $key
      * @param  string  $value
@@ -187,15 +204,17 @@ class Chart implements ChartInterface
     private function resolveType($chart): void
     {
         if (class_exists($chart)){
-            $this->chartType = new $chart();
+            $chartType = new $chart();
 
-            if ($this->chartType instanceof TypeInterface){
+            if ($chartType instanceof TypeInterface){
+                $this->chartType = $chartType;
+
                 return;
             }
 
-            throw new \TypeError('Argument 2 must be a class of TypeInterface::class!');
+            throw new TypeError('Argument 2 must be a class of TypeInterface!');
         }
 
-        throw new \TypeError('Argument 2 must be a class path!');
+        throw new TypeError('Argument 2 must be a class path!');
     }
 }

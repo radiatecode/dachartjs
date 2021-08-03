@@ -11,19 +11,24 @@ class InterpolationLineChartDataset extends DatasetBuilder
     /**
      * Generate dataset by these properties
      *
-     * @param  string       $label
-     * @param  array        $data
-     * @param  string       $backgroundColor
-     * @param  bool         $fill
-     * @param  string       $cubicInterpolationMode
-     * @param  string       $tension
+     * @param  string  $label
+     * @param  array  $data
+     * @param  string  $backgroundColor
+     * @param  bool  $fill
+     * @param  string  $cubicInterpolationMode
+     * @param  string  $tension
      * @param  string|null  $borderColor
      *
      * @return DatasetBuilder
      */
-    public function interpolationDataset(string $label, array $data,
-        string $backgroundColor, bool $fill, string $cubicInterpolationMode,
-        string $tension, string $borderColor = null
+    public function interpolationDataset(
+        string $label,
+        array $data,
+        string $backgroundColor,
+        bool $fill,
+        string $cubicInterpolationMode,
+        string $tension,
+        string $borderColor = null
     ): DatasetBuilder {
         $this->label($label)
             ->backgroundColor($backgroundColor)
@@ -31,11 +36,9 @@ class InterpolationLineChartDataset extends DatasetBuilder
             ->fill($fill)
             ->cubicInterpolationMode($cubicInterpolationMode)
             ->tension($tension)
-            ->when(
-                $borderColor, function ($action) use ($borderColor) {
+            ->when($borderColor, function ($action) use ($borderColor) {
                 return $action->borderColor($borderColor);
-            }
-            )->make();
+            })->make();
 
         return $this;
     }

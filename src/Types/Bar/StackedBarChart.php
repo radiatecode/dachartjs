@@ -13,6 +13,13 @@ class StackedBarChart extends BaseChartType
         return ChartType::BAR_CHART;
     }
 
+    /**
+     * ------------------------------------
+     * Override the base default options
+     * -------------------------------------
+     *
+     * @return array
+     */
     protected function defaultOptions(): array
     {
 

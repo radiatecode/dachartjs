@@ -14,6 +14,13 @@ class InterpolationLineChart extends BaseChartType
         return ChartType::LINE_CHART;
     }
 
+    /**
+     * ------------------------------------
+     * Override the base default options
+     * -------------------------------------
+     *
+     * @return array
+     */
     protected function defaultOptions(): array
     {
         return [

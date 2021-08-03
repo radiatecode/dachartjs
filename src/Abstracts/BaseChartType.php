@@ -17,16 +17,6 @@ abstract class BaseChartType implements TypeInterface
     private $customOptions = [];
 
     /**
-     * @var array
-     */
-    private $defaultOptions = [];
-
-    public function __construct()
-    {
-        $this->defaultOptions = $this->defaultOptions();
-    }
-
-    /**
      * Get options
      *
      * @return array
@@ -37,7 +27,7 @@ abstract class BaseChartType implements TypeInterface
             return $this->customOptions;
         }
 
-        return $this->defaultOptions;
+        return $this->defaultOptions();
     }
 
     /**
@@ -73,11 +63,13 @@ abstract class BaseChartType implements TypeInterface
      */
     public function changeDefaultOption(string $key,string $value): TypeInterface
     {
-        if (is_null(Arr::get($this->defaultOptions,$key))){
+        $options = $this->defaultOptions();
+
+        if (is_null(Arr::get($options,$key))){
             throw new ErrorException('Given key is not found in the default options');
         }
 
-        Arr::set($this->defaultOptions,$key,$value);
+        Arr::set($options,$key,$value);
 
         return $this;
     }

@@ -14,10 +14,13 @@ use DaCode\DaChart\Types\Line\SteppedLineChart;
 use Illuminate\Support\HtmlString;
 use DaCode\DaChart\tests\TestCase;
 
-class BarchartGenerateTest extends TestCase
+class ChartGenerateTest extends TestCase
 {
+
+    // run test by vendor/bin/phpunit --testsuite Feature
+
     /** @test */
-    public function render_bar_chart_config_option_builder()
+    public function render_bar_chart_with_dataset_builder()
     {
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
             ->labels(['project', 'task'])
@@ -28,6 +31,66 @@ class BarchartGenerateTest extends TestCase
                 }
             )
             ->render();
+
+        $this->assertIsArray($barChart);
+        $this->assertArrayHasKey('data', $barChart);
+    }
+
+    /** @test */
+    public function render_bar_chart_with_plain_array_dataset()
+    {
+        $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
+            ->labels(['project', 'task'])
+            ->data(
+                function ($dataset) {
+                    return [
+                        [
+                            "label" => "Task 1",
+                            "backgroundColor" => "green",
+                            "data" =>  [100, 200],
+                            "borderColor" => "green"
+                        ],
+                        [
+                            "label" => "Task 2",
+                            "backgroundColor" => "red",
+                            "data" =>  [300, 400],
+                            "borderColor" => "red"
+                        ]
+                    ];
+                }
+            )
+            ->render();
+
+        $this->assertIsArray($barChart);
+        $this->assertArrayHasKey('data', $barChart);
+    }
+
+    /** @test */
+    public function render_bar_chart_with_custom_options()
+    {
+        $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
+            ->options(function (){
+                return [
+                    'responsive' => false,
+                    'plugins' => [
+                        'legend' => [
+                            'display' => true,
+                            'position' => 'top'
+                        ],
+                        'title' => [
+                            'text' => 'Custom Title',
+                            'position' => 'top',
+                            'display' => true,
+                            'color' => 'black'
+                        ]
+                    ]
+                ];
+            })
+            ->labels(['project', 'task'])
+            ->data(function ($dataset) {
+                return $dataset->dataset('Task', [20, 30], 'red', 'black')
+                    ->dataset('Project', [50, 88], 'green', 'white');
+            })->render();
 
         $this->assertIsArray($barChart);
         $this->assertArrayHasKey('data', $barChart);
