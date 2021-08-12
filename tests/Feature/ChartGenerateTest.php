@@ -4,11 +4,11 @@
 namespace RadiateCode\DaChart\tests\Feature;
 
 use RadiateCode\DaChart\Chart;
+use RadiateCode\DaChart\Data\Dataset;
 use RadiateCode\DaChart\Data\TypeBaseDataset\BorderBarChartDataset;
 use RadiateCode\DaChart\Data\TypeBaseDataset\SteppedLineChartDataset;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use RadiateCode\DaChart\Types\Bar\StackedBarChart;
-use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 use RadiateCode\DaChart\Types\Line\MultiAxisLineChart;
 use RadiateCode\DaChart\Types\Line\SteppedLineChart;
 use Illuminate\Support\HtmlString;
@@ -16,20 +16,19 @@ use RadiateCode\DaChart\tests\TestCase;
 
 class ChartGenerateTest extends TestCase
 {
-
     // run test by vendor/bin/phpunit --testsuite Feature
+    // or vendor/phpunit/phpunit/phpunit --testsuite Feature
 
     /** @test */
     public function render_bar_chart_with_dataset_builder()
     {
+        $datasets = (new Dataset())->dataset('Task', [20, 30], 'red', 'black')
+            ->dataset('Project', [50, 88], 'green', 'white')
+            ->render();
+
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return $dataset->dataset('Task', [20, 30], 'red', 'black')
-                        ->dataset('Project', [50, 88], 'green', 'white');
-                }
-            )
+            ->datasets($datasets)
             ->render();
 
         $this->assertIsArray($barChart);
@@ -41,23 +40,21 @@ class ChartGenerateTest extends TestCase
     {
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return [
-                        [
-                            "label" => "Task 1",
-                            "backgroundColor" => "green",
-                            "data" =>  [100, 200],
-                            "borderColor" => "green"
-                        ],
-                        [
-                            "label" => "Task 2",
-                            "backgroundColor" => "red",
-                            "data" =>  [300, 400],
-                            "borderColor" => "red"
-                        ]
-                    ];
-                }
+            ->datasets(
+                [
+                    [
+                        "label"           => "Task 1",
+                        "backgroundColor" => "green",
+                        "data"            => [100, 200],
+                        "borderColor"     => "green",
+                    ],
+                    [
+                        "label"           => "Task 2",
+                        "backgroundColor" => "red",
+                        "data"            => [300, 400],
+                        "borderColor"     => "red",
+                    ],
+                ]
             )
             ->render();
 
@@ -68,29 +65,31 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_bar_chart_with_custom_options()
     {
+        $datasets = (new Dataset())->dataset('Task', [20, 30], 'red', 'black')
+            ->dataset('Project', [50, 88], 'green', 'white')
+            ->render();
+
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
-            ->options(function (){
+            ->options(function () {
                 return [
                     'responsive' => false,
-                    'plugins' => [
+                    'plugins'    => [
                         'legend' => [
-                            'display' => true,
-                            'position' => 'top'
-                        ],
-                        'title' => [
-                            'text' => 'Custom Title',
+                            'display'  => true,
                             'position' => 'top',
-                            'display' => true,
-                            'color' => 'black'
-                        ]
-                    ]
+                        ],
+                        'title'  => [
+                            'text'     => 'Custom Title',
+                            'position' => 'top',
+                            'display'  => true,
+                            'color'    => 'black',
+                        ],
+                    ],
                 ];
             })
             ->labels(['project', 'task'])
-            ->data(function ($dataset) {
-                return $dataset->dataset('Task', [20, 30], 'red', 'black')
-                    ->dataset('Project', [50, 88], 'green', 'white');
-            })->render();
+            ->datasets($datasets)
+            ->render();
 
         $this->assertIsArray($barChart);
         $this->assertArrayHasKey('data', $barChart);
@@ -99,44 +98,42 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_stepped_line_chart_with_dedicated_dataset_class()
     {
+        $datasets = (new SteppedLineChartDataset())
+            ->steppedDataset('Task', [120, 130], 'red', false, true)
+            ->steppedDataset('Project', [140, 150], 'red', false, true)
+            ->render();
+
         $steppedChart = (new Chart('Project Chart 35', SteppedLineChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return (new SteppedLineChartDataset())
-                        ->steppedDataset('Task', [120, 130], 'red', false, true)
-                        ->steppedDataset('Project', [140, 150], 'red', false, true)
-                        ->render();
-                }
-            )
+            ->datasets($datasets)
             ->render();
 
         $this->assertIsArray($steppedChart);
 
-        foreach ($steppedChart['data']['datasets'] as $item){
+        foreach ($steppedChart['data']['datasets'] as $item) {
             $this->assertArrayHasKey('fill', $item);
             $this->assertArrayHasKey('stepped', $item);
         }
     }
 
     /** @test */
-    public function render_border_radius_bar_chart_with_dedicated_dataset_class()
+    public function render_border_radius_bar_chart_with_dedicated_dataset_class(
+    )
     {
-        $borderRadiusBarChart = (new Chart('Border Bar Chart', SteppedLineChart::class))
+        $datasets = (new BorderBarChartDataset())
+            ->barChartDataset('Task', [120, 130], 'red', 2, 5, false)
+            ->barChartDataset('Project', [140, 150], 'red', 2, 5, false)
+            ->render();
+
+        $borderRadiusBarChart = (new Chart('Border Bar Chart',
+            SteppedLineChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return (new BorderBarChartDataset())
-                        ->barChartDataset('Task', [120, 130], 'red', 2, 5,false)
-                        ->barChartDataset('Project', [140, 150], 'red', 2, 5,false)
-                        ->render();
-                }
-            )
+            ->datasets($datasets)
             ->render();
 
         $this->assertIsArray($borderRadiusBarChart);
 
-        foreach ($borderRadiusBarChart['data']['datasets'] as $item){
+        foreach ($borderRadiusBarChart['data']['datasets'] as $item) {
             $this->assertArrayHasKey('borderWith', $item);
             $this->assertArrayHasKey('borderRadius', $item);
         }
@@ -145,20 +142,19 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_border_radius_bar_chart_with_dataset()
     {
+        $datasets = (new Dataset())
+            ->label('Task')->data([120, 130])->backgroundColor('red')->borderWith(2)->borderRadius(5)->borderSkipped(false)->make()
+            ->label('Project')->data([140, 150])->backgroundColor('green')->borderWith(2)->borderRadius(5)->borderSkipped(true)->make()
+            ->render();
+
         $borderRadiusBarChart = (new Chart('Border Bar Chart', SteppedLineChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return $dataset->label('Task')->data([120, 130])->backgroundColor('red')->borderWith(2)->borderRadius(5)->borderSkipped(false)->make()
-                        ->label('Project')->data([140, 150])->backgroundColor('green')->borderWith(2)->borderRadius(5)->borderSkipped(true)->make()
-                        ->render();
-                }
-            )
+            ->datasets($datasets)
             ->render();
 
         $this->assertIsArray($borderRadiusBarChart);
 
-        foreach ($borderRadiusBarChart['data']['datasets'] as $item){
+        foreach ($borderRadiusBarChart['data']['datasets'] as $item) {
             $this->assertArrayHasKey('borderWith', $item);
             $this->assertArrayHasKey('borderRadius', $item);
         }
@@ -167,24 +163,24 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_multi_axis_line_chart_with_dataset()
     {
-        $multiAxisLineChart = (new Chart('Multi Axis Line Chart', MultiAxisLineChart::class))
+        $datasets = (new Dataset())
+            ->label('Task')->data([120, 130])->backgroundColor('red')->yAxisID('y')->make()
+            ->label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
+            ->render();
+
+        $multiAxisLineChart = (new Chart('Multi Axis Line Chart',
+            MultiAxisLineChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return $dataset->label('Task')->data([120, 130])->backgroundColor('red')->yAxisID('y')->make()
-                        ->label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
-                        ->render();
-                }
-            )
+            ->datasets($datasets)
             ->render();
 
         $this->assertIsArray($multiAxisLineChart);
 
-        foreach ($multiAxisLineChart['data']['datasets'] as $item){
+        foreach ($multiAxisLineChart['data']['datasets'] as $item) {
             $this->assertArrayHasKey('yAxisID', $item);
         }
 
-        foreach ($multiAxisLineChart['options']['scales'] as $item){
+        foreach ($multiAxisLineChart['options']['scales'] as $item) {
             $this->assertArrayHasKey('position', $item);
             $this->assertEquals($item['type'], 'linear');
         }
@@ -193,14 +189,14 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function resolve_bar_chart_template()
     {
+        $datasets = (new Dataset())
+            ->label('Task')->data([20, 30])->make()
+            ->label('Project')->data([50, 60])->make()
+            ->render();
+
         $barChart = (new Chart('Project Chart 1', StackedBarChart::class))
             ->labels(['project', 'task'])
-            ->data(
-                function ($dataset) {
-                    return $dataset->label('Task')->data([20, 30])->make()
-                        ->label('Project')->data([50, 60])->make();
-                }
-            )
+            ->datasets($datasets)
             ->template();
 
         $this->assertInstanceOf(HtmlString::class, $barChart->chartScripts());

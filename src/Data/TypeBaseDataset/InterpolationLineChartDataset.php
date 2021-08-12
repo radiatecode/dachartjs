@@ -4,9 +4,9 @@
 namespace RadiateCode\DaChart\Data\TypeBaseDataset;
 
 
-use RadiateCode\DaChart\Data\DatasetBuilder;
+use RadiateCode\DaChart\Data\Dataset;
 
-class InterpolationLineChartDataset extends DatasetBuilder
+class InterpolationLineChartDataset extends Dataset
 {
     /**
      * Generate dataset by these properties
@@ -19,7 +19,7 @@ class InterpolationLineChartDataset extends DatasetBuilder
      * @param  string  $tension
      * @param  string|null  $borderColor
      *
-     * @return DatasetBuilder
+     * @return Dataset
      */
     public function interpolationDataset(
         string $label,
@@ -29,7 +29,7 @@ class InterpolationLineChartDataset extends DatasetBuilder
         string $cubicInterpolationMode,
         string $tension,
         string $borderColor = null
-    ): DatasetBuilder {
+    ): Dataset {
         $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)

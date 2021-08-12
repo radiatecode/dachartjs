@@ -6,12 +6,10 @@ namespace RadiateCode\DaChart;
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use RadiateCode\DaChart\Contracts\TypeInterface;
 use RadiateCode\DaChart\Data\Data;
-use RadiateCode\DaChart\Data\DatasetBuilder;
 use RadiateCode\DaChart\Facades\ChartBuilder as Builder;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use Illuminate\Support\Str;
 use \InvalidArgumentException;
-use TypeError;
 
 class Chart implements ChartInterface
 {
@@ -75,36 +73,19 @@ class Chart implements ChartInterface
     }
 
     /**
-     * Pass a callback function with dataset.
+     * Pass datasets array.
      *
+     * [Note: datasets can build by Dataset::class or you can pass custom array]
      *
-     * @param $callback
+     * @param array $datasets
      *
      * @return $this
      */
-    public function data($callback): Chart
+    public function datasets(array $datasets): Chart
     {
-        if ( ! is_callable($callback)) {
-            throw new TypeError('Argument should be a callback function!');
-        }
+        $this->datasets = $datasets;
 
-        $call = call_user_func($callback,new DatasetBuilder());
-
-        if ($call instanceof DatasetBuilder) {
-           $this->datasets = $call->render();
-
-            return $this;
-        }
-
-        if (is_array($call)) {
-            $this->datasets = $call;
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException(
-            'Callback function should be return a object of dataset or an array!'
-        );
+        return $this;
     }
 
     /**

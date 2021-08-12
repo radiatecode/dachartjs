@@ -4,9 +4,9 @@
 namespace RadiateCode\DaChart\Data\TypeBaseDataset;
 
 
-use RadiateCode\DaChart\Data\DatasetBuilder;
+use RadiateCode\DaChart\Data\Dataset;
 
-class BorderBarChartDataset extends DatasetBuilder
+class BorderBarChartDataset extends Dataset
 {
     /**
      * Generate dataset by these properties
@@ -19,12 +19,12 @@ class BorderBarChartDataset extends DatasetBuilder
      * @param  bool         $borderSkipped
      * @param  string|null  $borderColor
      *
-     * @return DatasetBuilder
+     * @return Dataset
      */
     public function barChartDataset(string $label, array $data,
         string $backgroundColor, int $borderWith, int $borderRadius,
         bool $borderSkipped, string $borderColor = null
-    ): DatasetBuilder {
+    ): Dataset {
         $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)

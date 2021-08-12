@@ -7,7 +7,7 @@ namespace RadiateCode\DaChart\Data;
 use RadiateCode\DaChart\Traits\CallableProperty;
 use Illuminate\Support\Traits\Conditionable;
 
-class DatasetBuilder
+class Dataset
 {
     use Conditionable, CallableProperty;
 
@@ -62,7 +62,7 @@ class DatasetBuilder
      *
      * @return $this
      */
-    public function make(): DatasetBuilder
+    public function make(): Dataset
     {
         if (!empty($this->calls())) {
             $this->datasets[] = $this->calls();
@@ -78,7 +78,7 @@ class DatasetBuilder
      *
      * @return $this
      */
-    public function dataset(string $label,array $data,string $backgroundColor,string $borderColor = null): DatasetBuilder
+    public function dataset(string $label,array $data,string $backgroundColor,string $borderColor = null): Dataset
     {
         $this->label($label)
             ->backgroundColor($backgroundColor)
