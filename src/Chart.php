@@ -75,7 +75,7 @@ class Chart implements ChartInterface
     /**
      * Pass datasets array.
      *
-     * [Note: datasets can build by Dataset::class or you can pass custom array]
+     * [Note: datasets can build by DatasetBuilder or you can pass custom array]
      *
      * @param array $datasets
      *

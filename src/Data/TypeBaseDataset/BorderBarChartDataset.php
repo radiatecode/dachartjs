@@ -8,6 +8,8 @@ use RadiateCode\DaChart\Data\Dataset;
 
 class BorderBarChartDataset extends Dataset
 {
+    private $datasets = [];
+
     /**
      * Generate dataset by these properties
      *
@@ -25,10 +27,10 @@ class BorderBarChartDataset extends Dataset
         string $backgroundColor, int $borderWith, int $borderRadius,
         bool $borderSkipped, string $borderColor = null
     ): Dataset {
-        $this->label($label)
+        $this->datasets[] = $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)
-            ->borderWith($borderWith)
+            ->borderWidth($borderWith)
             ->borderRadius($borderRadius)
             ->borderSkipped($borderSkipped)
             ->when($borderColor, function ($action) use ($borderColor) {
@@ -36,5 +38,13 @@ class BorderBarChartDataset extends Dataset
             })->make();
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function render(): array
+    {
+        return $this->datasets;
     }
 }

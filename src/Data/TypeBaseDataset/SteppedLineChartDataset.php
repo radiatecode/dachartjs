@@ -8,6 +8,8 @@ use RadiateCode\DaChart\Data\Dataset;
 
 class SteppedLineChartDataset extends Dataset
 {
+    private $datasets = [];
+
     /**
      * Generate dataset by these properties
      *
@@ -15,7 +17,7 @@ class SteppedLineChartDataset extends Dataset
      */
     public function steppedDataset(string $label,array $data,string $backgroundColor,bool $fill,bool $stepped, string $borderColor = null): Dataset
     {
-        $this->label($label)
+        $this->datasets[] = $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)
             ->fill($fill)
@@ -25,5 +27,13 @@ class SteppedLineChartDataset extends Dataset
             })->make();
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function render(): array
+    {
+        return $this->datasets;
     }
 }

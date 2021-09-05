@@ -4,9 +4,9 @@
 namespace RadiateCode\DaChart\tests\Feature;
 
 use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Data\Dataset;
 use RadiateCode\DaChart\Data\TypeBaseDataset\BorderBarChartDataset;
 use RadiateCode\DaChart\Data\TypeBaseDataset\SteppedLineChartDataset;
+use RadiateCode\DaChart\Facades\Dataset;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use RadiateCode\DaChart\Types\Bar\StackedBarChart;
 use RadiateCode\DaChart\Types\Line\MultiAxisLineChart;
@@ -22,9 +22,12 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_bar_chart_with_dataset_builder()
     {
-        $datasets = (new Dataset())->dataset('Task', [20, 30], 'red', 'black')
-            ->dataset('Project', [50, 88], 'green', 'white')
-            ->render();
+        $datasets = [
+            Dataset::label('Task')->data([20, 30])->backgroundColor('red')
+                ->borderColor('black')->make(),
+            Dataset::label('Project')->data([50, 80])->backgroundColor('green')
+                ->borderColor('white')->make(),
+        ];
 
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
             ->labels(['project', 'task'])
@@ -65,9 +68,12 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_bar_chart_with_custom_options()
     {
-        $datasets = (new Dataset())->dataset('Task', [20, 30], 'red', 'black')
-            ->dataset('Project', [50, 88], 'green', 'white')
-            ->render();
+        $datasets = [
+            Dataset::label('Task')->data([20, 30])->backgroundColor('red')
+                ->borderColor('black')->make(),
+            Dataset::label('Project')->data([50, 80])->backgroundColor('green')
+                ->borderColor('white')->make(),
+        ];
 
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
             ->options(function () {
@@ -134,7 +140,7 @@ class ChartGenerateTest extends TestCase
         $this->assertIsArray($borderRadiusBarChart);
 
         foreach ($borderRadiusBarChart['data']['datasets'] as $item) {
-            $this->assertArrayHasKey('borderWith', $item);
+            $this->assertArrayHasKey('borderWidth', $item);
             $this->assertArrayHasKey('borderRadius', $item);
         }
     }
@@ -142,12 +148,16 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_border_radius_bar_chart_with_dataset()
     {
-        $datasets = (new Dataset())
-            ->label('Task')->data([120, 130])->backgroundColor('red')->borderWith(2)->borderRadius(5)->borderSkipped(false)->make()
-            ->label('Project')->data([140, 150])->backgroundColor('green')->borderWith(2)->borderRadius(5)->borderSkipped(true)->make()
-            ->render();
+        $datasets = [
+            Dataset::label('Task')->data([120, 130])->backgroundColor('red')
+                ->borderWidth(2)->borderRadius(5)->borderSkipped(false)->make(),
+            Dataset::label('Project')->data([140, 150])
+                ->backgroundColor('green')->borderWidth(2)->borderRadius(5)
+                ->borderSkipped(true)->make(),
+        ];
 
-        $borderRadiusBarChart = (new Chart('Border Bar Chart', SteppedLineChart::class))
+        $borderRadiusBarChart = (new Chart('Border Bar Chart',
+            SteppedLineChart::class))
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -155,7 +165,7 @@ class ChartGenerateTest extends TestCase
         $this->assertIsArray($borderRadiusBarChart);
 
         foreach ($borderRadiusBarChart['data']['datasets'] as $item) {
-            $this->assertArrayHasKey('borderWith', $item);
+            $this->assertArrayHasKey('borderWidth', $item);
             $this->assertArrayHasKey('borderRadius', $item);
         }
     }
@@ -163,10 +173,10 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_multi_axis_line_chart_with_dataset()
     {
-        $datasets = (new Dataset())
-            ->label('Task')->data([120, 130])->backgroundColor('red')->yAxisID('y')->make()
-            ->label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
-            ->render();
+        $datasets = [
+            Dataset::label('Task')->data([120, 130])->backgroundColor('red')->yAxisID('y')->make(),
+            Dataset::label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
+        ];
 
         $multiAxisLineChart = (new Chart('Multi Axis Line Chart',
             MultiAxisLineChart::class))
@@ -189,10 +199,10 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function resolve_bar_chart_template()
     {
-        $datasets = (new Dataset())
-            ->label('Task')->data([20, 30])->make()
-            ->label('Project')->data([50, 60])->make()
-            ->render();
+        $datasets = [
+            Dataset::label('Task')->data([20, 30])->make(),
+            Dataset::label('Project')->data([50, 60])->make()
+        ];
 
         $barChart = (new Chart('Project Chart 1', StackedBarChart::class))
             ->labels(['project', 'task'])
