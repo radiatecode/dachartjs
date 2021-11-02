@@ -6,7 +6,7 @@ namespace RadiateCode\DaChart;
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use RadiateCode\DaChart\Contracts\TypeInterface;
 use RadiateCode\DaChart\Data\Data;
-use RadiateCode\DaChart\Facades\ChartBuilder as Builder;
+use RadiateCode\DaChart\Facades\HtmlBuilder;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use Illuminate\Support\Str;
 use \InvalidArgumentException;
@@ -146,13 +146,13 @@ class Chart implements ChartInterface
     }
 
     /**
-     * Resolve chart builder to generate html, script, js library for chart
+     * Resolve html builder to generate html, script, js library for chart
      *
-     * @return ChartBuilder|mixed
+     * @return HtmlBuilder|mixed
      */
     public function template()
     {
-        return Builder::resolve($this);
+        return HtmlBuilder::resolve($this);
     }
 
     /**

@@ -6,20 +6,22 @@ namespace RadiateCode\DaChart\Facades;
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use RadiateCode\DaChart\Html\Builder;
 
 /**
- * @method static mixed|\RadiateCode\DaChart\ChartBuilder resolve(ChartInterface $chart))
+ * @method static mixed|Builder resolve(ChartInterface $chart))
  * @method static mixed|HtmlString chartHtml()
- * @method static mixed|HtmlString chartScripts()
+ * @method static mixed|HtmlString chartScript()
+ * @method static mixed|HtmlString apiChartScript()
  * @method static mixed|string chartLibrary()
  * @method static mixed|string template()
  *
- * @see ChartBuilder
+ * @see Builder
  */
-class ChartBuilder extends Facade
+class HtmlBuilder extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'chart.builder';
+        return 'html.builder';
     }
 }

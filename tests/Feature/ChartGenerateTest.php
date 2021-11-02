@@ -209,6 +209,6 @@ class ChartGenerateTest extends TestCase
             ->datasets($datasets)
             ->template();
 
-        $this->assertInstanceOf(HtmlString::class, $barChart->chartScripts());
+        $this->assertInstanceOf(HtmlString::class, $barChart->chartScript());
     }
 }
