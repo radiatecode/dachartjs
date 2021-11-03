@@ -15,6 +15,7 @@ abstract class BaseChartType implements TypeInterface
      * @var array
      */
     private $customOptions = [];
+    private $modifyOptions = [];
 
     /**
      * Get options
@@ -27,7 +28,8 @@ abstract class BaseChartType implements TypeInterface
             return $this->customOptions;
         }
 
-        return $this->defaultOptions();
+        // if custom options not found then apply default options with changes (if any)
+        return $this->applyDefaultOptions();
     }
 
     /**
@@ -61,17 +63,36 @@ abstract class BaseChartType implements TypeInterface
      *
      * @throws ErrorException
      */
-    public function changeDefaultOption(string $key,string $value): TypeInterface
+    public function changeDefaultOption(string $key, string $value): TypeInterface
     {
         $options = $this->defaultOptions();
 
-        if (is_null(Arr::get($options,$key))){
+        if (is_null(Arr::get($options, $key))) {
             throw new ErrorException('Given key is not found in the default options');
         }
 
-        Arr::set($options,$key,$value);
+        $this->modifyOptions[$key] = $value;
 
         return $this;
+    }
+
+    /**
+     * apply default options
+     */
+    private function applyDefaultOptions(): array
+    {
+        $options = $this->defaultOptions();
+
+        // modify default options if found any
+        if (! empty($this->modifyOptions)) {
+            foreach ($this->modifyOptions as $key => $value) {
+                Arr::set($options, $key, $value);
+            }
+
+            return $options;
+        }
+
+        return $options;
     }
 
     /**
@@ -83,18 +104,18 @@ abstract class BaseChartType implements TypeInterface
     {
         return [
             'responsive' => true,
-            'plugins' => [
+            'plugins'    => [
                 'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
+                    'display'  => true,
                     'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ]
+                ],
+                'title'  => [
+                    'text'     => 'My Chart',
+                    'position' => 'top',
+                    'display'  => true,
+                    'color'    => 'black',
+                ],
+            ],
         ];
     }
 }

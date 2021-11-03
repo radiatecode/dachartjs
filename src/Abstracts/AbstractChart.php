@@ -64,13 +64,13 @@ abstract class AbstractChart
      * Custom options
      *
      * ---------------------------------------------------------------------------------------------
-     * Note: Each chart type class has default options, but if you don't want to use the default
+     * Note: Each type of chart  has default options, but if you don't want to use the default
      * then this methods can be useful to provide custom options
      * ---------------------------------------------------------------------------------------------
      *
      * @return array
      */
-    public function options(): array
+    protected function options(): array
     {
         return [];
     }

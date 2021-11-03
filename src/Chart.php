@@ -5,7 +5,6 @@ namespace RadiateCode\DaChart;
 
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use RadiateCode\DaChart\Contracts\TypeInterface;
-use RadiateCode\DaChart\Data\Data;
 use RadiateCode\DaChart\Facades\HtmlBuilder;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use Illuminate\Support\Str;
@@ -89,19 +88,6 @@ class Chart implements ChartInterface
     }
 
     /**
-     * Render data
-     *
-     * @return array
-     */
-    private function renderData(): array
-    {
-        return (new Data())
-            ->labels($this->labels)
-            ->datasets($this->datasets)
-            ->render();
-    }
-
-    /**
      * Helpful to set custom options if caller don't want to use the default chart options
      *
      * @param $callback
@@ -140,7 +126,8 @@ class Chart implements ChartInterface
         return (new ChartConfig())
             ->chartName($this->chartName)
             ->type($this->chartType->type())
-            ->data($this->renderData())
+            ->labels($this->labels)
+            ->datasets($this->datasets)
             ->options($this->chartType->options())
             ->render();
     }

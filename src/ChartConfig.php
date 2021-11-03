@@ -11,7 +11,9 @@ class ChartConfig
 
     private $options = [];
 
-    private $data = [];
+    private $labels = [];
+
+    private $datasets = [];
 
     /**
      * @param  string  $chartName
@@ -48,13 +50,25 @@ class ChartConfig
     }
 
     /**
-     * @param  array  $data
+     * @param  array  $labels
      *
      * @return $this
      */
-    public function data(array $data): ChartConfig
+    public function labels(array $labels): ChartConfig
     {
-        $this->data = $data;
+        $this->labels = $labels;
+
+        return $this;
+    }
+
+    /**
+     * @param  array  $datasets
+     *
+     * @return $this
+     */
+    public function datasets(array $datasets): ChartConfig
+    {
+        $this->datasets = $datasets;
 
         return $this;
     }
@@ -69,7 +83,10 @@ class ChartConfig
         return [
             'chart_name' => $this->chartName,
             'type' => $this->type,
-            'data' => $this->data,
+            'data' => [
+                'labels'=> $this->labels,
+                'datasets' => $this->datasets
+            ],
             'options' => $this->options
         ];
     }
