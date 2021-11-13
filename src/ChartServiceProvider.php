@@ -3,6 +3,7 @@
 
 namespace RadiateCode\DaChart;
 
+use RadiateCode\DaChart\Commands\CreateChartCommand;
 use RadiateCode\DaChart\Data\Dataset;
 use Illuminate\Support\ServiceProvider;
 use RadiateCode\DaChart\Html\Builder;
@@ -22,6 +23,12 @@ class ChartServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CreateChartCommand::class
+            ]);
+        }
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'dachart');
     }
 }

@@ -5,12 +5,33 @@ var httpRequest;
 
 var datasetsLength = {{ $datasetsLength }};
 
-document.getElementById("%3$s").addEventListener('click', makeRequest);
+// string of ids of form element
+var elements = '%5$s';
 
-function makeRequest() {
-    var data = '%5$s';
-    var url = data ? '%4$s?'+data : '%4$s';
+var loadTriggerId = '%3$s';
 
+var url = "%4$s";
+
+// get data
+makeRequest(url);
+
+// check whether chart data update by click event
+if(loadTriggerId){
+    document.getElementById(loadTriggerId).addEventListener('click', dataLoad);
+}
+
+function dataLoad(){
+    if(elements){
+        var queryStringExist = detectQueryString(url);
+        var params = generateUrlParams();
+        var urlQueryString = queryStringExist ? url+'&'+params : url+'?'+params;
+
+        // get data
+        makeRequest(urlQueryString);
+    }
+}
+
+function makeRequest(path) {
     httpRequest = new XMLHttpRequest();
 
     if (!httpRequest) {
@@ -19,7 +40,7 @@ function makeRequest() {
     }
 
     httpRequest.onreadystatechange = responseContents;
-    httpRequest.open('GET', url);
+    httpRequest.open('GET', path);
     httpRequest.send();
 }
 
@@ -36,6 +57,17 @@ function responseContents() {
     }
 }
 
+function generateUrlParams(){
+    var elms = elements.split("#");
+    var params = [];
+    for(var i in elms){
+        var elmVal = document.getElementById(elms[i]).value;
+        params.push(elms[i]+"="+elmVal);
+    }
+
+    return params.join('&');
+}
+
 function chartRefresh(data){
     // set response data to chart datasets
     for(var i = 0; i < datasetsLength; i++){
@@ -44,4 +76,10 @@ function chartRefresh(data){
 
     // update or refresh chart
     %2$s.update();
+}
+
+function detectQueryString(url) {
+    // regex pattern for detecting querystring
+    var pattern = new RegExp(/\?.+=.*/g);
+    return pattern.test(url);
 }

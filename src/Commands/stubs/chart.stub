@@ -1,0 +1,68 @@
+<?php
+
+
+namespace DummyNamespace;
+
+
+use RadiateCode\DaChart\Abstracts\AbstractChart;
+
+class DummyClass extends AbstractChart
+{
+
+	/**
+     * Chart title
+     *
+     * ---------------------------------------------------------------------
+     * Note: it can be use as chart id or chart name in js & html
+     * ---------------------------------------------------------------------
+     *
+     * @return string
+     */
+    protected function chartTitle(): string
+    {
+        return 'Chart Title';
+    }
+
+	/**
+     * Chart type
+     *
+     * ---------------------------------------------------------------------
+     * Note: Chart type must be path of a concrete class of TypeInterface
+     * [ex: HorizontalBarChart::class]
+     * ---------------------------------------------------------------------
+     *
+     * @return string
+     */
+    protected function chartType(): string
+    {
+        return '';
+    }
+
+	/**
+     * Chart labels
+     *
+     * ---------------------------------------------------------------------------------
+     * Note: This labels are used to label the data index (default x axis) in the chart view
+     * ---------------------------------------------------------------------------------
+     *
+     * @return array
+     */
+    protected function labels(): array
+    {
+        return [];
+    }
+
+	/**
+     * Dataset
+     *
+     * -------------------------------------------------------------------------------------------------
+     * Note: datasets can be generate by Dataset Facade Or we can pass custom array with dataset properties,
+     * -------------------------------------------------------------------------------------------------
+     *
+     * @return array
+     */
+    protected function datasets(): array
+    {
+        return [];
+    }
+}

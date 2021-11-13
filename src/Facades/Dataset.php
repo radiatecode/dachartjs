@@ -33,6 +33,7 @@ use RadiateCode\DaChart\Contracts\DatasetInterface;
  * @method static DatasetInterface pointBorderColor($color)
  * @method static DatasetInterface pointHoverBackgroundColor($color)
  * @method static DatasetInterface pointHoverBorderColor($color)
+ * @method static DatasetInterface dataset(string $label, array $data, $backgroundColor = null, $boarderColor = null)
  * @method static array make()
  *
  * @see DatasetInterface

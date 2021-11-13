@@ -4,6 +4,7 @@
 namespace RadiateCode\DaChart\Data;
 
 
+use RadiateCode\DaChart\Enums\ChartColor;
 use RadiateCode\DaChart\Traits\CallableProperty;
 use Illuminate\Support\Traits\Conditionable;
 
@@ -47,6 +48,39 @@ class Dataset
             ->addProperty('pointHoverBorderColor', 'array')
             ->addProperty('data', 'array')
             ->addProperty('segment', 'array');
+    }
+
+    /**
+     * Make dataset by most used and common properties
+     *
+     * @param  string  $label
+     * @param  array  $data
+     * @param  null  $backgroundColor
+     * @param  null  $boarderColor
+     *
+     * @return mixed
+     */
+    public function dataset(
+        string $label,
+        array $data,
+        $backgroundColor = null,
+        $boarderColor = null
+    ) {
+        if (empty($backgroundColor)){
+            $randomColor = ChartColor::randColor();
+            $backgroundColor = $randomColor;
+            $boarderColor = $randomColor;
+        }
+
+        if (! empty($backgroundColor) && empty($boarderColor)){
+            $boarderColor = $backgroundColor;
+        }
+
+
+        return $this->label($label)
+            ->data($data)
+            ->backgroundColor($backgroundColor)
+            ->borderColor($boarderColor);
     }
 
     /**

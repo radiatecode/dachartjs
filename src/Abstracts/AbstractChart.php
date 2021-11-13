@@ -31,12 +31,11 @@ abstract class AbstractChart
 
     /**
      * Chart labels
-     * This labels are used to label the data index (default x axis) in the chart view
-     *
-     * -----------------------------------------------------------------------------------------------
-     * Note: it is used as data property, and data of datasets need to be provided same amount of elements as this labels.
-     * ------------------------------------------------------------------------------------------------
-     *
+     * 
+     * ---------------------------------------------------------------------------------
+     * Note: This labels are used to label the data index (default x axis) in the chart view
+     * ---------------------------------------------------------------------------------
+     * 
      * @return array
      */
     abstract protected function labels(): array;
@@ -45,17 +44,9 @@ abstract class AbstractChart
      * Dataset
      *
      * -------------------------------------------------------------------------------------------------
-     * Note: datasets can build by Dataset Facade or you can pass custom array with dataset properties,
-     * basic format
-     *      [
-     *          'label' => 'Label One',
-     *          'data' => [20,30,40],
-     *          'backgroundColor' => 'green'
-     *          'borderColor' => 'red',
-     *          'borderWidth' => 1
-     *      ]
+     * Note: datasets can be generate by Dataset Facade Or we can pass custom array with dataset properties,
      * -------------------------------------------------------------------------------------------------
-     *
+     * 
      * @return array
      */
     abstract protected function datasets(): array;
@@ -71,6 +62,20 @@ abstract class AbstractChart
      * @return array
      */
     protected function options(): array
+    {
+        return [];
+    }
+
+    /**
+     * change default options
+     *
+     * ---------------------------------------------------------------------------------------------
+     * Note: Each type of chart has default options, by this method we can modify those default options
+     * ---------------------------------------------------------------------------------------------
+     *
+     * @return array
+     */
+    protected function changeDefaultOptions(): array
     {
         return [];
     }
@@ -92,9 +97,10 @@ abstract class AbstractChart
     {
         return $this->chart()->template();
     }
+    
 
     /**
-     * Config chart
+     * chart Config
      *
      * @return Chart
      */
@@ -102,8 +108,16 @@ abstract class AbstractChart
     {
         $chart = new Chart($this->chartTitle(), $this->chartType());
 
+        $optionModifications = $this->changeDefaultOptions();
+
         if ( ! empty($this->options())) {
             $chart->options($this->options());
+        }
+
+        if(! empty($optionModifications)){
+            foreach($optionModifications as $key => $value){
+                $chart->changeDefaultOption($key,$value);
+            }    
         }
 
         return $chart

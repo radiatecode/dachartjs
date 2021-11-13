@@ -102,7 +102,7 @@ class Chart implements ChartInterface
     }
 
     /**
-     * This one might be helpful to change or modify the value of any "default" option
+     * This one might be helpful to change the value of any "default" option
      *
      * @param  string  $key
      * @param  string  $value

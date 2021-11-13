@@ -62,6 +62,22 @@ interface DatasetInterface
     public function pointHoverBorderColor($color): DatasetInterface;
 
     /**
+     * Used to generate dataset by most common properties
+     * 
+     * -----------------------------------------------------------------------------------------------
+     * Note: If background and boarder colors are not set then it picked random pre-defined color
+     * -----------------------------------------------------------------------------------------------
+     *
+     * @param  string  $label
+     * @param  array  $data
+     * @param  null  $backgroundColor
+     * @param  null  $boarderColor
+     *
+     * @return DatasetInterface
+     */
+    public function dataset(string $label, array $data, $backgroundColor = null, $boarderColor = null): DatasetInterface;
+
+    /**
      * Make a dataset array with properties
      *
      * @return array

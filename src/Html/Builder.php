@@ -3,6 +3,7 @@
 
 namespace RadiateCode\DaChart\Html;
 
+use Illuminate\Support\Str;
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;
@@ -77,22 +78,21 @@ class Builder
         );
     }
 
-
     /**
      * Generate api based chart script
      *
      * [note: api call by AJAX]
      *
-     * @param  string  $clickEventId  // event trigger to load api data to chart
      * @param  string  $url  // api link
+     * @param  string|null  $loadTriggerId  // event trigger to load api data to chart
      *
-     * send data to api source
-     * data format should be like "key1=value1&key2=value2&key3=value3"
-     * @param  string|null  $sendData
+     * this filter element ids will be used to get value from input to filter chart view
+     * filter values attached with url as params or query string
+     * @param  null  $filterElementIds
      *
      * @return HtmlString
      */
-    public function apiChartScript(string $clickEventId, string $url, string $sendData = null): HtmlString
+    public function apiChartScript(string $url, string $loadTriggerId = null, ...$filterElementIds): HtmlString
     {
         $script = $this->jsApiConfig();
 
@@ -100,17 +100,20 @@ class Builder
 
         $chartConfigVar = $this->chart->getChartName()."_config";
 
+        $inputs = implode("#",$filterElementIds);
+
         return new HtmlString(
             sprintf(
                 "<script type='".('text/javascript')."'>\n{$script}\n</script>",
                 $chartCtxVar,
                 $chartConfigVar,
-                $clickEventId,
+                $loadTriggerId,
                 $url,
-                $sendData
+                $inputs
             )
         );
     }
+
 
     /**
      * Recent chart js library | cdn
