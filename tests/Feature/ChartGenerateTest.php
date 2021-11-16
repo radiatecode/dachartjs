@@ -105,8 +105,8 @@ class ChartGenerateTest extends TestCase
     public function render_stepped_line_chart_with_dedicated_dataset_class()
     {
         $datasets = (new SteppedLineChartDataset())
-            ->steppedDataset('Task', [120, 130], 'red', false, true)
-            ->steppedDataset('Project', [140, 150], 'red', false, true)
+            ->dataset('Task', [120, 130], 'red', false, true)
+            ->dataset('Project', [140, 150], 'red', false, true)
             ->render();
 
         $steppedChart = (new Chart('Project Chart 35', SteppedLineChart::class))
@@ -127,8 +127,8 @@ class ChartGenerateTest extends TestCase
     )
     {
         $datasets = (new BorderBarChartDataset())
-            ->barChartDataset('Task', [120, 130], 'red', 2, 5, false)
-            ->barChartDataset('Project', [140, 150], 'red', 2, 5, false)
+            ->dataset('Task', [120, 130], 'red', 2, 5, false)
+            ->dataset('Project', [140, 150], 'red', 2, 5, false)
             ->render();
 
         $borderRadiusBarChart = (new Chart('Border Bar Chart',

@@ -559,23 +559,34 @@ class MonthlyCompletionChart extends AbstractChart
             Dataset::dataset('Task',[70, 75,99])->make()
         ];
     }
+    
+    /**
+     * Change default options when necessary
+     *
+     * @return array
+     */
+    protected function changeDefaultOptions(): array
+    {
+        return [];
+    }
+    
+    /**
+     * Use custom options when we don't want to use the default. 
+     * 
+     * @return array
+     */
+    protected function options(): array
+    {
+        return [];
+    }
 }
 ```
-### Extra Methods of Chart Class (optional):
-
-We can change chart default options when necessary by simply override the base **changeDefaultOptions()** in the chart class
+We can change chart default options when necessary by the **changeDefaultOptions()**
 ```php
 class MonthlyCompletionChart extends AbstractChart
 {
     ................................
     
-    /**
-     * -----------------
-     * Override
-     * -----------------
-     * 
-     * @return array
-     */
     protected function changeDefaultOptions(): array
     {
         return [
@@ -588,23 +599,29 @@ class MonthlyCompletionChart extends AbstractChart
     .................................
 }
 ```
-Or we can set whole custom options by simply override the base **options()** method in the chart class.
+Or we can provide custom options by the **options()** method.
 ```php
 class MonthlyCompletionChart extends AbstractChart
 {
     ................................
     
-    /**
-     * -----------------
-     * Override
-     * -----------------
-     * 
-     * @return array
-     */
     protected function options(): array
     {
          return [
                 'responsive' => true,
+                'scales' => [
+                    'xAxes' => [[
+                        'ticks' => [
+                            'beginAtZero' => true,
+                            'maxRotation' => 90,
+                            'minRotation' => 90
+                        ]
+                    ]]
+                ],
+                'tooltips' => [
+                    'mode' => 'index',
+                    'intersect' => false
+                ],
                 'plugins'    => [
                     'legend' => [
                         'display'  => true,
@@ -640,4 +657,48 @@ class ReportController extends Controller
         return view('dashboard')->with('monthlyChart',$monthlyChart->template());
     }
 }
+```
+### Chart Types
+There are various predefined type of chart (configured) available such as
+#### Bar chart
+- **[Horizontal Bar Chart](src/Types/Bar/HorizontalBarChart.php)**
+- **[Stacked Bar Chart](src/Types/Bar/StackedBarChart.php)**
+- **[Vertical Bar Chart](src/Types/Bar/VerticalBarChart.php)**
+#### Line chart
+- **[Interpolation Line Chart](src/Types/Line/InterpolationLineChart.php)**
+- **[Line Chart](src/Types/Line/LineChart.php)**
+- **[Multi Axis Line Chart](src/Types/Line/MultiAxisLineChart.php)**
+- **[Stepped Line Chart](src/Types/Line/SteppedLineChart.php)**
+#### [Bubble chart](src/Types/Bubble/BubbleChart.php)
+#### [Pie chart](src/Types/Pie/PieChart.php)
+#### [Doughnut chart](src/Types/Doughnut/DoughnutChart.php)
+#### [Polar Area Chart](src/Types/PolarArea/PolarAreaChart.php)
+#### [Radar Chart](src/Types/Radar/RadarChart.php)
+#### [Scatter Chart](src/Types/Scatter/ScatterChart.php)
+
+> You can create your own custom type by extending **[BaseChartType](src/Abstracts/AbstractChart.php)**. Namespace could be **App\Charts\Types** (create Charts\Types folder inside the app folder)
+### Datasets
+Dataset Facade can be helpful to generate dataset for chart configuration, each dataset has various properties such as label, background color, border color, data, fill, boarder width etc. A single dataset is made by setting up these properties. Above examples or sample code shows that
+how to generate datasets by using **Dataset Facade**
+#### Methods
+See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
+#### Type Base Dataset (Optional)
+For different type of chart you may need different properties of dataset. So in that case we can create a type base dataset class with necessary
+properties. That type base dataset class can be used to generate datasets.
+There are some predefined type base dataset classes are available in the package such as
+- **[Dataset Of Border Bar Chart](src/Data/TypeBaseDataset/BorderBarChartDataset.php)**
+- **[Dataset Of Interpolation Line Chart](src/Data/TypeBaseDataset/InterpolationLineChartDataset.php)**
+- **[Dataset Of Stepped Line Chart](src/Data/TypeBaseDataset/SteppedLineChartDataset.php)**
+
+#### Sample Code:
+```php
+$datasets = (new BorderBarChartDataset())
+->dataset('Task', [120, 130], 'red', 2, 5, false)
+->dataset('Project', [140, 150], 'red', 2, 5, false)
+->render();
+
+$borderBarChart = (new Chart('Border Bar Chart',VerticalBarChart::class))
+    ->labels(['project', 'task'])
+    ->datasets($datasets)
+    ->render();
 ```

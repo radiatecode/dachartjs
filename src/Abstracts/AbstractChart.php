@@ -52,30 +52,30 @@ abstract class AbstractChart
     abstract protected function datasets(): array;
 
     /**
-     * Custom options
-     *
-     * ---------------------------------------------------------------------------------------------
-     * Note: Each type of chart  has default options, but if you don't want to use the default
-     * then this methods can be useful to provide custom options
-     * ---------------------------------------------------------------------------------------------
-     *
-     * @return array
-     */
-    protected function options(): array
-    {
-        return [];
-    }
-
-    /**
      * change default options
      *
      * ---------------------------------------------------------------------------------------------
-     * Note: Each type of chart has default options, by this method we can modify those default options
+     * Note: Each type of chart has default options, we can use this method
+     * when we need to modify those default options
      * ---------------------------------------------------------------------------------------------
      *
      * @return array
      */
     protected function changeDefaultOptions(): array
+    {
+        return [];
+    }
+
+    /**
+     * Custom options
+     *
+     * ---------------------------------------------------------------------------------------------
+     * Note: If we don't want to use the default, then this methods can be useful for custom options
+     * ---------------------------------------------------------------------------------------------
+     *
+     * @return array
+     */
+    protected function options(): array
     {
         return [];
     }

@@ -30,6 +30,7 @@ class Dataset
             ->addProperty('hoverOffset', 'string')
             ->addProperty('rotation', 'string')
             ->addProperty('cubicInterpolationMode', 'string')
+            ->addProperty('indexAxis', 'string')
             ->addProperty('xAxisID', 'string')
             ->addProperty('yAxisID', 'string')
             ->addProperty('order', 'string')
@@ -38,6 +39,12 @@ class Dataset
             ->addProperty('borderWidth', 'number')
             ->addProperty('borderRadius', 'number')
             ->addProperty('pointRadius', 'number')
+            ->addProperty('barPercentage', 'number')
+            ->addProperty('barThickness', 'number')
+            ->addProperty('maxBarThickness', 'number')
+            ->addProperty('minBarLength', 'number')
+            ->addProperty('hoverBorderWidth', 'number')
+            ->addProperty('hoverBorderRadius', 'number')
             ->addProperty('borderSkipped', 'bool')
             ->addProperty('fill', 'bool')
             ->addProperty('backgroundColor', 'array')
@@ -45,7 +52,9 @@ class Dataset
             ->addProperty('pointBackgroundColor', 'array')
             ->addProperty('pointBorderColor', 'array')
             ->addProperty('pointHoverBackgroundColor', 'array')
+            ->addProperty('hoverBackgroundColor', 'array')
             ->addProperty('pointHoverBorderColor', 'array')
+            ->addProperty('hoverBorderColor', 'array')
             ->addProperty('data', 'array')
             ->addProperty('segment', 'array');
     }
@@ -60,7 +69,7 @@ class Dataset
      *
      * @return mixed
      */
-    public function dataset(
+    public function general(
         string $label,
         array $data,
         $backgroundColor = null,

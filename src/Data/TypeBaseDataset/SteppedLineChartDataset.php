@@ -15,14 +15,20 @@ class SteppedLineChartDataset extends Dataset
      *
      * @return $this
      */
-    public function steppedDataset(string $label,array $data,string $backgroundColor,bool $fill,bool $stepped, string $borderColor = null): Dataset
-    {
+    public function dataset(
+        string $label,
+        array $data,
+        string $backgroundColor,
+        bool $fill,
+        bool $stepped,
+        string $borderColor = null
+    ): SteppedLineChartDataset {
         $this->datasets[] = $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)
             ->fill($fill)
             ->stepped($stepped)
-            ->when($borderColor,function ($action) use ($borderColor){
+            ->when($borderColor, function ($action) use ($borderColor) {
                 return $action->borderColor($borderColor);
             })->make();
 

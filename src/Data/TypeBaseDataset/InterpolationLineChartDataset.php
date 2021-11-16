@@ -21,7 +21,7 @@ class InterpolationLineChartDataset extends Dataset
      *
      * @return Dataset
      */
-    public function interpolationDataset(
+    public function dataset(
         string $label,
         array $data,
         string $backgroundColor,

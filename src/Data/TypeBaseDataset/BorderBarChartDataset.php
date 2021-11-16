@@ -21,12 +21,12 @@ class BorderBarChartDataset extends Dataset
      * @param  bool         $borderSkipped
      * @param  string|null  $borderColor
      *
-     * @return Dataset
+     * @return $this
      */
-    public function barChartDataset(string $label, array $data,
+    public function dataset(string $label, array $data,
         string $backgroundColor, int $borderWith, int $borderRadius,
         bool $borderSkipped, string $borderColor = null
-    ): Dataset {
+    ): BorderBarChartDataset {
         $this->datasets[] = $this->label($label)
             ->backgroundColor($backgroundColor)
             ->data($data)

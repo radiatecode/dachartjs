@@ -29,18 +29,18 @@ class HorizontalBarChart extends BaseChartType
             'elements' => [
                 'borderWidth' => 2
             ],
-            'plugins' => [
+            'plugins'    => [
                 'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
+                    'display'  => true,
                     'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ]
+                ],
+                'title'  => [
+                    'text'     => 'My Chart',
+                    'position' => 'top',
+                    'display'  => true,
+                    'color'    => 'black',
+                ],
+            ],
         ];
     }
 }

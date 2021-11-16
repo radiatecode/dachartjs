@@ -38,6 +38,18 @@ interface DatasetInterface
 
     public function pointRadius(int $radius): DatasetInterface;
 
+    public function barPercentage(int $radius): DatasetInterface;
+
+    public function barThickness(int $radius): DatasetInterface;
+
+    public function maxBarThickness(int $radius): DatasetInterface;
+
+    public function minBarLength(int $radius): DatasetInterface;
+
+    public function hoverBorderWidth(int $radius): DatasetInterface;
+
+    public function hoverBorderRadius(int $radius): DatasetInterface;
+
     public function borderSkipped(bool $borderSkipped): DatasetInterface;
 
     public function fill(bool $fill): DatasetInterface;
@@ -60,6 +72,10 @@ interface DatasetInterface
     public function pointHoverBackgroundColor($color): DatasetInterface;
 
     public function pointHoverBorderColor($color): DatasetInterface;
+
+    public function hoverBackgroundColor($color): DatasetInterface;
+
+    public function hoverBorderColor($color): DatasetInterface;
 
     /**
      * Used to generate dataset by most common properties
