@@ -51,7 +51,7 @@ class ReportController extends Controller
 ***Output:***
 ![Stats](img/example-1.png)
 
-### Example 2: API or Remote Datasource based chart
+### Example 2: API or AJAX Chart
 ![Stats](img/example-2.png)
 The chart shows purchases and uses product amount according to the month selection.
 
@@ -68,6 +68,7 @@ class ReportController extends Controller
         
     public function monthlyChart(){
         $datasets = [
+            // pass empty array to data()
             Dataset::label('Purchase Products')->data([])->backgroundColor('green')
                 ->borderColor('black')->make(),
             Dataset::label('Uses Products')->data([])->backgroundColor('red')
@@ -100,7 +101,7 @@ class ReportController extends Controller
 {!! $chart->apiChartScript(url('fetch/monthly/chart'), 'search-btn', "month_elm_id")) !!}
 ```
 > Depend on user's month selection chart will be refreshed or update.
-> When "search-btn" is triggered it will get value from month element, then attach it with the given url as query string and send request to server to fetch data.
+> When "search-btn" is triggered it will get value from month element, attach the value with the given url as query string and send request to server to fetch data.
 
 **Api Route:**
 
@@ -113,6 +114,7 @@ class DashboardController extends Controller {
     public function fetchData(Request $request){
         // place db query to fetch data form db
         // query can be filter by url params or query string
+        
         // url params or query string can be access through $request->get('key')
         // [ex: $request->get('month_elm_id');]
         
@@ -132,34 +134,36 @@ You can install the package via composer:
     composer require radiatecode/dachart
 
 # Usages
-In two ways you can generate chart either creating new Chart() object nor creating dedicated class.
+In two ways you can generate chart either creating [new Chart()](#option-1) object or [creating dedicated class](#option-2).
 
-## Option 1: create chart by `new Chart()`
+## Option 1
 
-### Chart Object:
+Generate chart by creating chart object
 ```php
 $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
 ```
-> Chart constructor have 2 args, 1st arg is chart title [ex: **Monthly Chart**], 2nd arg is type of chart [ex: **HorizontalBarChart::class**] is type of chart 
-> [2nd arg must be a class path of TypeInterface]. 
+> Chart constructor have 2 args, 1st arg is chart title, 2nd arg is type of chart.
+> 
+> [***Note: 2nd arg must be a class path of TypeInterface***]. 
 
-### Methods of Chart Object:
+### Available Methods of Chart:
 
-#### Modification of chart options:
-Each type of chart class comes with predefined options. For example see the **defaultOptions()** methods of **[HorizontalBarChart::class](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart::class](src/Types/Line/MultiAxisLineChart.php)**
+#### changeDefaultOption()
+Every type of chart has a dedicated class, and each type of chart class comes with predefined options. For example see the **defaultOptions()** methods of **[HorizontalBarChart::class](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart::class](src/Types/Line/MultiAxisLineChart.php)**
 
 So, in some scenario we may need to update the values of predefined options. In that case we can use **changeDefaultOption('optionKey','value')**
 
 ```php
-// NT: dot used in key arg to indicate the nexted level of the options
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
 ```
+> Note: dot used in key arg to indicate the nexted level of the options
+
 For multiple modification we can chain the method as we needs
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
         ->changeDefaultOption('plugins.title.color','blue')
 ```
-#### Custom Chart Options:
+#### options()
 If you don't want to use predefined options then use your custom options
 ```php
 $barChart->options(function () {
@@ -180,12 +184,12 @@ $barChart->options(function () {
     ];
 })
 ```
-#### Chart labels:
+#### labels()
 ```php
 // labeling the data of the chart. it could be x-axis or y-axis
 $barChart->labels(['January', 'February','March'])
 ```
-#### Chart datasets:
+#### datasets()
 
 ```php
 $barChart->datasets([])
@@ -230,17 +234,15 @@ $barChart->datasets($datasets);
         
 $barChart->datasets($datasets);
 ```
-#### Render the chart:
+#### render()
+Render method will return array of chart configurations. the configuration later can be manually used in javascript
 ```php
 $barChart->render();
 ```
-> Render method will return array of chart configurations. the configuration later can be manually used in javascript
-
-#### Sample Code: 
+#### Sample Code:
 ```php
 class WelcomeController extends Controller {
     public function index(){
-            
             /**
             * --------------------------------------
             * 1. Dataset configure with Dataset Facades
@@ -337,7 +339,6 @@ class WelcomeController extends Controller {
     }
 }
 ```
-
 **In view (dashboard.blade.php) file:**
 
 ```javascript
@@ -349,17 +350,16 @@ var chartCtx = document.getElementById("monthly_chart_canvas").getContext('2d');
 var monthlyChart = new Chart(chartCtx,serversideRenderedChartConfig);
 </script>
 ```
-
-#### Chart Template:
+#### template()
 If you don't want to setup javascript manually in view file then use **template()** instead of **render()**
 ```php
 $barChart->template();
 ```
-> Template method return a builder instance where it provides  
+> Template method return a builder instance where it provides
 > - **chartHtml()** : generate html canvas tag
 > - **chartScript()** : generate chart scripts
-> - **apiChartScript($url, $loadTriggerId = null, ...$filterElementIds)** : it will help to load chart data (not the whole chart config, only data of datasets) via ajax. It also allows updating or refresh the chart based on filter options.
-> [***NT: 2nd and 3rd args use when you need to apply filters on chart***]
+> - **apiChartScript($url, $loadTriggerId = null, ...$filterElementIds)** : it will help to load chart data (not the whole chart config, only data of datasets) via ajax. It will also allow update or refresh the chart based on filter options.
+    > [***NT: 2nd and 3rd args use when you need to apply filters on chart***]
 > - **chartLibrary()** : generate the chart.js CDN
 #### Sample Code:
 ```php
@@ -409,7 +409,7 @@ class WelcomeController extends Controller {
 ```
 **In view (blade) file:**
 
-Ex 1: Load chart data by ajax
+Example 1: Load chart data by ajax
 
 ```html
 <div class="chart">
@@ -427,7 +427,7 @@ Ex 1: Load chart data by ajax
 <!-- use it when you need to load chart data by ajax -->
 {!! $chart->apiChartScript(url('fetch/monthly/completion/chart'))) !!}
 ```
-Ex 2: Load chart data by ajax and update or refresh chart by applying filters
+Example 2: Load chart data by ajax and update or refresh chart by applying filters
 ```html
 <div class="chart">
     <input type="text" id="start_date" class="form-control datepicker" placeholder="" aria-label="">
@@ -461,6 +461,7 @@ class ChartController {
     public function completionData(Request $request){
         // place db query to fetch data form db
         // query can be filter by url params or query string
+        
         // url params can be access through $request->get('key')
         // [ex: $request->get('start_date'), $request->get('end_date')]
         
@@ -476,9 +477,9 @@ class ChartController {
 }
 ```
 
-## Option 2: create chart by dedicated class
-Create a new chart class
-    
+## Option 2 
+Generate chart by dedicated class
+
     php artisan make:dachart MonthlyCompletionChart
 
 #### Sample Code:
@@ -599,7 +600,7 @@ class MonthlyCompletionChart extends AbstractChart
     .................................
 }
 ```
-Or we can provide custom options by the **options()** method.
+Or we can provide custom options by the **options()**  if we don't want to use default.
 ```php
 class MonthlyCompletionChart extends AbstractChart
 {
@@ -659,7 +660,7 @@ class ReportController extends Controller
 }
 ```
 ### Chart Types
-There are various predefined type of chart (configured) available such as
+There are various predefined types of chart (configured) available such as
 #### Bar chart
 - **[Horizontal Bar Chart](src/Types/Bar/HorizontalBarChart.php)**
 - **[Stacked Bar Chart](src/Types/Bar/StackedBarChart.php)**
