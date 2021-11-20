@@ -91,7 +91,7 @@ interface DatasetInterface
      *
      * @return DatasetInterface
      */
-    public function dataset(string $label, array $data, $backgroundColor = null, $boarderColor = null): DatasetInterface;
+    public function general(string $label, array $data, $backgroundColor = null, $boarderColor = null): DatasetInterface;
 
     /**
      * Make a dataset array with properties

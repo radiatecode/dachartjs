@@ -4,8 +4,6 @@
 namespace RadiateCode\DaChart\tests\Feature;
 
 use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Data\TypeBaseDataset\BorderBarChartDataset;
-use RadiateCode\DaChart\Data\TypeBaseDataset\SteppedLineChartDataset;
 use RadiateCode\DaChart\Facades\Dataset;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use RadiateCode\DaChart\Types\Bar\StackedBarChart;
@@ -102,50 +100,6 @@ class ChartGenerateTest extends TestCase
     }
 
     /** @test */
-    public function render_stepped_line_chart_with_dedicated_dataset_class()
-    {
-        $datasets = (new SteppedLineChartDataset())
-            ->dataset('Task', [120, 130], 'red', false, true)
-            ->dataset('Project', [140, 150], 'red', false, true)
-            ->render();
-
-        $steppedChart = (new Chart('Project Chart 35', SteppedLineChart::class))
-            ->labels(['project', 'task'])
-            ->datasets($datasets)
-            ->render();
-
-        $this->assertIsArray($steppedChart);
-
-        foreach ($steppedChart['data']['datasets'] as $item) {
-            $this->assertArrayHasKey('fill', $item);
-            $this->assertArrayHasKey('stepped', $item);
-        }
-    }
-
-    /** @test */
-    public function render_border_radius_bar_chart_with_dedicated_dataset_class(
-    )
-    {
-        $datasets = (new BorderBarChartDataset())
-            ->dataset('Task', [120, 130], 'red', 2, 5, false)
-            ->dataset('Project', [140, 150], 'red', 2, 5, false)
-            ->render();
-
-        $borderRadiusBarChart = (new Chart('Border Bar Chart',
-            SteppedLineChart::class))
-            ->labels(['project', 'task'])
-            ->datasets($datasets)
-            ->render();
-
-        $this->assertIsArray($borderRadiusBarChart);
-
-        foreach ($borderRadiusBarChart['data']['datasets'] as $item) {
-            $this->assertArrayHasKey('borderWidth', $item);
-            $this->assertArrayHasKey('borderRadius', $item);
-        }
-    }
-
-    /** @test */
     public function render_border_radius_bar_chart_with_dataset()
     {
         $datasets = [
@@ -178,8 +132,7 @@ class ChartGenerateTest extends TestCase
             Dataset::label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
         ];
 
-        $multiAxisLineChart = (new Chart('Multi Axis Line Chart',
-            MultiAxisLineChart::class))
+        $multiAxisLineChart = (new Chart('Multi Axis Line Chart', MultiAxisLineChart::class))
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();

@@ -554,9 +554,9 @@ class MonthlyCompletionChart extends AbstractChart
     protected function datasets(): array
     {
         return [
-            Dataset::dataset('Project',[20, 30,55])->make(),
-            Dataset::dataset('Task',[50, 80,44])->make(),
-            Dataset::dataset('Task',[70, 75,99])->make()
+            Dataset::general('Project',[20, 30,55])->make(),
+            Dataset::general('Task',[50, 80,44])->make(),
+            Dataset::general('Task',[70, 75,99])->make()
         ];
     }
     
@@ -682,23 +682,4 @@ Dataset Facade can be helpful to generate dataset for chart configuration, each 
 how to generate datasets by using **Dataset Facade**
 #### Methods
 See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
-#### Type Base Dataset (Optional)
-For different type of chart you may need different properties of dataset. So in that case we can create a type base dataset class with necessary
-properties. That type base dataset class can be used to generate datasets.
-There are some predefined type base dataset classes are available in the package such as
-- **[Dataset Of Border Bar Chart](src/Data/TypeBaseDataset/BorderBarChartDataset.php)**
-- **[Dataset Of Interpolation Line Chart](src/Data/TypeBaseDataset/InterpolationLineChartDataset.php)**
-- **[Dataset Of Stepped Line Chart](src/Data/TypeBaseDataset/SteppedLineChartDataset.php)**
 
-#### Sample Code:
-```php
-$datasets = (new BorderBarChartDataset())
-->dataset('Task', [120, 130], 'red', 2, 5, false)
-->dataset('Project', [140, 150], 'red', 2, 5, false)
-->render();
-
-$borderBarChart = (new Chart('Border Bar Chart',VerticalBarChart::class))
-    ->labels(['project', 'task'])
-    ->datasets($datasets)
-    ->render();
-```

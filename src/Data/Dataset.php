@@ -6,7 +6,7 @@ namespace RadiateCode\DaChart\Data;
 
 use RadiateCode\DaChart\Enums\ChartColor;
 use RadiateCode\DaChart\Traits\CallableProperty;
-use Illuminate\Support\Traits\Conditionable;
+use RadiateCode\DaChart\Traits\Conditionable;
 
 class Dataset
 {
@@ -47,14 +47,14 @@ class Dataset
             ->addProperty('hoverBorderRadius', 'number')
             ->addProperty('borderSkipped', 'bool')
             ->addProperty('fill', 'bool')
-            ->addProperty('backgroundColor', 'array')
-            ->addProperty('borderColor', 'array')
-            ->addProperty('pointBackgroundColor', 'array')
-            ->addProperty('pointBorderColor', 'array')
-            ->addProperty('pointHoverBackgroundColor', 'array')
-            ->addProperty('hoverBackgroundColor', 'array')
-            ->addProperty('pointHoverBorderColor', 'array')
-            ->addProperty('hoverBorderColor', 'array')
+            ->addProperty('backgroundColor', 'array','string')
+            ->addProperty('borderColor', 'array','string')
+            ->addProperty('pointBackgroundColor', 'array','string')
+            ->addProperty('pointBorderColor', 'array','string')
+            ->addProperty('pointHoverBackgroundColor', 'array','string')
+            ->addProperty('hoverBackgroundColor', 'array','string')
+            ->addProperty('pointHoverBorderColor', 'array','string')
+            ->addProperty('hoverBorderColor', 'array','string')
             ->addProperty('data', 'array')
             ->addProperty('segment', 'array');
     }

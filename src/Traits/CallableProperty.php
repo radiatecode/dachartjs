@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Traits;
 
 use BadMethodCallException;
 use Illuminate\Support\Arr;
+use TypeError;
 
 trait CallableProperty
 {
@@ -15,12 +16,12 @@ trait CallableProperty
 
     /**
      * @param  string  $name
-     * @param  string  $type
+     * @param ...$types
      *
      * @return $this
      */
-    public function addProperty(string $name, string $type){
-        $this->properties[$name] = ['type'=>$type];
+    public function addProperty(string $name,  ...$types){
+        $this->properties[$name] = ['type'=>$types];
 
         return $this;
     }
@@ -81,6 +82,16 @@ trait CallableProperty
     public function __call($method, $parameters)
     {
         if (Arr::has($this->properties,$method)){
+            $paramType = gettype($parameters[0]);
+
+            $expectedTypes = $this->properties[$method]['type'];
+
+            if (! in_array($paramType,$expectedTypes)){
+                $types = implode(" or ",$expectedTypes);
+
+                throw new TypeError('Argument must be type of '.$types.", ".$paramType." given!");
+            }
+
             $this->calls[$method] = $parameters[0];
 
             return $this;
