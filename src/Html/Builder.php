@@ -84,7 +84,7 @@ class Builder
      * [note: api call by AJAX]
      *
      * @param  string  $url  // api link
-     * @param  string|null  $loadTriggerId  // event trigger to load api data to chart
+     * @param  string|null  $fireEventElementId  // event trigger to load api data to chart
      *
      * this filter element ids will be used to get value from input to filter chart view
      * filter values attached with url as params or query string
@@ -92,7 +92,7 @@ class Builder
      *
      * @return HtmlString
      */
-    public function apiChartScript(string $url, string $loadTriggerId = null, ...$filterElementIds): HtmlString
+    public function apiChartScript(string $url, string $fireEventElementId = null, ...$filterElementIds): HtmlString
     {
         $script = $this->jsApiConfig();
 

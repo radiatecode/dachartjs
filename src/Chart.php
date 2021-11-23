@@ -90,13 +90,13 @@ class Chart implements ChartInterface
     /**
      * Helpful to set custom options if caller don't want to use the default chart options
      *
-     * @param $callback
+     * @param  array  $options
      *
      * @return $this
      */
-    public function options($callback): Chart
+    public function options(array $options): Chart
     {
-        $this->chartType->customOptions($callback);
+        $this->chartType->customOptions($options);
 
         return $this;
     }

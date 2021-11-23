@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Types\Line;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class SteppedLineChart extends BaseChartType
 {
@@ -23,25 +24,12 @@ class SteppedLineChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
+        return array_merge(General::OPTIONS, [
             'interaction' => [
                 'intersect' => false,
-                'mode' => 'point',
-                'axis' => 'x'
+                'mode'      => 'point',
+                'axis'      => 'x',
             ],
-            'plugins' => [
-                'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
-                    'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ]
-        ];
+        ]);
     }
 }

@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Types\Line;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class MultiAxisLineChart extends BaseChartType
 {
@@ -23,42 +24,25 @@ class MultiAxisLineChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
-            'interaction' => [
-                'intersect' => false,
-                'mode' => 'index',
-                'axis' => 'x'
-            ],
+        return array_merge(General::OPTIONS, [
             'stacked' => false,
-            'plugins' => [
-                'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
-                    'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ],
-            'scales' => [
-                'y' => [
-                    'type' => 'linear',
-                    'display' => true,
+            'scales'  => [
+                'y'  => [
+                    'type'     => 'linear',
+                    'display'  => true,
                     'position' => 'left',
                 ],
                 'y1' => [
-                    'type' => 'linear',
-                    'display' => true,
+                    'type'     => 'linear',
+                    'display'  => true,
                     'position' => 'right',
                     // grid line settings
-                    'grid' => [
-                        'drawOnChartArea' => false, // only want the grid lines for one axis to show up
+                    'grid'     => [
+                        'drawOnChartArea' => false,
+                        // only want the grid lines for one axis to show up
                     ],
-                ],
+                ]
             ]
-        ];
+        ]);
     }
 }

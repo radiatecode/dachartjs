@@ -10,7 +10,7 @@ interface TypeInterface
 
     public function options(): array;
 
-    public function customOptions($callback);
+    public function customOptions(array $options);
 
     public function changeDefaultOption(string $key,string $value);
 }

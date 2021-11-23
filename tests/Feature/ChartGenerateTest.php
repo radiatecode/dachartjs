@@ -74,8 +74,7 @@ class ChartGenerateTest extends TestCase
         ];
 
         $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
-            ->options(function () {
-                return [
+            ->options([
                     'responsive' => false,
                     'plugins'    => [
                         'legend' => [
@@ -89,8 +88,7 @@ class ChartGenerateTest extends TestCase
                             'color'    => 'black',
                         ],
                     ],
-                ];
-            })
+                ])
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();

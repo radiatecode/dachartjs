@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Types\Line;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class InterpolationLineChart extends BaseChartType
 {
@@ -23,25 +24,7 @@ class InterpolationLineChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
-            'interaction' => [
-                'intersect' => false,
-                'mode' => 'index',
-                'axis' => 'x'
-            ],
-            'plugins' => [
-                'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
-                    'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ],
+        return array_merge(General::OPTIONS,[
             'scales' => [
                 'x' => [
                     'display' => true,
@@ -60,7 +43,7 @@ class InterpolationLineChart extends BaseChartType
                 'suggestedMin' => -10,
                 'suggestedMax'=> 200
             ]
-        ];
+        ]);
     }
 
 }

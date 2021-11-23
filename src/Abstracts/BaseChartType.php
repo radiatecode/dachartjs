@@ -8,6 +8,7 @@ use RadiateCode\DaChart\Contracts\TypeInterface;
 use ErrorException;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use RadiateCode\DaChart\Options\General;
 
 abstract class BaseChartType implements TypeInterface
 {
@@ -35,27 +36,15 @@ abstract class BaseChartType implements TypeInterface
     /**
      * Set custom options
      *
-     * @param $callback
+     * @param  array  $options
      *
      * @return TypeInterface
      */
-    public function customOptions($callback): TypeInterface
+    public function customOptions(array $options): TypeInterface
     {
-        if ( ! is_callable($callback)) {
-            throw new \TypeError('Argument should be a callback function!');
-        }
+        $this->customOptions = $options;
 
-        $options = call_user_func($callback);
-
-        if (is_array($options)) {
-            $this->customOptions = $options;
-
-            return $this;
-        }
-
-        throw new InvalidArgumentException(
-            'Callback function should be return an array!'
-        );
+        return $this;
     }
 
     /**
@@ -63,8 +52,10 @@ abstract class BaseChartType implements TypeInterface
      *
      * @throws ErrorException
      */
-    public function changeDefaultOption(string $key, string $value): TypeInterface
-    {
+    public function changeDefaultOption(
+        string $key,
+        string $value
+    ): TypeInterface {
         $options = $this->defaultOptions();
 
         if (is_null(Arr::get($options, $key))) {
@@ -84,7 +75,7 @@ abstract class BaseChartType implements TypeInterface
         $options = $this->defaultOptions();
 
         // modify default options if found any
-        if (! empty($this->modifyOptions)) {
+        if ( ! empty($this->modifyOptions)) {
             foreach ($this->modifyOptions as $key => $value) {
                 Arr::set($options, $key, $value);
             }
@@ -102,20 +93,7 @@ abstract class BaseChartType implements TypeInterface
      */
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
-            'plugins'    => [
-                'legend' => [
-                    'display'  => true,
-                    'position' => 'top',
-                ],
-                'title'  => [
-                    'text'     => 'My Chart',
-                    'position' => 'top',
-                    'display'  => true,
-                    'color'    => 'black',
-                ],
-            ],
-        ];
+        return General::OPTIONS;
+
     }
 }

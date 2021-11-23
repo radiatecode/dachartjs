@@ -5,6 +5,7 @@ namespace RadiateCode\DaChart\Types\Bar;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class StackedBarChart extends BaseChartType
 {
@@ -23,20 +24,7 @@ class StackedBarChart extends BaseChartType
     protected function defaultOptions(): array
     {
 
-        return [
-            'responsive' => true,
-            'plugins' => [
-                'legend' => [
-                    'display' => true,
-                    'position' => 'top'
-                ],
-                'title' => [
-                    'text' => 'My Chart',
-                    'position' => 'top',
-                    'display' => true,
-                    'color' => 'black'
-                ]
-            ],
+        return array_merge(General::OPTIONS,[
             'scales' => [
                 'x' => [
                     'stacked' => true
@@ -45,6 +33,6 @@ class StackedBarChart extends BaseChartType
                     'stacked' => true
                 ]
             ]
-        ];
+        ]);
     }
 }

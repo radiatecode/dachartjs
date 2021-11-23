@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Types\Bar;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class HorizontalBarChart extends BaseChartType
 {
@@ -23,24 +24,11 @@ class HorizontalBarChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
+        return array_merge(General::OPTIONS,[
             'indexAxis' => 'x',
             'elements' => [
                 'borderWidth' => 2
-            ],
-            'plugins'    => [
-                'legend' => [
-                    'display'  => true,
-                    'position' => 'top',
-                ],
-                'title'  => [
-                    'text'     => 'My Chart',
-                    'position' => 'top',
-                    'display'  => true,
-                    'color'    => 'black',
-                ],
-            ],
-        ];
+            ]
+        ]);
     }
 }

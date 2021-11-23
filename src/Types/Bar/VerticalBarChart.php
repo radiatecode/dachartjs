@@ -6,6 +6,7 @@ namespace RadiateCode\DaChart\Types\Bar;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChart\Options\General;
 
 class VerticalBarChart extends BaseChartType
 {
@@ -16,8 +17,7 @@ class VerticalBarChart extends BaseChartType
 
     protected function defaultOptions(): array
     {
-        return [
-            'responsive' => true,
+        return array_merge(General::OPTIONS,[
             'indexAxis'  => 'x',
             'scales'     => [
                 'xAxes' => [
@@ -33,22 +33,6 @@ class VerticalBarChart extends BaseChartType
             'elements'   => [
                 'borderWidth' => 2,
             ],
-            'tooltips'   => [
-                'mode'      => 'index',
-                'intersect' => false,
-            ],
-            'plugins'    => [
-                'legend' => [
-                    'display'  => true,
-                    'position' => 'top',
-                ],
-                'title'  => [
-                    'text'     => 'My Chart',
-                    'position' => 'top',
-                    'display'  => true,
-                    'color'    => 'black',
-                ],
-            ],
-        ];
+        ]);
     }
 }

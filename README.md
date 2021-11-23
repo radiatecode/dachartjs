@@ -6,12 +6,12 @@ It will dynamically render HTML & JS configuration to view the chart.
 
 ## Examples
 ### Example 1: Monthly Project, Task and Issue Completion Chart
-
+![Stats](img/example-1.png)
 **In controller:**
 ```php
 use RadiateCode\DaChart\Chart;
 use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller 
 {
@@ -27,7 +27,7 @@ class ReportController extends Controller
                 ->borderColor('white')->make(),
         ];
     
-        $monthlyChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+        $monthlyChart = (new Chart('Monthly Chart', VerticalBarChart::class))
                 ->labels(['January', 'February','March'])
                 ->datasets($datasets)
                 ->template();
@@ -36,7 +36,7 @@ class ReportController extends Controller
     }
 }
 ```
-**In blade file:**
+**In view (blade) file:**
 ```html
 <div class="chart">
     <!-- generate chart canvas html -->
@@ -48,9 +48,6 @@ class ReportController extends Controller
 {!! $chart->chartLibrary() !!}
 {!! $chart->chartScript() !!}
 ```
-***Output:***
-![Stats](img/example-1.png)
-
 ### Example 2: API or AJAX Chart
 ![Stats](img/example-2.png)
 The chart shows purchases and uses product amount according to the month selection.
@@ -61,21 +58,25 @@ The chart shows purchases and uses product amount according to the month selecti
 ```php
 use RadiateCode\DaChart\Chart;
 use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 class ReportController extends Controller 
 {
     .........................
         
     public function monthlyChart(){
         $datasets = [
-            // pass empty array to data()
-            Dataset::label('Purchase Products')->data([])->backgroundColor('green')
+            
+            Dataset::label('Purchase Products')
+                ->data([]) // pass empty array to data() when load data via ajax
+                ->backgroundColor('green')
                 ->borderColor('black')->make(),
-            Dataset::label('Uses Products')->data([])->backgroundColor('red')
+            Dataset::label('Uses Products')
+                ->data([])
+                ->backgroundColor('red')
                 ->borderColor('white')->make()
         ];
     
-        $monthlyChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+        $monthlyChart = (new Chart('Monthly Chart', VerticalBarChart::class))
                 ->labels(['January', 'February','March'])
                 ->datasets($datasets)
                 ->template();
@@ -101,7 +102,7 @@ class ReportController extends Controller
 {!! $chart->apiChartScript(url('fetch/monthly/chart'), 'search-btn', "month_elm_id")) !!}
 ```
 > Depend on user's month selection chart will be refreshed or update.
-> When "search-btn" is triggered it will get value from month element, attach the value with the given url as query string and send request to server to fetch data.
+> When "search-btn" is triggered it will get value from input element of month, attach the value with the given url as query string and send request to server to fetch data.
 
 **Api Route:**
 
@@ -151,14 +152,14 @@ $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
 #### changeDefaultOption()
 Every type of chart has a dedicated class, and each type of chart class comes with predefined options. For example see the **defaultOptions()** methods of **[HorizontalBarChart::class](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart::class](src/Types/Line/MultiAxisLineChart.php)**
 
-So, in some scenario we may need to update the values of predefined options. In that case we can use **changeDefaultOption('optionKey','value')**
+So, in some scenario you may need to update the values of predefined options. In that case you can use **changeDefaultOption('optionKey','value')**
 
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
 ```
 > Note: dot used in key arg to indicate the nexted level of the options
 
-For multiple modification we can chain the method as we needs
+For multiple modification you can chain the method as we needs
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
         ->changeDefaultOption('plugins.title.color','blue')
@@ -166,8 +167,7 @@ $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And I
 #### options()
 If you don't want to use predefined options then use your custom options
 ```php
-$barChart->options(function () {
-    return [
+$barChart->options([
         'responsive' => false,
         'plugins'    => [
             'legend' => [
@@ -181,12 +181,11 @@ $barChart->options(function () {
                 'color'    => 'black',
             ],
         ],
-    ];
-})
+    ])
 ```
 #### labels()
+labeling the data index of the chart. it could be x-axis or y-axis
 ```php
-// labeling the data of the chart. it could be x-axis or y-axis
 $barChart->labels(['January', 'February','March'])
 ```
 #### datasets()
@@ -196,6 +195,7 @@ $barChart->datasets([])
 ```
 > Datasets can be build by **Dataset Facades**
 
+Example:
 ```php
  $datasets = [
     Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
@@ -210,6 +210,7 @@ $barChart->datasets($datasets);
 ```
 > Or datasets can be configured as manual
 
+Example:
 ```php
  $datasets = [
     [
@@ -235,7 +236,7 @@ $barChart->datasets($datasets);
 $barChart->datasets($datasets);
 ```
 #### render()
-Render method will return array of chart configurations. the configuration later can be manually used in javascript
+Render method will return array of chart configurations which done by above methods. The configuration later can be manually used in javascript
 ```php
 $barChart->render();
 ```
@@ -312,8 +313,7 @@ class WelcomeController extends Controller {
             * --------------------------------------
             */
 //            $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
-//                ->options(function(){
-//                    return [
+//                ->options([
 //                        'responsive' => false,
 //                        'plugins'    => [
 //                            'legend' => [
@@ -327,8 +327,7 @@ class WelcomeController extends Controller {
 //                                'color'    => 'black',
 //                            ],
 //                        ],
-//                    ];              
-//                })
+//                ])
 //                ->labels(['January', 'February','March'])
 //                ->datasets($datasets)
 //                ->render();     
@@ -358,8 +357,8 @@ $barChart->template();
 > Template method return a builder instance where it provides
 > - **chartHtml()** : generate html canvas tag
 > - **chartScript()** : generate chart scripts
-> - **apiChartScript($url, $loadTriggerId = null, ...$filterElementIds)** : it will help to load chart data (not the whole chart config, only data of datasets) via ajax. It will also allow update or refresh the chart based on filter options.
-    > [***NT: 2nd and 3rd args use when you need to apply filters on chart***]
+> - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : it will help to load chart data (not the whole chart config, only data of datasets) via ajax. It will also allow update or refresh the chart via firing js click event.
+     [***NT: 2nd and 3rd args use when you need to fire a click event***]
 > - **chartLibrary()** : generate the chart.js CDN
 #### Sample Code:
 ```php
@@ -374,19 +373,19 @@ class WelcomeController extends Controller {
                 [
                     "label"           => "Task",
                     "backgroundColor" => "yellow",
-                    "data"            => [],
+                    "data"            => [], // empty the data properties because chart data load by ajax
                     "borderColor"     => "yellow",
                 ],
                 [
                     "label"           => "Project",
                     "backgroundColor" => "green",
-                    "data"            => [],
+                    "data"            => [], // empty the data properties because chart data load by ajax
                     "borderColor"     => "green",
                 ],
                 [
                     "label"           => "Issue",
                     "backgroundColor" => "red",
-                    "data"            => [],
+                    "data"            => [], // empty the data properties because chart data load by ajax
                     "borderColor"     => "red",
                 ],
             ];
@@ -482,7 +481,7 @@ Generate chart by dedicated class
 
     php artisan make:dachart MonthlyCompletionChart
 
-#### Sample Code:
+### Sample Code:
 ```php
 <?php
 
@@ -645,6 +644,7 @@ class MonthlyCompletionChart extends AbstractChart
 
 **In controller:**
 
+Now we will use that dedicated class in the controller
 ```php
 use App\Charts\MonthlyCompletionChart;
 
@@ -655,6 +655,7 @@ class ReportController extends Controller
     public function monthlyChart(){
         $monthlyChart =  new MonthlyCompletionChart();
         
+        //return view('dashboard')->with('monthlyChart',$monthlyChart->render());
         return view('dashboard')->with('monthlyChart',$monthlyChart->template());
     }
 }
@@ -678,9 +679,32 @@ There are various predefined types of chart (configured) available such as
 #### [Scatter Chart](src/Types/Scatter/ScatterChart.php)
 
 > You can create your own custom type by extending **[BaseChartType](src/Abstracts/AbstractChart.php)**. Namespace could be **App\Charts\Types** (create Charts\Types folder inside the app folder)
-### Datasets
+### Dataset Facade
 Dataset Facade can be helpful to generate dataset for chart configuration, each dataset has various properties such as label, background color, border color, data, fill, boarder width etc. A single dataset is made by setting up these properties. Above examples or sample code shows that
 how to generate datasets by using **Dataset Facade**
 #### Methods
 See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
+
+### Dedicated Dataset Class (Suggestion)
+If you create a chart with multiple datasets which depends on multiple db query then it would be nicer to create a separate dataset class, so that it increase the readability, maintainability of the code
+
+> Namespace could be **App\Charts\Datasets** (create Charts\Datasets folder inside the app folder)
+
+
+Check the sample code [here](DATASET-EXAMPLE.md)
+
+## Contributing
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+If you discover any security related issues, please email [radiate126@gmail.com](mailto:radiate126@gmail.com) instead of using the issue tracker.
+
+## Credits
+- [Noor Alam](https://github.com/radiatecode)
+- [All Contributors](https://github.com/radiatecode/dachart/contributors)
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
