@@ -660,7 +660,7 @@ class ReportController extends Controller
     }
 }
 ```
-### Chart Types
+## Chart Types
 There are various predefined types of chart (configured) available such as
 #### Bar chart
 - **[Horizontal Bar Chart](src/Types/Bar/HorizontalBarChart.php)**
@@ -679,19 +679,18 @@ There are various predefined types of chart (configured) available such as
 #### [Scatter Chart](src/Types/Scatter/ScatterChart.php)
 
 > You can create your own custom type by extending **[BaseChartType](src/Abstracts/AbstractChart.php)**. Namespace could be **App\Charts\Types** (create Charts\Types folder inside the app folder)
-### Dataset Facade
+## Dataset Facade
 Dataset Facade can be helpful to generate dataset for chart configuration, each dataset has various properties such as label, background color, border color, data, fill, boarder width etc. A single dataset is made by setting up these properties. Above examples or sample code shows that
 how to generate datasets by using **Dataset Facade**
-#### Methods
+### Methods
 See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
 
-### Dedicated Dataset Class (Suggestion)
+## Dedicated Dataset Class (Suggestion)
 If you create a chart with multiple datasets which depends on multiple db query then it would be nicer to create a separate dataset class, so that it increase the readability, maintainability of the code
 
 > Namespace could be **App\Charts\Datasets** (create Charts\Datasets folder inside the app folder)
 
-
-Check the sample code [here](DATASET-EXAMPLE.md)
+**Check the sample code [here](DATASET-EXAMPLE.md)**
 
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
@@ -699,7 +698,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security
 If you discover any security related issues, please email [radiate126@gmail.com](mailto:radiate126@gmail.com) instead of using the issue tracker.
 
-## Credits
+## Credits separated
 - [Noor Alam](https://github.com/radiatecode)
 - [All Contributors](https://github.com/radiatecode/dachart/contributors)
 
