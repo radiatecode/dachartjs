@@ -3,7 +3,7 @@ var %2$s = new Chart(%1$s,@json($chartConfig));
 
 var httpRequest;
 
-var datasetsLength = {{ $datasetsLength }};
+//var datasetsLength = 0;
 
 // string of ids of form element
 var elements = '%5$s';
@@ -69,9 +69,12 @@ function generateUrlParams(){
 }
 
 function chartRefresh(data){
-    // set response data to chart datasets
-    for(var i = 0; i < datasetsLength; i++){
-        %2$s.data.datasets[i].data = data[i];
+    if(data.datasets !== undefined){
+        %2$s.data.datasets = data.datasets;
+    }
+
+    if(data.labels !== undefined){
+        %2$s.data.labels = data.labels;
     }
 
     // update or refresh chart

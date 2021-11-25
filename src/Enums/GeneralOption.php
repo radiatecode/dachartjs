@@ -1,10 +1,10 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Options;
+namespace RadiateCode\DaChart\Enums;
 
 
-class General
+class GeneralOption
 {
     const OPTIONS
         = [

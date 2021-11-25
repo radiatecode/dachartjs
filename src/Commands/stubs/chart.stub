@@ -12,10 +12,6 @@ class DummyClass extends AbstractChart
 	/**
      * Chart title
      *
-     * ---------------------------------------------------------------------
-     * Note: it can be use as chart id or chart name in js & html
-     * ---------------------------------------------------------------------
-     *
      * @return string
      */
     protected function chartTitle(): string
@@ -25,11 +21,6 @@ class DummyClass extends AbstractChart
 
 	/**
      * Chart type
-     *
-     * ---------------------------------------------------------------------
-     * Note: Chart type must be path of a concrete class of TypeInterface
-     * [ex: HorizontalBarChart::class]
-     * ---------------------------------------------------------------------
      *
      * @return string
      */
@@ -41,10 +32,6 @@ class DummyClass extends AbstractChart
 	/**
      * Chart labels
      *
-     * ---------------------------------------------------------------------------------
-     * Note: This labels are used to label the data index (default x axis) in the chart view
-     * ---------------------------------------------------------------------------------
-     *
      * @return array
      */
     protected function labels(): array
@@ -54,10 +41,6 @@ class DummyClass extends AbstractChart
 
 	/**
      * Dataset
-     *
-     * -------------------------------------------------------------------------------------------------
-     * Note: datasets can be generate by Dataset Facade Or we can pass custom array with dataset properties,
-     * -------------------------------------------------------------------------------------------------
      *
      * @return array
      */

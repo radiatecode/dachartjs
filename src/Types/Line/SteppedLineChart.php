@@ -6,7 +6,7 @@ namespace RadiateCode\DaChart\Types\Line;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
-use RadiateCode\DaChart\Options\General;
+use RadiateCode\DaChart\Enums\GeneralOption;
 
 class SteppedLineChart extends BaseChartType
 {
@@ -24,7 +24,7 @@ class SteppedLineChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return array_merge(General::OPTIONS, [
+        return array_merge(GeneralOption::OPTIONS, [
             'interaction' => [
                 'intersect' => false,
                 'mode'      => 'point',

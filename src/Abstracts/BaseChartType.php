@@ -8,7 +8,7 @@ use RadiateCode\DaChart\Contracts\TypeInterface;
 use ErrorException;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use RadiateCode\DaChart\Options\General;
+use RadiateCode\DaChart\Enums\GeneralOption;
 
 abstract class BaseChartType implements TypeInterface
 {
@@ -93,7 +93,7 @@ abstract class BaseChartType implements TypeInterface
      */
     protected function defaultOptions(): array
     {
-        return General::OPTIONS;
+        return GeneralOption::OPTIONS;
 
     }
 }

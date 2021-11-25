@@ -6,7 +6,7 @@ namespace RadiateCode\DaChart\Types\Bar;
 
 use RadiateCode\DaChart\Abstracts\BaseChartType;
 use RadiateCode\DaChart\Enums\ChartType;
-use RadiateCode\DaChart\Options\General;
+use RadiateCode\DaChart\Enums\GeneralOption;
 
 class HorizontalBarChart extends BaseChartType
 {
@@ -24,7 +24,7 @@ class HorizontalBarChart extends BaseChartType
      */
     protected function defaultOptions(): array
     {
-        return array_merge(General::OPTIONS,[
+        return array_merge(GeneralOption::OPTIONS,[
             'indexAxis' => 'x',
             'elements' => [
                 'borderWidth' => 2

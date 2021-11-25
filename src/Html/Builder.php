@@ -86,9 +86,7 @@ class Builder
      * @param  string  $url  // api link
      * @param  string|null  $fireEventElementId  // event trigger to load api data to chart
      *
-     * this filter element ids will be used to get value from input to filter chart view
-     * filter values attached with url as params or query string
-     * @param  null  $filterElementIds
+     * @param  null  $filterElementIds // ids used to get value from input and attach it as query string
      *
      * @return HtmlString
      */
@@ -107,7 +105,7 @@ class Builder
                 "<script type='".('text/javascript')."'>\n{$script}\n</script>",
                 $chartCtxVar,
                 $chartConfigVar,
-                $loadTriggerId,
+                $fireEventElementId,
                 $url,
                 $inputs
             )
@@ -146,12 +144,9 @@ class Builder
     {
         $chartConfig = $this->chart->render();
 
-        $datasetsLength = count($chartConfig['data']['datasets']);
-
         return $this->view->make('dachart::api',
             [
-                'chartConfig'    => $chartConfig,
-                'datasetsLength' => $datasetsLength,
+                'chartConfig'    => $chartConfig
             ]
         )->render();
     }
