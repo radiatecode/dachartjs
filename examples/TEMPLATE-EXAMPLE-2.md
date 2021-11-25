@@ -3,15 +3,11 @@
 **Configuration:**
 ```php
 class ReportController extends Controller {
-    public function index(){
-            /**
-            * --------------------------------------
-            * generate chart with default options 
-            * --------------------------------------
-            */
-            $barChart = (new Chart('Top Sales Chart', HorizontalBarChart::class))
-                ->labels(['January','February','March']) // fixed labels
-                ->datasets([])
+    public function index()
+    {
+        $barChart = (new Chart('Top Sales Chart', HorizontalBarChart::class))
+            ->labels(['January','February','March']) // fixed labels
+            ->datasets([])
 //                ->options([
 //                        'responsive' => false,
 //                        'plugins'    => [
@@ -27,9 +23,9 @@ class ReportController extends Controller {
 //                            ],
 //                        ],
 //                ])
-                ->template();    
-                  
-            return view('dashboard')->with('chart',$barChart);       
+            ->template();    
+              
+        return view('dashboard')->with('chart',$barChart);       
     }
 }
 ```
@@ -64,7 +60,7 @@ For api response we can use **ChartResponse**
 ```php
 ............
 
-use \RadiateCode\DaChart\Response\ChartResponse;
+use RadiateCode\DaChart\Facades\ChartResponse;
 
 class ChartController {
     public function topSalesMonthly(Request $request){
@@ -82,7 +78,7 @@ class ChartController {
                 ->borderColor('black')->make(),
         ];
         
-        return (new ChartResponse())->datasets($datasets)->toJson();
+        return ChartResponse::datasets($datasets)->toJson();
     }
 }
 ```

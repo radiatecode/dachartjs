@@ -98,7 +98,14 @@ class WelcomeController extends Controller {
 }
 ```
 **In view (dashboard.blade.php) file:**
-
+```html
+<div class="chart">
+    <div class="chart">
+        <!-- canvas html -->
+        <canvas id="monthly_chart_canvas"></canvas>
+    </div>
+</div>
+```
 ```javascript
 <script>
 var serversideRenderedChartConfig = @json($barChart)

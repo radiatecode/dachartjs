@@ -3,18 +3,14 @@
 **Configuration:**
 ```php
 class ReportController extends Controller {
-    public function index(){
-            /**
-            * --------------------------------------
-            * generate chart with default options 
-            * --------------------------------------
-            */
-            $barChart = (new Chart('Top Sales Chart', HorizontalBarChart::class))
-                ->labels([])
-                ->datasets([])
-                ->template();    
-                  
-            return view('dashboard')->with('chart',$barChart);       
+    public function index()
+    {
+        $barChart = (new Chart('Top Sales Chart', HorizontalBarChart::class))
+            ->labels([])
+            ->datasets([])
+            ->template();    
+              
+        return view('dashboard')->with('chart',$barChart);       
     }
 }
 ```
@@ -40,38 +36,53 @@ class ReportController extends Controller {
 {!! $chart->chartLibrary() !!}
 
 <!-- use it when chart need to update or refresh by firing an event -->
-{!! $chart->apiChartScript(url('fetch/top/sales/chart'), 'search-btn', "start_date","end_date")) !!}
+{!! $chart->apiChartScript(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
 ```
-**Api Route & Response:**
+> When **'search-btn'** is clicked it get values from start_date, end_date inputs and attach
+> the values as query string like **http://demo.test/project/charts?start_date=2021-11-01&end_date=2021-11-30**
+
+**Api Route:**
 
 ```php
-Route::get('fetch/top/sales/chart','ChartController@topSalesData');
+Route::get('project/charts','ChartController@projectCharts');
+```
+**Response:**
 
+```php
 ............
-use \RadiateCode\DaChart\Response\ChartResponse;
+use \RadiateCode\DaChart\Facades\ChartResponse;
 
 class ChartController {
-    public function topSalesData(Request $request){
-        // place db query to fetch data form db
-        $sales = Sale::whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
-                    ->orderBy('total_volume', 'desc')
-                    ->groupBy('order_products.product_id')
-                    ->selectRaw('product_name,SUM(product_sold_quantity) as total_volume')
-                    ->get();
+    public function projectCharts(Request $request)
+    {
+       $projectPending = Project::where('status','pending')
+                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->count();
+                   
+       $projectCompleted = Project::where('status','completed')
+                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->count();
+                   
+       $taskPending = Task::where('status','pending')
+                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->count();
        
-       $labels = $sales->pluck('product_name')->toArray();
+       $taskCompleted = Task::where('status','completed')
+                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->count();
        
        $datasets = [
-            Dataset::label('Sales')
-                ->data($sales->pluck('total_volume')->toArray())
+            Dataset::label('Completed')
+                ->data([$projectCompleted,$taskCompleted])
+                ->backgroundColor('green')
+                ->borderColor('black')->make(),
+            Dataset::label('Pending')
+                ->data([$projectPending,$taskPending])
                 ->backgroundColor('green')
                 ->borderColor('black')->make(),
         ];
         
-        return (new ChartResponse())
-                ->labels($labels)
-                ->datasets($datasets)
-                ->toJson();
+        return ChartResponse::labels(['Projects','Tasks'])->datasets($datasets)->toJson();
     }
 }
 ```

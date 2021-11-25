@@ -14,7 +14,7 @@ class ChartColor
     const INCH_WORM = "rgba(159, 237, 57, 0.8)";
     const MEDIUM_RED_VIOLET = "rgba(179, 36, 156, 0.8)";
     const CINNABAR = "rgba(241, 78, 45, 0.8)";
-    const YELLOW_ORRANGE = "rgba(255, 159, 64, 0.8)";
+    const YELLOW_ORANGE = "rgba(255, 159, 64, 0.8)";
     const JADE = "rgba(7, 183, 109, 0.8)";
     const EGGPLANT = "rgba(137, 5, 80, 0.8)";
     const RAZZMATAZZ = "rgba(211, 8, 110, 0.8)";
@@ -37,7 +37,7 @@ class ChartColor
             self::INCH_WORM,
             self::MEDIUM_RED_VIOLET,
             self::CINNABAR,
-            self::YELLOW_ORRANGE,
+            self::YELLOW_ORANGE,
             self::JADE,
             self::EGGPLANT,
             self::RAZZMATAZZ,

@@ -7,6 +7,7 @@ use RadiateCode\DaChart\Commands\CreateChartCommand;
 use RadiateCode\DaChart\Data\Dataset;
 use Illuminate\Support\ServiceProvider;
 use RadiateCode\DaChart\Html\Builder;
+use RadiateCode\DaChart\Response\ChartResponse;
 
 class ChartServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,10 @@ class ChartServiceProvider extends ServiceProvider
 
         $this->app->singleton('dataset.builder',function ($app){
             return $this->app->make(Dataset::class);
+        });
+
+        $this->app->singleton('chart.response',function ($app){
+            return $this->app->make(ChartResponse::class);
         });
     }
 

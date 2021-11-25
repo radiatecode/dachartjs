@@ -1,7 +1,7 @@
 # Da Chart
 ![Stats](img/da-chart.png)
 
-This package used to generate server-side chart of [chart js](https://www.chartjs.org) and doesn't need to configure javascript in the front-side.
+This package used to generate chart of [chart js](https://www.chartjs.org) and doesn't need to configure javascript in the front-side.
 It will dynamically render HTML & JS configuration to view the chart.
 
 ## Examples
@@ -62,23 +62,9 @@ use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 class ReportController extends Controller 
 {
     .........................
-        
     public function monthlyChart(){
-        $datasets = [
-            
-            Dataset::label('Purchase Products')
-                ->data([]) // pass empty array to data() when load data via ajax
-                ->backgroundColor('green')
-                ->borderColor('black')->make(),
-            Dataset::label('Uses Products')
-                ->data([]) // pass empty array to data() when load data via ajax
-                ->backgroundColor('red')
-                ->borderColor('white')->make()
-        ];
-    
-        $monthlyChart = (new Chart('Monthly Chart', VerticalBarChart::class))
-                ->labels(['January', 'February','March'])
-                ->datasets($datasets)
+        $monthlyChart = (new Chart('Monthly Sales Chart', VerticalBarChart::class))
+                ->datasets([]) // empty datasets
                 ->template();
         
         return view('dashboard')->with('monthlyChart',$monthlyChart);
@@ -88,9 +74,9 @@ class ReportController extends Controller
 **In blade file:**
 ```html
 <div class="chart">
-    <input type="text" id="month_elm_id" class="form-control month" placeholder="" aria-label="">
+    <input type="text" id="month_name" class="form-control month" placeholder="" aria-label="">
     <button class="btn btn-primary" id="search-btn" type="button">
-        <i class="fa fa-search-plus"></i> Search
+        <i class="fa fa-search-plus"></i>
     </button>
     <!-- generate chart canvas html -->
     {!! $chart->chartHtml() !!}
@@ -99,33 +85,48 @@ class ReportController extends Controller
 ......
 <!-- generate chart scripts -->
 {!! $chart->chartLibrary() !!}
-{!! $chart->apiChartScript(url('fetch/monthly/chart'), 'search-btn', "month_elm_id")) !!}
+{!! $chart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
-> Depend on user's month selection chart will be refreshed or update.
-> When "search-btn" is triggered it will get value from input element of month, attach the value with the given url as query string and send request to server to fetch data.
+> When "search-btn" is triggered it will get value from input element of month, 
+> attach the value with the given url as query string and send request to server to fetch data.
 
-**Api Route & Response:**
+**Api Route:**
 
 ```php
-Route::get('fetch/monthly/chart','DashboardController@fetchData');
-
+Route::get('fetch/monthly/top/sales/chart','DashboardController@monthlyTopSales');
+```
+**Response:**
+```php
 ............
+use RadiateCode\DaChart\Facades\Dataset;
+use RadiateCode\DaChart\Facades\ChartResponse;
+use RadiateCode\DaChart\Enums\ChartColor;
+use App\Models\Order;
 
 class DashboardController extends Controller {
-    public function fetchData(Request $request){
-        // place db query to fetch data form db
-        // query can be filter by url params or query string
+    public function monthlyTopSales(Request $request){
+    
+        $sales = Order::where('month',$request->get('month_name'))
+                        ->orderBy('sold_qty','desc')
+                        ->groupBy('product_id')
+                        ->selectRaw('product_name, SUM(qty) as sold_qty')
+                        ->take(4)->get();
+                        
+         $soldProducts = $sales->pluck('product_name')->toArray();
+         $soldQty = $sales->pluck('sold_qty')->toArray();
+    
+         $datasets = [
+            Dataset::label('Top Sales')
+                ->data($soldQty)
+                ->backgroundColor([
+                    ChartColor::LIGHT_SLATE_BLUE,
+                    ChartColor::BRIGHT_TURQUOISE,
+                    ChartColor::ELECTRIC_PURPLE,
+                    ChartColor::EGGPLANT
+                ])->make(),
+        ];
         
-        // url params or query string can be access through $request->get('key')
-        // [ex: $request->get('month_elm_id');]
-        
-        return response()->json([
-            // sample data 
-            'data' => [
-                [150, 300, 350], // purchase product amount for jan, feb, mar months
-                [150, 287, 330] // uses product amount for jan, feb, mar months
-            ]
-        ],200);
+        return ChartResponse::labels($soldProducts)->datasets($datasets)->toJson();
     }
 }
 ```
