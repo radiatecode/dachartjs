@@ -1,7 +1,7 @@
 # Da Chart
 ![Stats](img/da-chart.png)
 
-This package used to generate chart of [chart js](https://www.chartjs.org) and doesn't need to configure javascript in the front-side.
+The package used to generate charts in Laravel without implementing javascript in the front-side. It is used as a back-end service of [chart js](https://www.chartjs.org).
 It will dynamically render HTML & JS configuration to view the chart.
 
 ## Examples
@@ -59,6 +59,7 @@ The chart shows purchases and uses product amount according to the month selecti
 use RadiateCode\DaChart\Chart;
 use RadiateCode\DaChart\Facades\Dataset;
 use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
+
 class ReportController extends Controller 
 {
     .........................
@@ -103,9 +104,10 @@ use RadiateCode\DaChart\Facades\ChartResponse;
 use RadiateCode\DaChart\Enums\ChartColor;
 use App\Models\Order;
 
-class DashboardController extends Controller {
-    public function monthlyTopSales(Request $request){
-    
+class DashboardController extends Controller 
+{
+    public function monthlyTopSales(Request $request)
+    {
         $sales = Order::where('month',$request->get('month_name'))
                         ->orderBy('sold_qty','desc')
                         ->groupBy('product_id')
@@ -253,12 +255,12 @@ $barChart->template();
    > Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)
  - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
     It also allows update or refresh the chart via firing js click event.
-    > For api chart response you have to use [ChartResponse class](src/Response/ChartResponse.php)
+    > For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)
    
     >  If you just want to load chart data by ajax then only pass value to 1st arg. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
 
-    > If you want to update the chart based on some input values then you have to pass a html button ID in the 2nd arg and input IDs 
+    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd arg and input IDs 
     In the 3rd arg. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
    
@@ -472,7 +474,7 @@ how to generate datasets by using **Dataset Facade**
 See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
 
 ## Dedicated Dataset Class (Suggestion)
-If you create a chart with multiple datasets which depends on multiple db query then it would be nicer to create a separate dataset class, so that it increase the readability, maintainability of the code
+If you create a chart with multiple datasets which depends on multiple db query then it would be nicer to create a separate dataset class in order to increase the readability, maintainability of the code
 
 > Namespace could be **App\Charts\Datasets** (create Charts\Datasets folder inside the app folder)
 
@@ -484,7 +486,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security
 If you discover any security related issues, please email [radiate126@gmail.com](mailto:radiate126@gmail.com) instead of using the issue tracker.
 
-## Credits separated
+## Credits
 - [Noor Alam](https://github.com/radiatecode)
 - [All Contributors](https://github.com/radiatecode/dachart/contributors)
 

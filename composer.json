@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": "^7.1|^8.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "illuminate/support": "^8.73"
     },
     "require-dev": {
         "orchestra/testbench": "^6.18",
