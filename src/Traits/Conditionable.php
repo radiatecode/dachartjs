@@ -6,8 +6,9 @@ namespace RadiateCode\DaChart\Traits;
 /**
  * Trait Conditionable
  *
- * [Note: Inspired from laravel Conditionable trait which introduced in Laravel 8.x]
+ * [Note: Directly implimented the laravel Conditionable trait which introduced in Laravel 8.x]
  *
+ * @see https://github.com/illuminate/support/blob/8.x/Traits/Conditionable.php
  * @package RadiateCode\DaChart\Traits
  */
 trait Conditionable

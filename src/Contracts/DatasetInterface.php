@@ -18,8 +18,6 @@ interface DatasetInterface
 
     public function hoverOffset(string $hoverOffset): DatasetInterface;
 
-    public function rotation(string $rotation): DatasetInterface;
-
     public function cubicInterpolationMode(string $mode): DatasetInterface;
 
     public function xAxisID(string $xAxisID): DatasetInterface;
@@ -31,25 +29,49 @@ interface DatasetInterface
     public function hidden(string $hidden): DatasetInterface;
 
     public function pointStyle(string $pointStyle): DatasetInterface;
+    
+    public function borderJoinStyle(string $borderJoinStyle): DatasetInterface;
+    
+    public function borderAlign(string $borderAlign): DatasetInterface;
 
-    public function borderWidth(int $width): DatasetInterface;
+    public function rotation($rotation): DatasetInterface;
+    
+    public function spacing($spacing): DatasetInterface;
+    
+    public function weight($weight): DatasetInterface;
+    
+    public function circumference($circumference): DatasetInterface;
+    
+    public function borderWidth($width): DatasetInterface;
 
-    public function borderRadius(int $radius): DatasetInterface;
+    public function borderRadius($radius): DatasetInterface;
 
-    public function pointRadius(int $radius): DatasetInterface;
+    public function pointRadius($radius): DatasetInterface;
 
-    public function barPercentage(int $radius): DatasetInterface;
+    public function barPercentage($percentage): DatasetInterface;
 
-    public function barThickness(int $radius): DatasetInterface;
+    public function barThickness($thickness): DatasetInterface;
 
-    public function maxBarThickness(int $radius): DatasetInterface;
+    public function maxBarThickness($thickness): DatasetInterface;
 
-    public function minBarLength(int $radius): DatasetInterface;
+    public function minBarLength($length): DatasetInterface;
 
-    public function hoverBorderWidth(int $radius): DatasetInterface;
+    public function hoverBorderWidth($width): DatasetInterface;
+    
+    public function hoverBorderRadius($radius): DatasetInterface;
 
-    public function hoverBorderRadius(int $radius): DatasetInterface;
+    public function pointHoverBorderWidth($width): DatasetInterface;
+    
+    public function pointHitRadius($radius): DatasetInterface;
+    
+    public function pointHoverRadius($radius): DatasetInterface;
+    
+    public function borderDashOffset($offset): DatasetInterface;
+    
+    public function offset(float $offset): DatasetInterface;
 
+    public function skipNull(bool $borderSkipped): DatasetInterface;
+    
     public function borderSkipped(bool $borderSkipped): DatasetInterface;
 
     public function fill(bool $fill): DatasetInterface;
@@ -67,6 +89,8 @@ interface DatasetInterface
 
     public function borderColor($color): DatasetInterface;
 
+    public function pointBackgroundColor($color): DatasetInterface;
+    
     public function pointBorderColor($color): DatasetInterface;
 
     public function pointHoverBackgroundColor($color): DatasetInterface;
