@@ -6,8 +6,6 @@ namespace RadiateCode\DaChart\Abstracts;
 
 use RadiateCode\DaChart\Contracts\TypeInterface;
 use ErrorException;
-use Illuminate\Support\Arr;
-use InvalidArgumentException;
 use RadiateCode\DaChart\Enums\GeneralOption;
 
 abstract class BaseChartType implements TypeInterface
@@ -22,6 +20,7 @@ abstract class BaseChartType implements TypeInterface
      * Get options
      *
      * @return array
+     * @throws ErrorException
      */
     public function options(): array
     {
@@ -50,18 +49,9 @@ abstract class BaseChartType implements TypeInterface
     /**
      * Change any default option
      *
-     * @throws ErrorException
      */
-    public function changeDefaultOption(
-        string $key,
-        string $value
-    ): TypeInterface {
-        $options = $this->defaultOptions();
-
-        if (is_null(Arr::get($options, $key))) {
-            throw new ErrorException('Given key is not found in the default options');
-        }
-
+    public function changeDefaultOption(string $key, string $value): TypeInterface
+    {
         $this->modifyOptions[$key] = $value;
 
         return $this;
@@ -69,6 +59,8 @@ abstract class BaseChartType implements TypeInterface
 
     /**
      * apply default options
+     *
+     * @throws ErrorException
      */
     private function applyDefaultOptions(): array
     {
@@ -77,7 +69,7 @@ abstract class BaseChartType implements TypeInterface
         // modify default options if found any
         if ( ! empty($this->modifyOptions)) {
             foreach ($this->modifyOptions as $key => $value) {
-                Arr::set($options, $key, $value);
+                set_value_in_array_nested($options,$key, $value);
             }
 
             return $options;
@@ -94,6 +86,5 @@ abstract class BaseChartType implements TypeInterface
     protected function defaultOptions(): array
     {
         return GeneralOption::OPTIONS;
-
     }
 }

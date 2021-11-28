@@ -48,6 +48,8 @@ interface DatasetInterface
 
     public function pointRadius($radius): DatasetInterface;
 
+    public function pointRotation($rotation): DatasetInterface;
+
     public function barPercentage($percentage): DatasetInterface;
 
     public function barThickness($thickness): DatasetInterface;

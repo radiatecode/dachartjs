@@ -5,7 +5,6 @@ namespace RadiateCode\DaChart\Traits;
 
 
 use BadMethodCallException;
-use Illuminate\Support\Arr;
 use TypeError;
 
 trait CallableProperty
@@ -69,8 +68,10 @@ trait CallableProperty
     }
 
     /**
-     * This will allow to call a method by the exact same name which are listed in properties array
-     * [It creates callable methods dynamically]
+     * This will allow to call an element of properties array as a method.
+     * And set value to that property or element via method arg.
+     *
+     * [It creates callable methods dynamically based on enlisted values of properties]
      *
      * @param $method
      * @param $parameters
@@ -81,7 +82,7 @@ trait CallableProperty
      */
     public function __call($method, $parameters)
     {
-        if (Arr::has($this->properties,$method)){
+        if (array_key_exists($method,$this->properties)){
             $paramType = gettype($parameters[0]);
 
             $expectedTypes = $this->properties[$method]['type'];

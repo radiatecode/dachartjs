@@ -1,6 +1,13 @@
 {
     "name": "radiatecode/dachart",
     "description": "laravel package to generate chart using the chart.js",
+    "keywords": [
+        "laravel-charts",
+        "laravel-chart-js",
+        "laravel-dachart",
+        "laravel-the-chart"
+    ],
+    "homepage": "https://github.com/radiatecode/dachart",
     "license": "MIT",
     "authors": [
         {
@@ -19,12 +26,22 @@
     "autoload": {
         "psr-4": {
             "RadiateCode\\DaChart\\" : "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "RadiateCode\\DaChart\\tests\\" : "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -32,5 +49,6 @@
                 "RadiateCode\\DaChart\\ChartServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

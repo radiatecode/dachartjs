@@ -7,7 +7,6 @@ use RadiateCode\DaChart\Contracts\ChartInterface;
 use RadiateCode\DaChart\Contracts\TypeInterface;
 use RadiateCode\DaChart\Facades\HtmlBuilder;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
-use Illuminate\Support\Str;
 use \InvalidArgumentException;
 
 class Chart implements ChartInterface
@@ -52,7 +51,6 @@ class Chart implements ChartInterface
         /*
          * change the default title text
          *
-         * [ side note: every dot key used to access the nested array keys]
          */
         $this->changeDefaultOption('plugins.title.text',$title);
     }
@@ -104,6 +102,8 @@ class Chart implements ChartInterface
     /**
      * This one might be helpful to change the value of any "default" option
      *
+     * [ side note: key param accept dot notation to access the nested array keys]
+     *
      * @param  string  $key
      * @param  string  $value
      *
@@ -151,7 +151,7 @@ class Chart implements ChartInterface
      */
     private function chartName(string $name): void
     {
-        $this->chartName = Str::slug($name, '_');
+        $this->chartName = slugify($name, '_');
     }
 
     /**

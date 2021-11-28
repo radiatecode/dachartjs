@@ -6,11 +6,10 @@ namespace RadiateCode\DaChart\Data;
 
 use RadiateCode\DaChart\Enums\ChartColor;
 use RadiateCode\DaChart\Traits\CallableProperty;
-use RadiateCode\DaChart\Traits\Conditionable;
 
 class Dataset
 {
-    use Conditionable, CallableProperty;
+    use CallableProperty;
 
     private $dataset = [];
 

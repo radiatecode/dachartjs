@@ -7,6 +7,7 @@ use RadiateCode\DaChart\Chart;
 use RadiateCode\DaChart\Facades\Dataset;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use RadiateCode\DaChart\Types\Bar\StackedBarChart;
+use RadiateCode\DaChart\Types\Line\InterpolationLineChart;
 use RadiateCode\DaChart\Types\Line\MultiAxisLineChart;
 use RadiateCode\DaChart\Types\Line\SteppedLineChart;
 use Illuminate\Support\HtmlString;
@@ -27,7 +28,7 @@ class ChartGenerateTest extends TestCase
                 ->borderColor('white')->make(),
         ];
 
-        $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
+        $barChart = (new Chart('Monthly Completion Chart', HorizontalBarChart::class))
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -39,18 +40,18 @@ class ChartGenerateTest extends TestCase
     /** @test */
     public function render_bar_chart_with_plain_array_dataset()
     {
-        $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
+        $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
             ->labels(['project', 'task'])
             ->datasets(
                 [
                     [
-                        "label"           => "Task 1",
+                        "label"           => "January",
                         "backgroundColor" => "green",
                         "data"            => [100, 200],
                         "borderColor"     => "green",
                     ],
                     [
-                        "label"           => "Task 2",
+                        "label"           => "February",
                         "backgroundColor" => "red",
                         "data"            => [300, 400],
                         "borderColor"     => "red",
@@ -73,7 +74,7 @@ class ChartGenerateTest extends TestCase
                 ->borderColor('white')->make(),
         ];
 
-        $barChart = (new Chart('Project Chart 35', HorizontalBarChart::class))
+        $barChart = (new Chart('Completions Chart', HorizontalBarChart::class))
             ->options([
                     'responsive' => false,
                     'plugins'    => [
@@ -96,6 +97,29 @@ class ChartGenerateTest extends TestCase
         $this->assertIsArray($barChart);
         $this->assertArrayHasKey('data', $barChart);
     }
+
+    /** @test */
+    public function render_interpolation_line_chart_with_changing_default_options()
+    {
+        $datasets = [
+            Dataset::label('Task')->data([20, 30])->backgroundColor('red')
+                ->borderColor('black')->make(),
+            Dataset::label('Project')->data([50, 80])->backgroundColor('green')
+                ->borderColor('white')->make(),
+        ];
+
+        $chart = (new Chart('Project# Chart', InterpolationLineChart::class))
+            ->changeDefaultOption('plugins.title.text','My Interpolation Chart')
+            ->changeDefaultOption('scales.x.title.text','Index X')
+            ->changeDefaultOption('scales.y.title.text','Amount Y')
+            ->labels(['project', 'task'])
+            ->datasets($datasets)
+            ->render();
+
+        $this->assertIsArray($chart);
+        $this->assertArrayHasKey('data', $chart);
+    }
+
 
     /** @test */
     public function render_border_radius_bar_chart_with_dataset()
