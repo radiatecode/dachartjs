@@ -3,7 +3,6 @@
 
 namespace RadiateCode\DaChart\Html;
 
-use Illuminate\Support\Str;
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\View\Factory;

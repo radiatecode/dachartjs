@@ -5,7 +5,9 @@
         "laravel-charts",
         "laravel-chart-js",
         "laravel-dachart",
-        "laravel-the-chart"
+        "laravel-the-chart",
+        "laravel chart",
+        "larachart"
     ],
     "homepage": "https://github.com/radiatecode/dachart",
     "license": "MIT",

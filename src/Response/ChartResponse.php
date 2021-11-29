@@ -28,17 +28,7 @@ class ChartResponse
 
     public function toJson(): JsonResponse
     {
-        $data = [];
-
-        if ($this->labels){
-            $data['labels'] = $this->labels;
-        }
-
-        if ($this->datasets){
-            $data['datasets'] = $this->datasets;
-        }
-
-        return response()->json($data,200);
+        return response()->json($this->toArray(),200);
     }
 
     public function toArray(): array

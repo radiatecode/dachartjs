@@ -40,17 +40,17 @@ class ReportController extends Controller
 ```html
 <div class="chart">
     <!-- generate chart canvas html -->
-    {!! $chart->chartHtml() !!}
+    {!! $monthlyChart->chartHtml() !!}
 </div>
 
 ......
 <!-- generate chart scripts -->
-{!! $chart->chartLibrary() !!}
-{!! $chart->chartScript() !!}
+{!! $monthlyChart->chartLibrary() !!}
+{!! $monthlyChart->chartScript() !!}
 ```
 ### Example 2: API or AJAX Chart
 ![Stats](img/example-2.png)
-The chart shows purchases and uses product amount according to the month selection.
+The chart shows top sales products according to the month selection.
 
 **Code:**
 
@@ -80,13 +80,13 @@ class ReportController extends Controller
         <i class="fa fa-search-plus"></i>
     </button>
     <!-- generate chart canvas html -->
-    {!! $chart->chartHtml() !!}
+    {!! $monthlyChart->chartHtml() !!}
 </div>
 
 ......
 <!-- generate chart scripts -->
-{!! $chart->chartLibrary() !!}
-{!! $chart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
+{!! $monthlyChart->chartLibrary() !!}
+{!! $monthlyChart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
 > When "search-btn" is triggered it will get value from input element of month, 
 > attach the value with the given url as query string and send request to server to fetch data.
@@ -138,7 +138,9 @@ You can install the package via composer:
     composer require radiatecode/dachart
 
 # Usages
-In two ways you can generate chart by creating [new Chart()](#generate-chart-by-object) object or [creating dedicated class](#generate-chart-by-dedicated-class).
+In two ways you can generate chart such as
+- [Generate chart by object ](#generate-chart-by-object)
+- Or, [Generate chart by dedicated class](#generate-chart-by-dedicated-class).
 
 ## Generate chart by object
 
@@ -235,6 +237,8 @@ $barChart->options([
         ],
     ])
 ```
+> To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
+
 #### render()
 Render method will return array of chart configurations. The configuration later can be manually used in javascript
 ```php
@@ -255,19 +259,20 @@ $barChart->template();
    > Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)
  - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
     It also allows update or refresh the chart via firing js click event.
-    > For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)
+    > **For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
    
-    >  If you just want to load chart data by ajax then only pass value to 1st arg. 
+    >  If you just want to load chart data by ajax then only pass value to 1st argument. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
 
-    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd arg and input IDs 
-    In the 3rd arg. 
+    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
+    In the 3rd argument. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
    
 ## Generate chart by dedicated class
 Run the command to create a chart class
 
     php artisan make:dachart MonthlyCompletionChart
+This will create a dedicated chart class under **App\Charts** namespace.
 
 ### Sample Code:
 ```php
@@ -369,67 +374,57 @@ class MonthlyCompletionChart extends AbstractChart
     }
 }
 ```
-We can change chart default options when necessary by the **changeDefaultOptions()**
-```php
-class MonthlyCompletionChart extends AbstractChart
-{
-    ................................
-    
-    protected function changeDefaultOptions(): array
-    {
-        return [
-             // dot used in key is to indicate nested level of option properties
-            'plugins.title.text' => 'Monthly Completion Chart',
-            'plugins.title.color' => 'red',
-        ];
-    }
-
-    .................................
-}
-```
-Or we can provide custom options by the **options()**  if we don't want to use default.
-```php
-class MonthlyCompletionChart extends AbstractChart
-{
-    ................................
-    
-    protected function options(): array
-    {
-         return [
-                'responsive' => true,
-                'scales' => [
-                    'xAxes' => [[
-                        'ticks' => [
-                            'beginAtZero' => true,
-                            'maxRotation' => 90,
-                            'minRotation' => 90
-                        ]
-                    ]]
-                ],
-                'tooltips' => [
-                    'mode' => 'index',
-                    'intersect' => false
-                ],
-                'plugins'    => [
-                    'legend' => [
-                        'display'  => true,
-                        'position' => 'right',
-                    ],
-                    'title'  => [
-                        'text'     => 'My Chart Title',
-                        'position' => 'top',
-                        'display'  => true,
-                        'color'    => 'yellow',
-                    ],
-                ]
-            ];
-    }
-
-    .................................
-}
-```
-> To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
-
+> **Note:** You can change chart default options when necessary by the **changeDefaultOptions()**. See the sample below
+> ```php
+> class MonthlyCompletionChart extends AbstractChart
+> {
+>     protected function changeDefaultOptions(): array
+>     {
+>         return [
+>              // dot used in key is to indicate nested level of option properties
+>             'plugins.title.text' => 'Monthly Completion Chart',
+>             'plugins.title.color' => 'red',
+>         ];
+>     }
+> }
+> ```
+> Or you can provide custom options by the **options()**  if you don't want to use default. See the sample below
+> ```php
+> class MonthlyCompletionChart extends AbstractChart
+> {
+>     protected function options(): array
+>     {
+>          return [
+>                 'responsive' => true,
+>                 'scales' => [
+>                     'xAxes' => [[
+>                         'ticks' => [
+>                             'beginAtZero' => true,
+>                             'maxRotation' => 90,
+>                             'minRotation' => 90
+>                         ]
+>                     ]]
+>                 ],
+>                 'tooltips' => [
+>                    'mode' => 'index',
+>                    'intersect' => false
+>                 ],
+>                 'plugins'    => [
+>                     'legend' => [
+>                         'display'  => true,
+>                         'position' => 'right',
+>                     ],
+>                     'title'  => [
+>                         'text'     => 'My Chart Title',
+>                         'position' => 'top',
+>                         'display'  => true,
+>                         'color'    => 'yellow',
+>                     ],
+>                 ]
+>             ];
+>     }
+> }
+> ```
 **In controller:**
 
 Now we will use that dedicated class in the controller
