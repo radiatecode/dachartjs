@@ -377,7 +377,9 @@ class MonthlyCompletionChart extends AbstractChart
     }
 }
 ```
-> **Note:** You can change chart default options when necessary by the **changeDefaultOptions()**. See the sample below
+> **Note:** changeDefaultOptions() and options() are optional. Use these methods when necessary.
+> 
+> By the **changeDefaultOptions()** you can change chart default options. See the sample below
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
@@ -391,7 +393,7 @@ class MonthlyCompletionChart extends AbstractChart
 >     }
 > }
 > ```
-> Or you can provide custom options by the **options()**  if you don't want to use default. See the sample below
+> By the **options()** you can provide custom options if you don't want to use default options. See the sample below
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
