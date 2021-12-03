@@ -152,7 +152,7 @@ $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
 > 
 > ***Note: 2nd arg is [type of chart](#chart-types)***. 
 
-### Available Methods of Chart:
+### Available Methods of Chart object:
 #### labels()
 labeling the data index of the chart. it could be x-axis or y-axis, by default it is x-axis.
 ```php
@@ -254,21 +254,21 @@ If you don't want to setup javascript manually in view file then use **template(
 ```php
 $barChart->template();
 ```
-> Template method return a html builder instance.
+> **Template method return a html builder instance.**
 #### Methods of html builder
  - **chartHtml()** : generate html canvas tag
  - **chartLibrary()** : generate the chart.js CDN
  - **chartScript()** : generate back-end configured chart scripts
-   > Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)
+   > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
  - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
-    It also allows update or refresh the chart via firing js click event.
+    It also allows update or refresh the chart via firing click event.
     > **For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
    
     >  If you just want to load chart data by ajax then only pass value to 1st argument. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
 
     > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
-    In the 3rd argument. 
+    in the 3rd argument. 
     >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
    
 ## Generate chart by dedicated class
