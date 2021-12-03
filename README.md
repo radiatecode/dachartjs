@@ -466,8 +466,8 @@ There are various predefined types of chart (configured) available such as
 
 > You can create your own custom type by extending **[BaseChartType](src/Abstracts/AbstractChart.php)**. Namespace could be **App\Charts\Types** (create Charts\Types folder inside the app folder)
 ## Dataset Facade
-Dataset Facade can be helpful to generate dataset for chart configuration, each dataset has various properties such as label, background color, border color, data, fill, boarder width etc. A single dataset is made by setting up these properties. Above examples or sample code shows that
-how to generate datasets by using **Dataset Facade**
+Dataset Facade can be helpful to generate datasets for chart, each dataset has various properties such as label, background color, border color, data, fill, boarder width etc.
+Above examples or sample code shows that how to generate datasets by using **Dataset Facade**
 ### Methods
 See the available [methods](src/Contracts/DatasetInterface.php) of Dataset Facade
 
