@@ -149,3 +149,18 @@ class MonthlyCompletionChart extends AbstractChart
     }
 }
 ```
+### Or, use it in api chart response
+
+```php
+............
+use \RadiateCode\DaChart\Facades\ChartResponse;
+
+class ChartController {
+    public function projectCharts(Request $request)
+    {
+        $data = new MonthlyCompletionDataset();
+         
+        return ChartResponse::labels(['January','February', 'March'])->datasets($data->datasets())->toJson();
+    }
+}
+```

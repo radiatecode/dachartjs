@@ -14,7 +14,7 @@ class ReportController extends Controller {
     }
 }
 ```
-> Note: **datasets([])** & **labels([])** are empty because these values will be loaded by ajax
+> Note: **datasets** & **labels** are empty because these values will be loaded by ajax
 
 **In view file:**
 ```html
