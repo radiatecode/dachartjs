@@ -404,13 +404,13 @@ class MonthlyCompletionChart extends AbstractChart
 >          return [
 >                 'responsive' => true,
 >                 'scales' => [
->                     'xAxes' => [[
+>                     'xAxes' => [
 >                         'ticks' => [
 >                             'beginAtZero' => true,
 >                             'maxRotation' => 90,
 >                             'minRotation' => 90
 >                         ]
->                     ]]
+>                     ]
 >                 ],
 >                 'plugins'    => [
 >                     'title'  => [
