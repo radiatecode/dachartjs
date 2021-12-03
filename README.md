@@ -7,6 +7,7 @@ It will dynamically render HTML & JS configuration.
 ## Examples
 ### Example 1: Monthly Project, Task and Issue Completion Chart
 ![Stats](img/example-1.png)
+
 **Configuration:**
 ```php
 use RadiateCode\DaChart\Chart;
@@ -51,6 +52,7 @@ class ReportController extends Controller
 ```
 ### Example 2: API or AJAX Chart
 ![Stats](img/example-2.png)
+
 The chart shows top sales products according to the month selection.
 
 **Code:**
