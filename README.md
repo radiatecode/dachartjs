@@ -412,15 +412,7 @@ class MonthlyCompletionChart extends AbstractChart
 >                         ]
 >                     ]]
 >                 ],
->                 'tooltips' => [
->                    'mode' => 'index',
->                    'intersect' => false
->                 ],
 >                 'plugins'    => [
->                     'legend' => [
->                         'display'  => true,
->                         'position' => 'right',
->                     ],
 >                     'title'  => [
 >                         'text'     => 'My Chart Title',
 >                         'position' => 'top',
@@ -443,13 +435,31 @@ class ReportController extends Controller
     .........................
 
     public function monthlyChart(){
-        $monthlyChart =  new MonthlyCompletionChart();
+        $myChart =  new MonthlyCompletionChart();
         
-        //return view('dashboard')->with('monthlyChart',$monthlyChart->render());
-        return view('dashboard')->with('monthlyChart',$monthlyChart->template());
+        //return view('dashboard')->with('monthlyChart',$myChart->render());
+        return view('dashboard')->with('myChart',$myChart->template());
     }
 }
 ```
+**In view (blade) file:**
+```html
+<div class="chart">
+    <div class="chart">
+        <!-- generate chart html canvas -->
+        {!! $myChart->chartHtml() !!}
+    </div>
+</div>
+
+......
+
+<!-- generate chart.js CDN -->
+{!! $myChart->chartLibrary() !!}
+
+<!-- generate configured chart script -->
+{!! $myChart->chartScript() !!}
+```
+
 ## Chart Types
 There are various predefined types of chart (configured) available such as
 #### Bar chart
