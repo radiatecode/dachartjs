@@ -154,10 +154,11 @@ $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
 
 ### Available Methods of Chart:
 #### labels()
-labeling the data index of the chart. it could be x-axis or y-axis
+labeling the data index of the chart. it could be x-axis or y-axis, by default it is x-axis.
 ```php
 $barChart->labels(['January', 'February','March'])
 ```
+> labels axis change by **indexAxis** property which used in the **options** configuration
 #### datasets()
 
 ```php
