@@ -47,7 +47,7 @@ class MonthlyCompletionDataset
     }
 }
 ```
-### In controller:
+### Use it in controller:
 ```php
 use App\Charts\Datasets\MonthlyCompletionDataset;
 
@@ -68,13 +68,12 @@ class ReportController extends Controller
     }
 }
 ```
-### In dedicated chart class
+### Or, use it in dedicated chart class:
+
 ```php
 <?php
 
-
 namespace App\Charts;
-
 
 use RadiateCode\DaChart\Abstracts\AbstractChart;
 use App\Charts\Datasets\MonthlyCompletionDataset;

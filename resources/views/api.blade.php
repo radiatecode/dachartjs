@@ -61,8 +61,13 @@ function generateUrlParams(){
     var elms = elements.split("#");
     var params = [];
     for(var i in elms){
-        var elmVal = document.getElementById(elms[i]).value;
-        params.push(elms[i]+"="+elmVal);
+        var elmVal = document.getElementById(elms[i]);
+
+        if(elmVal === null || elmVal === undefined){
+            console.error(elms[i]+' id is not found!');
+        }else{
+            params.push(elms[i]+"="+elmVal.value);
+        }
     }
 
     return params.join('&');

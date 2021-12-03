@@ -2,7 +2,7 @@
 ![Stats](img/da-chart.png)
 
 The package used to generate charts in Laravel without implementing javascript in the front-side. It is used as a back-end service of [chart js](https://www.chartjs.org).
-It will dynamically render HTML & JS configuration to view the chart.
+It will dynamically render HTML & JS configuration.
 
 ## Examples
 ### Example 1: Monthly Project, Task and Issue Completion Chart
@@ -39,13 +39,14 @@ class ReportController extends Controller
 **In view (blade) file:**
 ```html
 <div class="chart">
-    <!-- generate chart canvas html -->
+    <!-- generate chart html canvas -->
     {!! $monthlyChart->chartHtml() !!}
 </div>
 
 ......
-<!-- generate chart scripts -->
+<!-- generate chart js CDN script -->
 {!! $monthlyChart->chartLibrary() !!}
+<!-- generate chart configured scripts -->
 {!! $monthlyChart->chartScript() !!}
 ```
 ### Example 2: API or AJAX Chart
@@ -79,13 +80,14 @@ class ReportController extends Controller
     <button class="btn btn-primary" id="search-btn" type="button">
         <i class="fa fa-search-plus"></i>
     </button>
-    <!-- generate chart canvas html -->
+    <!-- generate chart html canvas -->
     {!! $monthlyChart->chartHtml() !!}
 </div>
 
 ......
-<!-- generate chart scripts -->
+<!-- generate chart js CDN script -->
 {!! $monthlyChart->chartLibrary() !!}
+<!-- generate ajax chart scripts -->
 {!! $monthlyChart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
 > When "search-btn" is triggered it will get value from input element of month, 
@@ -427,7 +429,7 @@ class MonthlyCompletionChart extends AbstractChart
 > ```
 **In controller:**
 
-Now we will use that dedicated class in the controller
+Now you can use that dedicated class in the controller
 ```php
 use App\Charts\MonthlyCompletionChart;
 
