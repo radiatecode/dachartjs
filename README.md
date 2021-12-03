@@ -143,10 +143,10 @@ You can install the package via composer:
 
 # Usages
 In two ways you can generate chart such as
-- [Generate chart by object ](#generate-chart-by-object)
-- Or, [Generate chart by dedicated class](#generate-chart-by-dedicated-class).
+- [Generate by ***Chart*** class](#generate-by-chart-class)
+- Or, [Generate by dedicated class](#generate-chart-by-dedicated-class).
 
-## Generate chart by object
+## Generate by Chart class
 
 ```php
 $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
