@@ -281,11 +281,7 @@ This will create a dedicated chart class under **App\Charts** namespace.
 
 ### Sample Code:
 ```php
-<?php
-
-
 namespace App\Charts;
-
 
 use RadiateCode\DaChart\Abstracts\AbstractChart;
 use RadiateCode\DaChart\Facades\Dataset;
@@ -442,6 +438,10 @@ class ReportController extends Controller
     }
 }
 ```
+> Dedicated chart class object provides two methods
+> - **render():** Render method return array of chart configurations
+> - **template():** Template method return a [html builder instance](#methods-of-html-builder)
+
 **In view (blade) file:**
 ```html
 <div class="chart">
@@ -459,7 +459,7 @@ class ReportController extends Controller
 <!-- generate configured chart script -->
 {!! $myChart->chartScript() !!}
 ```
-
+> See sample code [here](examples/TEMPLATE-EXAMPLE-4.md) if you want to use api chart script using dedicated chart class
 ## Chart Types
 There are various predefined types of chart (configured) available such as
 #### Bar chart

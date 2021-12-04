@@ -18,7 +18,7 @@ class ReportController extends Controller {
 
 **In view file:**
 ```html
-<div class="chart">
+<div class="row">
     <input type="text" id="start_date" class="form-control datepicker" placeholder="" aria-label="">
     <input type="text" id="end_date" class="form-control datepicker" placeholder="" aria-label="">
     <button class="btn btn-primary" id="search-btn" type="button">
