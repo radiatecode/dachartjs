@@ -135,6 +135,10 @@ class ReportController extends Controller
     }
 }
 ```
+# Requirements
+- [PHP >= 5.6](https://www.php.net/)
+- [Laravel 5.2-5.8|6.x|7.x|8.x](https://github.com/laravel/framework)
+- [Chart Js](https://www.chartjs.org/)
 # Installation
 You can install the package via composer:
 
