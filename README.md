@@ -33,7 +33,7 @@ class ReportController extends Controller
                 ->datasets($datasets)
                 ->template();
         
-        return view('dashboard')->with('monthlyChart',$monthlyChart);
+        return view('reports.monthly')->with('monthlyChart',$monthlyChart);
     }
 }
 ```
@@ -60,7 +60,6 @@ The chart shows top sales products according to the month selection.
 **Configuration in controller:**
 ```php
 use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Facades\Dataset;
 use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller 
@@ -98,9 +97,9 @@ class ReportController extends Controller
 **Api Route:**
 
 ```php
-Route::get('fetch/monthly/top/sales/chart','DashboardController@monthlyTopSales');
+Route::get('fetch/monthly/top/sales/chart','ReportController@monthlyTopSales');
 ```
-**Response:**
+**Api Response:**
 ```php
 ............
 use RadiateCode\DaChart\Facades\Dataset;
@@ -108,7 +107,7 @@ use RadiateCode\DaChart\Facades\ChartResponse;
 use RadiateCode\DaChart\Enums\ChartColor;
 use App\Models\Order;
 
-class DashboardController extends Controller 
+class ReportController extends Controller 
 {
     public function monthlyTopSales(Request $request)
     {
