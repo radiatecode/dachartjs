@@ -1,6 +1,6 @@
 {
     "name": "radiatecode/dachart",
-    "description": "laravel package to generate chart using the chart.js",
+    "description": "Chart js back-end service for laravel",
     "keywords": [
         "laravel-charts",
         "laravel-chart-js",
