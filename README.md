@@ -65,12 +65,12 @@ use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
 class ReportController extends Controller 
 {
     .........................
-    public function monthlyChart(){
+    public function salesChart(){
         $monthlyChart = (new Chart('Monthly Sales Chart', VerticalBarChart::class))
                 ->datasets([]) // empty datasets
                 ->template();
         
-        return view('dashboard')->with('monthlyChart',$monthlyChart);
+        return view('reports.top_sales')->with('monthlyChart',$monthlyChart);
     }
 }
 ```
@@ -433,7 +433,7 @@ class ReportController extends Controller
         $myChart =  new MonthlyCompletionChart();
         
         //return view('dashboard')->with('monthlyChart',$myChart->render());
-        return view('dashboard')->with('myChart',$myChart->template());
+        return view('reports.monthly')->with('myChart',$myChart->template());
     }
 }
 ```
