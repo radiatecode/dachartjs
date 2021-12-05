@@ -143,6 +143,14 @@ class ReportController extends Controller
 You can install the package via composer:
 
     composer require radiatecode/dachart
+### Register Service Provider (Optional on Laravel 5.5+)
+Register provider on your config/app.php file.
+```php
+'providers' => [
+    ...,
+    RadiateCode\DaChart\ChartServiceProvider::class,
+]
+```
 
 # Usages
 In two ways you can generate chart such as

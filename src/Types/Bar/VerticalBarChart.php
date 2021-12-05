@@ -18,15 +18,20 @@ class VerticalBarChart extends BaseChartType
     protected function defaultOptions(): array
     {
         return array_merge(GeneralOption::OPTIONS,[
-            'indexAxis'  => 'x',
             'scales'     => [
-                'xAxes' => [
-                    [
-                        'ticks' => [
-                            'beginAtZero' => true,
-                            'maxRotation' => 45,
-                            'minRotation' => 45,
-                        ],
+                'x' => [
+                    'grid' => [
+                        'color' => 'green',
+                        'borderColor' => 'red'
+                    ],
+                    'ticks' => [
+                        'beginAtZero' => true,
+                        'color' => 'black', // labels color
+                        /**
+                         * Rotate the labels orientation
+                         */
+                        'maxRotation' => 0,
+                        'minRotation' => 0,
                     ],
                 ],
             ],

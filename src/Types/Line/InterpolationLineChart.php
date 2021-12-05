@@ -39,9 +39,9 @@ class InterpolationLineChart extends BaseChartType
                         'display' => true,
                         'text' => 'Y axis value'
                     ],
+                    'suggestedMin' => -10,
+                    'suggestedMax'=> 200
                 ],
-                'suggestedMin' => -10,
-                'suggestedMax'=> 200
             ]
         ]);
     }

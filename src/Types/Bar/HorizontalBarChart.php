@@ -25,10 +25,27 @@ class HorizontalBarChart extends BaseChartType
     protected function defaultOptions(): array
     {
         return array_merge(GeneralOption::OPTIONS,[
-            'indexAxis' => 'x',
+            'indexAxis' => 'y',
             'elements' => [
                 'borderWidth' => 2
-            ]
+            ],
+            'scales'     => [
+                'y' => [
+                    'grid' => [
+                        'color' => 'green',
+                        'borderColor' => 'red'
+                    ],
+                    'ticks' => [
+                        'beginAtZero' => true,
+                        'color' => 'black', // labels color
+                        /**
+                         * Rotate the labels orientation
+                         */
+                        'maxRotation' => 0,
+                        'minRotation' => 0,
+                    ],
+                ],
+            ],
         ]);
     }
 }
