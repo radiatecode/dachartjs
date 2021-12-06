@@ -9,7 +9,7 @@ class ChartConfig
 
     private $type = null;
 
-    private $options = [];
+    private $options = null;
 
     private $labels = [];
 
@@ -38,11 +38,11 @@ class ChartConfig
     }
 
     /**
-     * @param  array  $options
+     * @param   $options
      *
      * @return $this
      */
-    public function options(array $options): ChartConfig
+    public function options($options): ChartConfig
     {
         $this->options = $options;
 
@@ -80,20 +80,15 @@ class ChartConfig
      */
     public function render(): array
     {
-        $config = [
+        return [
             'chart_name' => $this->chartName,
             'type' => $this->type,
-            'options' => $this->options
+            'data' => [
+                'labels' => $this->labels,
+                'datasets' => $this->datasets
+            ],
+            'options' => $this->options,
+
         ];
-
-        if ($this->labels){
-            $config['data']['labels'] = $this->labels;
-        }
-
-        if ($this->datasets){
-            $config['data']['datasets'] = $this->datasets;
-        }
-
-        return $config;
     }
 }

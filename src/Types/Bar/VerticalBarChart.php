@@ -15,7 +15,10 @@ class VerticalBarChart extends BaseChartType
         return ChartType::BAR_CHART;
     }
 
-    protected function defaultOptions(): array
+    /**
+     * @return array|string
+     */
+    protected function defaultOptions()
     {
         return array_merge(GeneralOption::OPTIONS,[
             'scales'     => [

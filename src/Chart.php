@@ -88,11 +88,13 @@ class Chart implements ChartInterface
     /**
      * Helpful to set custom options if caller don't want to use the default chart options
      *
-     * @param  array  $options
+     * [Note: options could be php array format or raw json string format]
+     *
+     * @param   $options
      *
      * @return $this
      */
-    public function options(array $options): Chart
+    public function options($options): Chart
     {
         $this->chartType->customOptions($options);
 
@@ -149,7 +151,7 @@ class Chart implements ChartInterface
      *
      * @return void
      */
-    private function chartName(string $name): void
+    private function chartName(string $name)
     {
         $this->chartName = slugify($name, '_');
     }
@@ -169,7 +171,7 @@ class Chart implements ChartInterface
      *
      * @return void
      */
-    private function resolveType($chart): void
+    private function resolveType($chart)
     {
         if (! class_exists($chart)){
             throw new InvalidArgumentException('Argument 2 must be a class path!');

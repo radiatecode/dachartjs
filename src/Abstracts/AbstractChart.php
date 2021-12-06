@@ -73,9 +73,9 @@ abstract class AbstractChart
      * Note: If we don't want to use the default, then this methods can be useful for custom options
      * ---------------------------------------------------------------------------------------------
      *
-     * @return array
+     * @return array|string
      */
-    protected function options(): array
+    protected function options()
     {
         return [];
     }

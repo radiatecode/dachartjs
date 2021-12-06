@@ -62,9 +62,9 @@ class DummyClass extends AbstractChart
      /**
 	 * Use custom options when we don't want to use the default.
 	 *
-	 * @return array
+	 * @return array|string
 	 */
-	protected function options(): array
+	protected function options()
 	{
 		return [];
 	}

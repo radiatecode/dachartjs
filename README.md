@@ -236,6 +236,8 @@ $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And I
 ```
 #### options() [Optional]
 If you don't want to use default options then use your custom options
+
+Options could be **php array** format
 ```php
 $barChart->options([
         'responsive' => false,
@@ -252,6 +254,24 @@ $barChart->options([
             ],
         ],
     ])
+```
+Or, you can pass **json string** format
+```php
+$barChart->options("{
+        responsive : false,
+        plugins    : {
+            legend : {
+                display  : true,
+                position : 'top',
+            },
+            title  : {
+                text     : 'Custom Title',
+                position : 'top',
+                display  : true,
+                color    : 'black',
+            },
+        },
+    }")
 ```
 > To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
 

@@ -4,25 +4,24 @@
 namespace RadiateCode\DaChart\Abstracts;
 
 
+use InvalidArgumentException;
 use RadiateCode\DaChart\Contracts\TypeInterface;
 use ErrorException;
 use RadiateCode\DaChart\Enums\GeneralOption;
 
 abstract class BaseChartType implements TypeInterface
 {
-    /**
-     * @var array
-     */
-    private $customOptions = [];
+    private $customOptions = null;
     private $modifyOptions = [];
 
     /**
      * Get options
      *
-     * @return array
+     * @return array|string
+     *
      * @throws ErrorException
      */
-    public function options(): array
+    public function options()
     {
         if ( ! empty($this->customOptions)) {
             return $this->customOptions;
@@ -35,12 +34,22 @@ abstract class BaseChartType implements TypeInterface
     /**
      * Set custom options
      *
-     * @param  array  $options
+     * [Note: Customer options could be php array or raw json string]
+     *
+     * @param  $options
      *
      * @return TypeInterface
      */
-    public function customOptions(array $options): TypeInterface
+    public function customOptions($options): TypeInterface
     {
+        // $jsonString = preg_replace("/\s+/", "", $options); // tab, new line space remove from raw json
+
+        $type = gettype($options);
+
+        if (! in_array($type,['array','string'])){
+            throw new InvalidArgumentException('Custom options must be array or json string! '.$type." given");
+        }
+
         $this->customOptions = $options;
 
         return $this;
@@ -48,6 +57,8 @@ abstract class BaseChartType implements TypeInterface
 
     /**
      * Change any default option
+     *
+     * [Note: this method doesn't work if default options is json string format]
      *
      */
     public function changeDefaultOption(string $key, string $value): TypeInterface
@@ -62,17 +73,19 @@ abstract class BaseChartType implements TypeInterface
      *
      * @throws ErrorException
      */
-    private function applyDefaultOptions(): array
+    private function applyDefaultOptions()
     {
         $options = $this->defaultOptions();
 
-        // modify default options if found any
-        if ( ! empty($this->modifyOptions)) {
-            foreach ($this->modifyOptions as $key => $value) {
-                set_value_in_array_nested($options,$key, $value);
-            }
+        if (is_array($options)) {
+            // modify default options if found any
+            if ( ! empty($this->modifyOptions)) {
+                foreach ($this->modifyOptions as $key => $value) {
+                    set_value_in_array_nested($options, $key, $value);
+                }
 
-            return $options;
+                return $options;
+            }
         }
 
         return $options;
@@ -81,9 +94,11 @@ abstract class BaseChartType implements TypeInterface
     /**
      * Default options
      *
-     * @return array
+     * [Note: Default options could be in php array format or raw json string format]
+     *
+     * @return array|string
      */
-    protected function defaultOptions(): array
+    protected function defaultOptions()
     {
         return GeneralOption::OPTIONS;
     }

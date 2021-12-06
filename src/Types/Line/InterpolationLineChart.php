@@ -20,9 +20,9 @@ class InterpolationLineChart extends BaseChartType
      * Override the base default options
      * -------------------------------------
      *
-     * @return array
+     * @return array|string
      */
-    protected function defaultOptions(): array
+    protected function defaultOptions()
     {
         return array_merge(GeneralOption::OPTIONS,[
             'scales' => [

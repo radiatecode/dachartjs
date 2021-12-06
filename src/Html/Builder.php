@@ -62,7 +62,7 @@ class Builder
      */
     public function chartScript(): HtmlString
     {
-        $script = $this->jsConfig();
+        $script = $this->chartView(false);
 
         $chartCtxVar = $this->chart->getChartName();
 
@@ -85,19 +85,22 @@ class Builder
      * @param  string  $url  // api link
      * @param  string|null  $fireEventElementId  // event trigger to load api data to chart
      *
-     * @param  null  $filterElementIds // ids used to get value from input and attach it as query string
+     * @param  null  $filterElementIds  // ids used to get value from input and attach it as query string
      *
      * @return HtmlString
      */
-    public function apiChartScript(string $url, string $fireEventElementId = null, ...$filterElementIds): HtmlString
-    {
-        $script = $this->jsApiConfig();
+    public function apiChartScript(
+        string $url,
+        string $fireEventElementId = null,
+        ...$filterElementIds
+    ): HtmlString {
+        $script = $this->chartView();
 
         $chartCtxVar = $this->chart->getChartName();
 
         $chartConfigVar = $this->chart->getChartName()."_config";
 
-        $inputs = implode("#",$filterElementIds);
+        $inputs = implode("#", $filterElementIds);
 
         return new HtmlString(
             sprintf(
@@ -125,28 +128,33 @@ class Builder
     }
 
     /**
-     * Get javascript template to config chart.
+     * Get javascript template to to config chart.
+     *
+     * @param  bool  $isApiView
      *
      * @return string
      */
-    protected function jsConfig(): string
+    protected function chartView(bool $isApiView = true): string
     {
-        return $this->view->make('dachart::script', ['chartConfig' => $this->chart->render()])->render();
+        $view = $isApiView ? 'dachart::api' : 'dachart::script';
+
+        return $this->view->make($view, $this->encoded())->render();
     }
 
     /**
-     * Get javascript template to to config api base chart.
-     *
-     * @return string
+     * @return array
      */
-    protected function jsApiConfig(): string
+    private function encoded(): array
     {
-        $chartConfig = $this->chart->render();
+        $config = $this->chart->render();
 
-        return $this->view->make('dachart::api',
-            [
-                'chartConfig'    => $chartConfig
-            ]
-        )->render();
+        return [
+            'type'     => $config['type'],
+            'labels'   => json_encode($config['data']['labels']),
+            'datasets' => json_encode($config['data']['datasets']),
+            'options'  => is_array($config['options'])
+                ? json_encode($config['options'])
+                : $config['options'],
+        ];
     }
 }
