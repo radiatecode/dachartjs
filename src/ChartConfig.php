@@ -15,6 +15,8 @@ class ChartConfig
 
     private $datasets = [];
 
+    private $plugins = [];
+
     /**
      * @param  string  $chartName
      *
@@ -73,6 +75,13 @@ class ChartConfig
         return $this;
     }
 
+    public function plugins(array $plugins): ChartConfig
+    {
+        $this->plugins = $plugins;
+
+        return $this;
+    }
+
     /**
      * Render chart config | [this will be used as config or setup for frond-end chart js library]
      *
@@ -88,7 +97,44 @@ class ChartConfig
                 'datasets' => $this->datasets
             ],
             'options' => $this->options,
+            'inject_plugins' => $this->extractPlugins()
+        ];
+    }
 
+    protected function extractPlugins(): array
+    {
+        if (empty($this->plugins)) {
+            return [];
+        }
+
+        $libraries = "";
+        $options   = [];
+        $ids       = [];
+
+        foreach ($this->plugins as $plugin) {
+            $obj = new $plugin();
+
+            $libraries .= $obj->libraries();
+
+            if (! empty($obj->id())){
+                $ids[]     = $obj->id();
+            }
+
+            if (! empty($obj->options()) && is_array($obj->options())){
+                $options[] = json_encode($obj->options());
+
+                continue;
+            }
+
+            if (! empty($obj->options()) && is_string($obj->options())){
+                $options[] = $obj->options();
+            }
+        }
+
+        return [
+            'libraries' => $libraries,
+            'options'   => implode(",",$options),
+            'ids'       => json_encode($ids),
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace RadiateCode\DaChart;
 
 use RadiateCode\DaChart\Contracts\ChartInterface;
 use RadiateCode\DaChart\Contracts\TypeInterface;
-use RadiateCode\DaChart\Facades\HtmlBuilder;
+use RadiateCode\DaChart\Html\Builder;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use \InvalidArgumentException;
 
@@ -31,6 +31,11 @@ class Chart implements ChartInterface
      */
     private $labels = [];
 
+    /**
+     * @var array $plugins
+     */
+    private $plugins = [];
+
 
     /**
      * Chart constructor.
@@ -49,8 +54,7 @@ class Chart implements ChartInterface
         $this->resolveType($type);
 
         /*
-         * change the default title text
-         *
+         * Change the default title text
          */
         $this->changeDefaultOption('plugins.title.text',$title);
     }
@@ -118,6 +122,37 @@ class Chart implements ChartInterface
         return $this;
     }
 
+    public function plugin($plugin): Chart
+    {
+        $class = null;
+
+        if (is_string($plugin)){
+            $class = $plugin;
+        }
+
+        if (is_array($plugin)){
+            foreach ($plugin as $name => $value){
+                if (is_numeric($name)){
+                    // if $name is numeric then we can assume that only plugin class path passed
+                    $class = $value;
+                }else{
+                    $class = $name;
+                    // dd('multi',$name,$value());
+                }
+
+                break;
+            }
+        }
+
+        if (! class_exists($class)) {
+            throw new InvalidArgumentException('Plugin class is not exist!');
+        }
+
+        $this->plugins[] = $class;
+
+        return $this;
+    }
+
     /**
      * Render the chart configuration
      *
@@ -131,17 +166,18 @@ class Chart implements ChartInterface
             ->labels($this->labels)
             ->datasets($this->datasets)
             ->options($this->chartType->options())
+            ->plugins($this->plugins)
             ->render();
     }
 
     /**
      * Resolve html builder to generate html, script, js library for chart
      *
-     * @return HtmlBuilder|mixed
+     * @return Builder
      */
-    public function template()
+    public function template(): Builder
     {
-        return HtmlBuilder::resolve($this);
+        return new Builder($this);
     }
 
     /**

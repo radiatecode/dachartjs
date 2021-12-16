@@ -3,44 +3,22 @@
 
 namespace RadiateCode\DaChart\Html;
 
+use Illuminate\Support\Facades\View;
 use RadiateCode\DaChart\Contracts\ChartInterface;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\HtmlString;
 
 class Builder
 {
-    /**
-     * @var Factory $view
-     */
-    private $view;
-
-    /**
-     * @var Repository $config
-     */
-    private $config;
+    private $config = [];
 
     /**
      * @var ChartInterface $chart
      */
     private $chart;
 
-    public function __construct(Factory $view, Repository $config)
-    {
-        $this->view   = $view;
-        $this->config = $config;
-    }
-
-    /**
-     * @param  ChartInterface  $chart
-     *
-     * @return $this
-     */
-    public function resolve(ChartInterface $chart): Builder
+    public function __construct(ChartInterface $chart)
     {
         $this->chart = $chart;
-
-        return $this;
     }
 
     /**
@@ -122,6 +100,15 @@ class Builder
      */
     public function chartLibrary(): string
     {
+        $config = $this->config();
+
+        if ( ! empty($config['inject_plugins'])) {
+            return new HtmlString(
+                "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n"
+                .$config['inject_plugins']['libraries']
+            );
+        }
+
         return new HtmlString(
             "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>"
         );
@@ -138,23 +125,38 @@ class Builder
     {
         $view = $isApiView ? 'dachart::api' : 'dachart::script';
 
-        return $this->view->make($view, $this->encoded())->render();
+        return View::make($view, $this->encoded())->render();
     }
 
     /**
      * @return array
      */
-    private function encoded(): array
+    protected function encoded(): array
     {
-        $config = $this->chart->render();
+        $config = $this->config();
 
         return [
-            'type'     => $config['type'],
-            'labels'   => json_encode($config['data']['labels']),
-            'datasets' => json_encode($config['data']['datasets']),
-            'options'  => is_array($config['options'])
+            'type'            => $config['type'],
+            'labels'          => json_encode($config['data']['labels']),
+            'datasets'        => json_encode($config['data']['datasets']),
+            'options'         => is_array($config['options'])
                 ? json_encode($config['options'])
                 : $config['options'],
+            'plugins_ids'     => empty($config['inject_plugins'])
+                ? '[]'
+                : $config['inject_plugins']['ids'],
+            'plugins_options' => empty($config['inject_plugins'])
+                ? ""
+                : $config['inject_plugins']['options'],
         ];
+    }
+
+    private function config(): array
+    {
+        if (empty($this->config)) {
+            $this->config = $this->chart->render();
+        }
+
+        return $this->config;
     }
 }
