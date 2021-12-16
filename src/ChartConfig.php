@@ -101,6 +101,9 @@ class ChartConfig
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function extractPlugins(): array
     {
         if (empty($this->plugins)) {
@@ -111,23 +114,23 @@ class ChartConfig
         $options   = [];
         $ids       = [];
 
-        foreach ($this->plugins as $plugin) {
-            $obj = new $plugin();
+        foreach ($this->plugins as $name => $value) {
+            $plugin = null;
 
-            $libraries .= $obj->libraries();
+            if (is_numeric($name)){
+                $plugin = new $value();
 
-            if (! empty($obj->id())){
-                $ids[]     = $obj->id();
+                $options[] = $this->pluginOptions($plugin->options());
+            }else{
+                $plugin = new $name();
+
+                $options[] = $this->pluginOptions($value);
             }
 
-            if (! empty($obj->options()) && is_array($obj->options())){
-                $options[] = json_encode($obj->options());
+            $libraries .= $plugin->libraries();
 
-                continue;
-            }
-
-            if (! empty($obj->options()) && is_string($obj->options())){
-                $options[] = $obj->options();
+            if (! empty($plugin->id())){
+                $ids[]     = $plugin->id();
             }
         }
 
@@ -136,5 +139,17 @@ class ChartConfig
             'options'   => implode(",",$options),
             'ids'       => json_encode($ids),
         ];
+    }
+
+    protected function pluginOptions($options){
+        if (empty($options)){
+            return "";
+        }
+
+        if (is_array($options)){
+            return json_encode($options);
+        }
+
+        return $options;
     }
 }

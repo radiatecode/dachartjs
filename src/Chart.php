@@ -42,9 +42,9 @@ class Chart implements ChartInterface
      *
      * @param  string  $title
      *
-     * @param  string  $type // $type should be a class path [ex: HorizontalBarChart::class]
+     * @param  string  $type  // $type should be a class path [ex: HorizontalBarChart::class]
      */
-    public function __construct(string $title,string $type)
+    public function __construct(string $title, string $type)
     {
         $this->chartName($title);
 
@@ -56,7 +56,7 @@ class Chart implements ChartInterface
         /*
          * Change the default title text
          */
-        $this->changeDefaultOption('plugins.title.text',$title);
+        $this->changeDefaultOption('plugins.title.text', $title);
     }
 
     /**
@@ -78,7 +78,7 @@ class Chart implements ChartInterface
      *
      * [Note: datasets can build by DatasetBuilder or you can pass custom array]
      *
-     * @param array $datasets
+     * @param  array  $datasets
      *
      * @return $this
      */
@@ -115,40 +115,32 @@ class Chart implements ChartInterface
      *
      * @return $this
      */
-    public function changeDefaultOption(string $key,string $value): Chart
+    public function changeDefaultOption(string $key, string $value): Chart
     {
-        $this->chartType->changeDefaultOption($key,$value);
+        $this->chartType->changeDefaultOption($key, $value);
 
         return $this;
     }
 
-    public function plugin($plugin): Chart
+    /**
+     * @param $plugin
+     * @param  null  $options
+     *
+     * @return $this
+     */
+    public function plugin($plugin, $options = null): Chart
     {
-        $class = null;
-
-        if (is_string($plugin)){
-            $class = $plugin;
-        }
-
-        if (is_array($plugin)){
-            foreach ($plugin as $name => $value){
-                if (is_numeric($name)){
-                    // if $name is numeric then we can assume that only plugin class path passed
-                    $class = $value;
-                }else{
-                    $class = $name;
-                    // dd('multi',$name,$value());
-                }
-
-                break;
-            }
-        }
-
-        if (! class_exists($class)) {
+        if ( ! class_exists($plugin)) {
             throw new InvalidArgumentException('Plugin class is not exist!');
         }
 
-        $this->plugins[] = $class;
+        if ($options) {
+            $this->plugins[$plugin] = $options;
+
+            return $this;
+        }
+
+        $this->plugins[] = $options;
 
         return $this;
     }
@@ -209,13 +201,13 @@ class Chart implements ChartInterface
      */
     private function resolveType($chart)
     {
-        if (! class_exists($chart)){
+        if ( ! class_exists($chart)) {
             throw new InvalidArgumentException('Argument 2 must be a class path!');
         }
 
         $chartType = new $chart();
 
-        if (! $chartType instanceof TypeInterface){
+        if ( ! $chartType instanceof TypeInterface) {
             throw new InvalidArgumentException('Argument 2 must be a class of TypeInterface!');
         }
 

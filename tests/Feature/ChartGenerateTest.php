@@ -29,7 +29,8 @@ class ChartGenerateTest extends TestCase
                 ->borderColor('white')->make(),
         ];
 
-        $barChart = (new Chart('Monthly Completion Chart', HorizontalBarChart::class))
+        $barChart = (new Chart('Monthly Completion Chart',
+            HorizontalBarChart::class))
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -77,20 +78,20 @@ class ChartGenerateTest extends TestCase
 
         $barChart = (new Chart('Completions Chart', HorizontalBarChart::class))
             ->options([
-                    'responsive' => false,
-                    'plugins'    => [
-                        'legend' => [
-                            'display'  => true,
-                            'position' => 'top',
-                        ],
-                        'title'  => [
-                            'text'     => 'Custom Title',
-                            'position' => 'top',
-                            'display'  => true,
-                            'color'    => 'black',
-                        ],
+                'responsive' => false,
+                'plugins'    => [
+                    'legend' => [
+                        'display'  => true,
+                        'position' => 'top',
                     ],
-                ])
+                    'title'  => [
+                        'text'     => 'Custom Title',
+                        'position' => 'top',
+                        'display'  => true,
+                        'color'    => 'black',
+                    ],
+                ],
+            ])
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -100,7 +101,8 @@ class ChartGenerateTest extends TestCase
     }
 
     /** @test */
-    public function render_interpolation_line_chart_with_changing_default_options()
+    public function render_interpolation_line_chart_with_changing_default_options(
+    )
     {
         $datasets = [
             Dataset::label('Task')->data([20, 30])->backgroundColor('red')
@@ -110,12 +112,10 @@ class ChartGenerateTest extends TestCase
         ];
 
         $chart = (new Chart('Project# Chart', InterpolationLineChart::class))
-            ->changeDefaultOption('plugins.title.text','My Interpolation Chart')
-            ->changeDefaultOption('scales.x.title.text','Index X')
-            ->changeDefaultOption('scales.y.title.text','Amount Y')
-            ->plugins([
-                Plugin::class => function(){
-                  return "{ 
+            ->changeDefaultOption('plugins.title.text', 'My Interpolation Chart')
+            ->changeDefaultOption('scales.x.title.text', 'Index X')
+            ->changeDefaultOption('scales.y.title.text', 'Amount Y')
+            ->plugin(Plugin::class, "{ 
                         autocolors: false,
                         annotation: {
                           annotations: {
@@ -135,9 +135,8 @@ class ChartGenerateTest extends TestCase
                             }
                           }
                         }
-                      }";
-                }
-            ])
+                      }"
+            )
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -176,11 +175,14 @@ class ChartGenerateTest extends TestCase
     public function render_multi_axis_line_chart_with_dataset()
     {
         $datasets = [
-            Dataset::label('Task')->data([120, 130])->backgroundColor('red')->yAxisID('y')->make(),
-            Dataset::label('Project')->data([140, 150])->backgroundColor('green')->yAxisID('y1')->make()
+            Dataset::label('Task')->data([120, 130])->backgroundColor('red')
+                ->yAxisID('y')->make(),
+            Dataset::label('Project')->data([140, 150])
+                ->backgroundColor('green')->yAxisID('y1')->make(),
         ];
 
-        $multiAxisLineChart = (new Chart('Multi Axis Line Chart', MultiAxisLineChart::class))
+        $multiAxisLineChart = (new Chart('Multi Axis Line Chart',
+            MultiAxisLineChart::class))
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();
@@ -202,7 +204,7 @@ class ChartGenerateTest extends TestCase
     {
         $datasets = [
             Dataset::label('Task')->data([20, 30])->make(),
-            Dataset::label('Project')->data([50, 60])->make()
+            Dataset::label('Project')->data([50, 60])->make(),
         ];
 
         $barChart = (new Chart('Project Chart 1', StackedBarChart::class))
