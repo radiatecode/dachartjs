@@ -140,7 +140,7 @@ class Chart implements ChartInterface
             return $this;
         }
 
-        $this->plugins[] = $options;
+        $this->plugins[] = $plugin;
 
         return $this;
     }

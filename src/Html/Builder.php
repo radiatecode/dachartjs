@@ -94,11 +94,11 @@ class Builder
 
 
     /**
-     * Recent chart js library | cdn
+     * Recent chart js cdn library and any integrated plugins libraries
      *
      * @return string
      */
-    public function chartLibrary(): string
+    public function chartLibraries(): string
     {
         $config = $this->config();
 

@@ -31,11 +31,11 @@ abstract class AbstractChart
 
     /**
      * Chart labels
-     * 
+     *
      * ---------------------------------------------------------------------------------
      * Note: This labels are used to label the data index (default x axis) in the chart view
      * ---------------------------------------------------------------------------------
-     * 
+     *
      * @return array
      */
     abstract protected function labels(): array;
@@ -46,7 +46,7 @@ abstract class AbstractChart
      * -------------------------------------------------------------------------------------------------
      * Note: datasets can be generate by Dataset Facade Or we can pass custom array with dataset properties,
      * -------------------------------------------------------------------------------------------------
-     * 
+     *
      * @return array
      */
     abstract protected function datasets(): array;
@@ -81,6 +81,19 @@ abstract class AbstractChart
     }
 
     /**
+     * Plugins integrate
+     *
+     * ---------------------------------------------------------------------------------------------
+     * Note: We will use it if we need to integrate any external plugins
+     * ---------------------------------------------------------------------------------------------
+     * @return array
+     */
+    protected function plugins()
+    {
+        return [];
+    }
+
+    /**
      * Render the chart
      *
      * @return array
@@ -97,7 +110,7 @@ abstract class AbstractChart
     {
         return $this->chart()->template();
     }
-    
+
 
     /**
      * chart Config
@@ -109,15 +122,28 @@ abstract class AbstractChart
         $chart = new Chart($this->chartTitle(), $this->chartType());
 
         $optionModifications = $this->changeDefaultOptions();
+        $plugins             = $this->plugins();
 
         if ( ! empty($this->options())) {
             $chart->options($this->options());
         }
 
-        if(! empty($optionModifications)){
-            foreach($optionModifications as $key => $value){
-                $chart->changeDefaultOption($key,$value);
-            }    
+        if ( ! empty($optionModifications)) {
+            foreach ($optionModifications as $key => $value) {
+                $chart->changeDefaultOption($key, $value);
+            }
+        }
+
+        if ( ! empty($plugins)) {
+            foreach ($plugins as $name => $value) {
+                if (is_numeric($name)) {
+                    $chart->plugin($value);
+
+                    continue;
+                }
+
+                $chart->plugin($name, $value);
+            }
         }
 
         return $chart

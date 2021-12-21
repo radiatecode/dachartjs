@@ -43,7 +43,7 @@ class ReportController extends Controller {
 ......
 
 <!-- generate chart.js CDN -->
-{!! $chart->chartLibrary() !!}
+{!! $chart->chartLibraries() !!}
 
 <!-- use it when you need to load chart data by ajax -->
 {!! $chart->apiChartScript(url('fetch/monthly/top/sales/chart'))) !!}

@@ -1,0 +1,42 @@
+<?php
+
+
+namespace DummyNamespace;
+
+
+use RadiateCode\DaChart\Contracts\PluginInterface;
+
+class DummyClass implements PluginInterface
+{
+	/**
+     * Plugin libraries
+     *
+     * @return string
+     */
+    public function libraries(): string
+    {
+        return "<script src='path-of-the-js'></script>\n";
+    }
+
+	/**
+     * Plugin id (if any)
+     *
+     * @return string
+     */
+    public function id(): string
+    {
+        return 'pluginId';
+    }
+
+	/**
+     * Plugin options to manipulate chart
+     *
+     * @return array|string
+     */
+    public function options()
+    {
+        // options can be php array
+
+        // Or, option can be json string
+    }
+}

@@ -5,7 +5,6 @@ namespace RadiateCode\DaChart\tests\Feature;
 
 use RadiateCode\DaChart\Chart;
 use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Plugins\Plugin;
 use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
 use RadiateCode\DaChart\Types\Bar\StackedBarChart;
 use RadiateCode\DaChart\Types\Line\InterpolationLineChart;
@@ -115,28 +114,6 @@ class ChartGenerateTest extends TestCase
             ->changeDefaultOption('plugins.title.text', 'My Interpolation Chart')
             ->changeDefaultOption('scales.x.title.text', 'Index X')
             ->changeDefaultOption('scales.y.title.text', 'Amount Y')
-            ->plugin(Plugin::class, "{ 
-                        autocolors: false,
-                        annotation: {
-                          annotations: {
-                            box1: {
-                              drawTime: 'afterDatasetsDraw',
-                              display: (context, opts) => {
-                                const body = document.querySelector('body');
-                                const rect = body.getBoundingClientRect();
-                                return rect.width >= 1000;
-                              },
-                              type: 'box',
-                              xMin: 1,
-                              xMax: 2,
-                              yMin: 50,
-                              yMax: 70,
-                              backgroundColor: 'rgba(255, 99, 132, 0.5)'
-                            }
-                          }
-                        }
-                      }"
-            )
             ->labels(['project', 'task'])
             ->datasets($datasets)
             ->render();

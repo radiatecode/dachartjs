@@ -33,7 +33,7 @@ class ReportController extends Controller {
 ......
 
 <!-- generate chart.js CDN -->
-{!! $chart->chartLibrary() !!}
+{!! $chart->chartLibraries() !!}
 
 <!-- use it when chart need to update or refresh by firing an event -->
 {!! $chart->apiChartScript(url('project/charts'), 'search-btn', "start_date","end_date")) !!}

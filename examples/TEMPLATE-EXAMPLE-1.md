@@ -60,7 +60,7 @@ class ReportController extends Controller {
 ......
 
 <!-- generate chart.js CDN -->
-{!! $chart->chartLibrary() !!}
+{!! $chart->chartLibraries() !!}
 
 <!-- generate configured chart script -->
 {!! $chart->chartScript() !!}

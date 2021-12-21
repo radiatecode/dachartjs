@@ -108,7 +108,7 @@ class ReportController extends Controller
 ......
 
 <!-- generate chart.js CDN -->
-{!! $myChart->chartLibrary() !!}
+{!! $myChart->chartLibraries() !!}
 
 <!-- generate configured api chart script -->
 {!! $chart->apiChartScript(url('project/charts'), 'search-btn', "start_date","end_date")) !!}

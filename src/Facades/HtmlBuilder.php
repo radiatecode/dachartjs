@@ -13,7 +13,7 @@ use RadiateCode\DaChart\Html\Builder;
  * @method static mixed|HtmlString chartHtml()
  * @method static mixed|HtmlString chartScript()
  * @method static mixed|HtmlString apiChartScript()
- * @method static mixed|string chartLibrary()
+ * @method static mixed|string chartLibraries()
  * @method static mixed|string template()
  *
  * @see Builder

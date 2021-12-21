@@ -45,8 +45,8 @@ class ReportController extends Controller
 </div>
 
 ......
-<!-- generate chart js CDN script -->
-{!! $monthlyChart->chartLibrary() !!}
+<!-- generate chart js and dependents CDN script -->
+{!! $monthlyChart->chartLibraries() !!}
 <!-- generate chart configured scripts -->
 {!! $monthlyChart->chartScript() !!}
 ```
@@ -86,8 +86,8 @@ class ReportController extends Controller
 </div>
 
 ......
-<!-- generate chart js CDN script -->
-{!! $monthlyChart->chartLibrary() !!}
+<!-- generate chart js and dependents CDN script -->
+{!! $monthlyChart->chartLibraries() !!}
 <!-- generate ajax chart scripts -->
 {!! $monthlyChart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
@@ -290,7 +290,7 @@ $barChart->template();
 > **Template method return a html builder instance.**
 #### Methods of html builder
  - **chartHtml()** : generate html canvas tag
- - **chartLibrary()** : generate the chart.js CDN
+ - **chartLibraries()** : generate the chart.js CDN and chart plugins libraries (if plugin integrate)
  - **chartScript()** : generate back-end configured chart scripts
    > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
  - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
@@ -371,7 +371,8 @@ class MonthlyCompletionChart extends AbstractChart
      * Dataset
      *
      * -------------------------------------------------------------------------------------------------
-     * Note: datasets can be generate by Dataset Facade Or we can pass custom array with dataset properties,
+     * Note: datasets can be generate by Dataset Facade 
+     * Or, we can pass custom array with dataset properties,
      * -------------------------------------------------------------------------------------------------
      *
      * @return array
@@ -384,34 +385,20 @@ class MonthlyCompletionChart extends AbstractChart
             Dataset::general('Task',[70, 75,99])->make()
         ];
     }
-    
-    /**
-     * Change default options when necessary
-     *
-     * @return array
-     */
-    protected function changeDefaultOptions(): array
-    {
-        return [];
-    }
-    
-    /**
-     * Use custom options when we don't want to use the default. 
-     * 
-     * @return array
-     */
-    protected function options(): array
-    {
-        return [];
-    }
 }
 ```
-> **Note:** changeDefaultOptions() and options() are optional. Use these methods when necessary.
+> **Note:** If you want to change chart default options then **override** ***changeDefaultOptions()***
 > 
-> By the **changeDefaultOptions()** you can change chart default options. See the sample below
+> See the sample below
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
+>     /**
+>     * Change default options when necessary
+>     *
+>     * @override method
+>     * @return array
+>     */  
 >     protected function changeDefaultOptions(): array
 >     {
 >         return [
@@ -422,11 +409,17 @@ class MonthlyCompletionChart extends AbstractChart
 >     }
 > }
 > ```
-> By the **options()** you can provide custom options if you don't want to use default options. See the sample below
+> Or, if you want to provide custom options instead of default options then **override** ***options()***. See the sample below
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
->     protected function options(): array
+>     /**
+>     * Use custom options if we don't want to use defaults
+>     *
+>     * @override method
+>     * @return array|string
+>     */  
+>     protected function options()
 >     {
 >          return [
 >                 'responsive' => true,
@@ -448,12 +441,28 @@ class MonthlyCompletionChart extends AbstractChart
 >                     ],
 >                 ]
 >             ];
+>            
+>            /** 
+>            * Json string can be use
+>            */
+>    
+>            // return "{
+>            //   responsive : true,
+>            //   plugins    : {
+>            //       title  : {
+>            //           text     : 'My Chart Title',
+>            //           position : 'top',
+>            //           display  : true,
+>            //           color    : 'yellow',
+>            //       },
+>            //  },
+>            // }"
 >     }
 > }
 > ```
 **In controller:**
 
-Now you can use that dedicated class in the controller
+After all the configuration you can use the dedicated class in the controller
 ```php
 use App\Charts\MonthlyCompletionChart;
 
@@ -464,7 +473,6 @@ class ReportController extends Controller
     public function monthlyChart(){
         $myChart =  new MonthlyCompletionChart();
         
-        //return view('dashboard')->with('monthlyChart',$myChart->render());
         return view('reports.monthly')->with('myChart',$myChart->template());
     }
 }
@@ -484,8 +492,8 @@ class ReportController extends Controller
 
 ......
 
-<!-- generate chart.js CDN -->
-{!! $myChart->chartLibrary() !!}
+<!-- generate chart.js and any dependents CDN scripts-->
+{!! $myChart->chartLibraries() !!}
 
 <!-- generate configured chart script -->
 {!! $myChart->chartScript() !!}
@@ -522,6 +530,9 @@ If you create a chart with multiple datasets which depends on multiple db query 
 > Namespace could be **App\Charts\Datasets** (create Charts\Datasets folder inside the app folder)
 
 **Check the sample code [here](examples/DATASET-EXAMPLE.md)**
+
+## Plugin Integration (Optional)
+Sometimes we need extra plugin to manipulate chart, so in that case we can integrate plugins in our charts
 
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.

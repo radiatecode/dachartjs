@@ -108,7 +108,7 @@ class WelcomeController extends Controller {
 ```
 ```javascript
 <script>
-var serversideRenderedChartConfig = @json($barChart)
+var serversideRenderedChartConfig = {!! json_encode($barChart) !!}
 
 var chartCtx = document.getElementById("monthly_chart_canvas").getContext('2d');
 

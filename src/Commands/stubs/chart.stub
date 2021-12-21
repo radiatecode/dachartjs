@@ -48,24 +48,4 @@ class DummyClass extends AbstractChart
     {
         return [];
     }
-
-   /**
-	* Change default options when necessary
-	*
-	* @return array
-	*/
-	protected function changeDefaultOptions(): array
-	{
-		return [];
-	}
-
-     /**
-	 * Use custom options when we don't want to use the default.
-	 *
-	 * @return array|string
-	 */
-	protected function options()
-	{
-		return [];
-	}
 }
