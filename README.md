@@ -1,4 +1,4 @@
-# Da Chart
+# Da Chartjs
 ![Stats](img/da-chart.png)
 
 The package used to generate charts in Laravel without implementing javascript in the front-side. It is used as a back-end service of [chart js](https://www.chartjs.org).
@@ -144,7 +144,7 @@ You can install the package via composer:
 
     composer require radiatecode/dachart
 ### Register Service Provider (Optional on Laravel 5.5+)
-Register provider on your config/app.php file.
+Register provider on your **config/app.php** file.
 ```php
 'providers' => [
     ...,
@@ -227,7 +227,8 @@ So, in some scenario you may need to update the values of default options. In th
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
 ```
-> Note: dot used in key arg to indicate the nested level of the options
+> Note: dot used in key arg is to indicate the nested array level of the options.
+> The method only works when the options are in php array format
 
 For multiple modification you can chain the method as we needs
 ```php
