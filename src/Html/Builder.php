@@ -9,8 +9,6 @@ use Illuminate\Support\HtmlString;
 
 class Builder
 {
-    private $config = [];
-
     /**
      * @var ChartInterface $chart
      */
@@ -94,21 +92,12 @@ class Builder
 
 
     /**
-     * Recent chart js cdn library and any integrated plugins libraries
+     * Recent chart js cdn library
      *
      * @return string
      */
     public function chartLibraries(): string
     {
-        $config = $this->config();
-
-        if ( ! empty($config['inject_plugins'])) {
-            return new HtmlString(
-                "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n"
-                .$config['inject_plugins']['libraries']
-            );
-        }
-
         return new HtmlString(
             "<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>"
         );
@@ -133,7 +122,7 @@ class Builder
      */
     protected function encoded(): array
     {
-        $config = $this->config();
+        $config = $this->chart->render();
 
         return [
             'type'            => $config['type'],
@@ -141,22 +130,7 @@ class Builder
             'datasets'        => json_encode($config['data']['datasets']),
             'options'         => is_array($config['options'])
                 ? json_encode($config['options'])
-                : $config['options'],
-            'plugins_ids'     => empty($config['inject_plugins'])
-                ? '[]'
-                : $config['inject_plugins']['ids'],
-            'plugins_options' => empty($config['inject_plugins'])
-                ? ""
-                : $config['inject_plugins']['options'],
+                : $config['options']
         ];
-    }
-
-    private function config(): array
-    {
-        if (empty($this->config)) {
-            $this->config = $this->chart->render();
-        }
-
-        return $this->config;
     }
 }

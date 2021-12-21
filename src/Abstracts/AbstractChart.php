@@ -81,19 +81,6 @@ abstract class AbstractChart
     }
 
     /**
-     * Plugins integrate
-     *
-     * ---------------------------------------------------------------------------------------------
-     * Note: We will use it if we need to integrate any external plugins
-     * ---------------------------------------------------------------------------------------------
-     * @return array
-     */
-    protected function plugins()
-    {
-        return [];
-    }
-
-    /**
      * Render the chart
      *
      * @return array
@@ -122,7 +109,6 @@ abstract class AbstractChart
         $chart = new Chart($this->chartTitle(), $this->chartType());
 
         $optionModifications = $this->changeDefaultOptions();
-        $plugins             = $this->plugins();
 
         if ( ! empty($this->options())) {
             $chart->options($this->options());
@@ -131,18 +117,6 @@ abstract class AbstractChart
         if ( ! empty($optionModifications)) {
             foreach ($optionModifications as $key => $value) {
                 $chart->changeDefaultOption($key, $value);
-            }
-        }
-
-        if ( ! empty($plugins)) {
-            foreach ($plugins as $name => $value) {
-                if (is_numeric($name)) {
-                    $chart->plugin($value);
-
-                    continue;
-                }
-
-                $chart->plugin($name, $value);
             }
         }
 

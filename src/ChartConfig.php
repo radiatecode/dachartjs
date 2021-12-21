@@ -15,8 +15,6 @@ class ChartConfig
 
     private $datasets = [];
 
-    private $plugins = [];
-
     /**
      * @param  string  $chartName
      *
@@ -75,13 +73,6 @@ class ChartConfig
         return $this;
     }
 
-    public function plugins(array $plugins): ChartConfig
-    {
-        $this->plugins = $plugins;
-
-        return $this;
-    }
-
     /**
      * Render chart config | [this will be used as config or setup for frond-end chart js library]
      *
@@ -96,60 +87,7 @@ class ChartConfig
                 'labels' => $this->labels,
                 'datasets' => $this->datasets
             ],
-            'options' => $this->options,
-            'inject_plugins' => $this->extractPlugins()
+            'options' => $this->options
         ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function extractPlugins(): array
-    {
-        if (empty($this->plugins)) {
-            return [];
-        }
-
-        $libraries = "";
-        $options   = [];
-        $ids       = [];
-
-        foreach ($this->plugins as $name => $value) {
-            $plugin = null;
-
-            if (is_numeric($name)){
-                $plugin = new $value();
-
-                $options[] = $this->pluginOptions($plugin->options());
-            }else{
-                $plugin = new $name();
-
-                $options[] = $this->pluginOptions($value);
-            }
-
-            $libraries .= $plugin->libraries();
-
-            if (! empty($plugin->id())){
-                $ids[]     = $plugin->id();
-            }
-        }
-
-        return [
-            'libraries' => $libraries,
-            'options'   => implode(",",$options),
-            'ids'       => json_encode($ids),
-        ];
-    }
-
-    protected function pluginOptions($options){
-        if (empty($options)){
-            return "";
-        }
-
-        if (is_array($options)){
-            return json_encode($options);
-        }
-
-        return $options;
     }
 }

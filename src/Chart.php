@@ -32,12 +32,6 @@ class Chart implements ChartInterface
     private $labels = [];
 
     /**
-     * @var array $plugins
-     */
-    private $plugins = [];
-
-
-    /**
      * Chart constructor.
      *
      * @param  string  $title
@@ -123,29 +117,6 @@ class Chart implements ChartInterface
     }
 
     /**
-     * @param $plugin
-     * @param  null  $options
-     *
-     * @return $this
-     */
-    public function plugin($plugin, $options = null): Chart
-    {
-        if ( ! class_exists($plugin)) {
-            throw new InvalidArgumentException('Plugin class is not exist!');
-        }
-
-        if ($options) {
-            $this->plugins[$plugin] = $options;
-
-            return $this;
-        }
-
-        $this->plugins[] = $plugin;
-
-        return $this;
-    }
-
-    /**
      * Render the chart configuration
      *
      * @return array
@@ -158,7 +129,6 @@ class Chart implements ChartInterface
             ->labels($this->labels)
             ->datasets($this->datasets)
             ->options($this->chartType->options())
-            ->plugins($this->plugins)
             ->render();
     }
 

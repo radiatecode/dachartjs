@@ -531,9 +531,6 @@ If you create a chart with multiple datasets which depends on multiple db query 
 
 **Check the sample code [here](examples/DATASET-EXAMPLE.md)**
 
-## Plugin Integration (Optional)
-Sometimes we need extra plugin to manipulate chart, so in that case we can integrate plugins in our charts
-
 ## Contributing
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
