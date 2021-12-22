@@ -1,18 +1,18 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Facades;
+namespace RadiateCode\DaChartjs\Facades;
 
-use RadiateCode\DaChart\Contracts\ChartInterface;
+use RadiateCode\DaChartjs\Contracts\ChartInterface;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
-use RadiateCode\DaChart\Html\Builder;
+use RadiateCode\DaChartjs\Html\Builder;
 
 /**
  * @method static mixed|Builder resolve(ChartInterface $chart))
  * @method static mixed|HtmlString chartHtml()
- * @method static mixed|HtmlString chartScript()
- * @method static mixed|HtmlString apiChartScript()
+ * @method static mixed|HtmlString chartScripts()
+ * @method static mixed|HtmlString apiChartScripts()
  * @method static mixed|string chartLibraries()
  * @method static mixed|string template()
  *

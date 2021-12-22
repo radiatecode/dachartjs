@@ -1,13 +1,13 @@
 <?php
 
 
-namespace RadiateCode\DaChart;
+namespace RadiateCode\DaChartjs;
 
-use RadiateCode\DaChart\Commands\CreateChartCommand;
-use RadiateCode\DaChart\Data\Dataset;
+use RadiateCode\DaChartjs\Commands\CreateChartCommand;
+use RadiateCode\DaChartjs\Data\Dataset;
 use Illuminate\Support\ServiceProvider;
-use RadiateCode\DaChart\Html\Builder;
-use RadiateCode\DaChart\Response\ChartResponse;
+use RadiateCode\DaChartjs\Html\Builder;
+use RadiateCode\DaChartjs\Response\ChartResponse;
 
 class ChartServiceProvider extends ServiceProvider
 {

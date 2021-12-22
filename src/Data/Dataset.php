@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Data;
+namespace RadiateCode\DaChartjs\Data;
 
 
-use RadiateCode\DaChart\Enums\ChartColor;
-use RadiateCode\DaChart\Traits\CallableProperty;
+use RadiateCode\DaChartjs\Enums\ChartColor;
+use RadiateCode\DaChartjs\Traits\CallableProperty;
 
 class Dataset
 {

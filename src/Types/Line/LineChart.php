@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Line;
+namespace RadiateCode\DaChartjs\Types\Line;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
 
 class LineChart extends BaseChartType
 {

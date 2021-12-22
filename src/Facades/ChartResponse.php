@@ -1,19 +1,19 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Facades;
+namespace RadiateCode\DaChartjs\Facades;
 
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \RadiateCode\DaChart\Response\ChartResponse labels(array $labels)
- * @method static \RadiateCode\DaChart\Response\ChartResponse datasets(array $datasets)
+ * @method static \RadiateCode\DaChartjs\Response\ChartResponse labels(array $labels)
+ * @method static \RadiateCode\DaChartjs\Response\ChartResponse datasets(array $datasets)
  * @method static JsonResponse toJson()
  * @method static array toArray()
  *
- * @see \RadiateCode\DaChart\Response\ChartResponse
+ * @see \RadiateCode\DaChartjs\Response\ChartResponse
  */
 class ChartResponse extends Facade
 {

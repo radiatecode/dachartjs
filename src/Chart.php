@@ -1,12 +1,12 @@
 <?php
 
 
-namespace RadiateCode\DaChart;
+namespace RadiateCode\DaChartjs;
 
-use RadiateCode\DaChart\Contracts\ChartInterface;
-use RadiateCode\DaChart\Contracts\TypeInterface;
-use RadiateCode\DaChart\Html\Builder;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Contracts\ChartInterface;
+use RadiateCode\DaChartjs\Contracts\TypeInterface;
+use RadiateCode\DaChartjs\Html\Builder;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 use \InvalidArgumentException;
 
 class Chart implements ChartInterface

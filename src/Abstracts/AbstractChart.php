@@ -1,9 +1,9 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Abstracts;
+namespace RadiateCode\DaChartjs\Abstracts;
 
-use RadiateCode\DaChart\Chart;
+use RadiateCode\DaChartjs\Chart;
 
 abstract class AbstractChart
 {

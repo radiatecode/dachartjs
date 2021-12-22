@@ -1,13 +1,13 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Abstracts;
+namespace RadiateCode\DaChartjs\Abstracts;
 
 
 use InvalidArgumentException;
-use RadiateCode\DaChart\Contracts\TypeInterface;
+use RadiateCode\DaChartjs\Contracts\TypeInterface;
 use ErrorException;
-use RadiateCode\DaChart\Enums\GeneralOption;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 abstract class BaseChartType implements TypeInterface
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Commands;
+namespace RadiateCode\DaChartjs\Commands;
 
 
 use Illuminate\Console\GeneratorCommand;
@@ -12,7 +12,7 @@ class CreateChartCommand extends GeneratorCommand
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'make:dachart {name : Determines the chart name}';
+    protected $signature = 'make:dachartjs {name : Determines the chart name}';
 
     /**
      * The console command description.

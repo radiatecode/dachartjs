@@ -36,7 +36,7 @@ class ReportController extends Controller {
 {!! $chart->chartLibraries() !!}
 
 <!-- use it when chart need to update or refresh by firing an event -->
-{!! $chart->apiChartScript(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
+{!! $chart->apiChartScripts(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
 ```
 > When **'search-btn'** is clicked it get values from start_date, end_date inputs and attach
 > the values as query string like **http://demo.test/project/charts?start_date=2021-11-01&end_date=2021-11-30**
@@ -50,7 +50,7 @@ Route::get('project/charts','ChartController@projectCharts');
 
 ```php
 ............
-use \RadiateCode\DaChart\Facades\ChartResponse;
+use \RadiateCode\DaChartjs\Facades\ChartResponse;
 
 class ChartController {
     public function projectCharts(Request $request)

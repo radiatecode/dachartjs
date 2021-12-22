@@ -1,12 +1,12 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Line;
+namespace RadiateCode\DaChartjs\Types\Line;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
-use RadiateCode\DaChart\Enums\GeneralOption;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 class MultiAxisLineChart extends BaseChartType
 {

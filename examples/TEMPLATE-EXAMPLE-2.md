@@ -46,7 +46,7 @@ class ReportController extends Controller {
 {!! $chart->chartLibraries() !!}
 
 <!-- use it when you need to load chart data by ajax -->
-{!! $chart->apiChartScript(url('fetch/monthly/top/sales/chart'))) !!}
+{!! $chart->apiChartScripts(url('fetch/monthly/top/sales/chart'))) !!}
 ```
 **Api Route:**
 
@@ -60,7 +60,7 @@ For api response we can use **ChartResponse**
 ```php
 ............
 
-use RadiateCode\DaChart\Facades\ChartResponse;
+use RadiateCode\DaChartjs\Facades\ChartResponse;
 
 class ChartController {
     public function topSalesMonthly(Request $request){

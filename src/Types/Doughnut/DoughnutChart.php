@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Doughnut;
+namespace RadiateCode\DaChartjs\Types\Doughnut;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
 
 class DoughnutChart extends BaseChartType
 {

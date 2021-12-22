@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Bubble;
+namespace RadiateCode\DaChartjs\Types\Bubble;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
 
 class BubbleChart extends BaseChartType
 {

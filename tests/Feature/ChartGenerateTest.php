@@ -1,17 +1,17 @@
 <?php
 
 
-namespace RadiateCode\DaChart\tests\Feature;
+namespace RadiateCode\DaChartjs\tests\Feature;
 
-use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
-use RadiateCode\DaChart\Types\Bar\StackedBarChart;
-use RadiateCode\DaChart\Types\Line\InterpolationLineChart;
-use RadiateCode\DaChart\Types\Line\MultiAxisLineChart;
-use RadiateCode\DaChart\Types\Line\SteppedLineChart;
+use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Facades\Dataset;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\StackedBarChart;
+use RadiateCode\DaChartjs\Types\Line\InterpolationLineChart;
+use RadiateCode\DaChartjs\Types\Line\MultiAxisLineChart;
+use RadiateCode\DaChartjs\Types\Line\SteppedLineChart;
 use Illuminate\Support\HtmlString;
-use RadiateCode\DaChart\tests\TestCase;
+use RadiateCode\DaChartjs\tests\TestCase;
 
 class ChartGenerateTest extends TestCase
 {
@@ -189,6 +189,6 @@ class ChartGenerateTest extends TestCase
             ->datasets($datasets)
             ->template();
 
-        $this->assertInstanceOf(HtmlString::class, $barChart->chartScript());
+        $this->assertInstanceOf(HtmlString::class, $barChart->chartScripts());
     }
 }

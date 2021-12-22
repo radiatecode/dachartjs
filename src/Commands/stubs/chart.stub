@@ -4,7 +4,7 @@
 namespace DummyNamespace;
 
 
-use RadiateCode\DaChart\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 
 class DummyClass extends AbstractChart
 {

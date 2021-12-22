@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Facades;
+namespace RadiateCode\DaChartjs\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
-use RadiateCode\DaChart\Contracts\DatasetInterface;
+use RadiateCode\DaChartjs\Contracts\DatasetInterface;
 
 /**
  * @method static DatasetInterface label(string $label)
@@ -59,7 +59,7 @@ use RadiateCode\DaChart\Contracts\DatasetInterface;
  * @method static array make()
  *
  * @see DatasetInterface
- * @see \RadiateCode\DaChart\Data\Dataset
+ * @see \RadiateCode\DaChartjs\Data\Dataset
  */
 class Dataset extends Facade
 {

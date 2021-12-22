@@ -3,7 +3,7 @@
 ```php
 namespace App\Charts\Datasets;
 
-use RadiateCode\DaChart\Facades\Dataset;
+use RadiateCode\DaChartjs\Facades\Dataset;
 
 class MonthlyCompletionDataset 
 {
@@ -75,9 +75,9 @@ class ReportController extends Controller
 
 namespace App\Charts;
 
-use RadiateCode\DaChart\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 use App\Charts\Datasets\MonthlyCompletionDataset;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 
 class MonthlyCompletionChart extends AbstractChart
 {
@@ -153,7 +153,7 @@ class MonthlyCompletionChart extends AbstractChart
 
 ```php
 ............
-use \RadiateCode\DaChart\Facades\ChartResponse;
+use \RadiateCode\DaChartjs\Facades\ChartResponse;
 
 class ChartController {
     public function projectCharts(Request $request)

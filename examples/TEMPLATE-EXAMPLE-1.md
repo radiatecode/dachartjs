@@ -1,8 +1,8 @@
 ## Examples Html Builder
-### Usage of chartScript()
+### Usage of chartScripts()
 **Configuration:**
 ```php
-use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller {
     public function index(){
@@ -63,5 +63,5 @@ class ReportController extends Controller {
 {!! $chart->chartLibraries() !!}
 
 <!-- generate configured chart script -->
-{!! $chart->chartScript() !!}
+{!! $chart->chartScripts() !!}
 ```

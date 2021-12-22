@@ -3,8 +3,8 @@ Create a chart class
 ```php
 namespace App\Charts;
 
-use RadiateCode\DaChart\Abstracts\AbstractChart;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 
 class MonthlyCompletionChart extends AbstractChart
 {
@@ -111,7 +111,7 @@ class ReportController extends Controller
 {!! $myChart->chartLibraries() !!}
 
 <!-- generate configured api chart script -->
-{!! $chart->apiChartScript(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
+{!! $chart->apiChartScripts(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
 ```
 **Api Route:**
 
@@ -122,8 +122,8 @@ Route::get('project/charts','ChartController@projectCharts');
 
 ```php
 ............
-use \RadiateCode\DaChart\Facades\ChartResponse;
-use \RadiateCode\DaChart\Facades\Dataset;
+use \RadiateCode\DaChartjs\Facades\ChartResponse;
+use \RadiateCode\DaChartjs\Facades\Dataset;
 
 class ChartController 
 {

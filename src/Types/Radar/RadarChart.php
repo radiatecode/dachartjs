@@ -1,11 +1,11 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Radar;
+namespace RadiateCode\DaChartjs\Types\Radar;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
 
 class RadarChart extends BaseChartType
 {

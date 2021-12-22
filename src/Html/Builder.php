@@ -1,10 +1,10 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Html;
+namespace RadiateCode\DaChartjs\Html;
 
 use Illuminate\Support\Facades\View;
-use RadiateCode\DaChart\Contracts\ChartInterface;
+use RadiateCode\DaChartjs\Contracts\ChartInterface;
 use Illuminate\Support\HtmlString;
 
 class Builder
@@ -36,7 +36,7 @@ class Builder
      *
      * @return HtmlString
      */
-    public function chartScript(): HtmlString
+    public function chartScripts(): HtmlString
     {
         $script = $this->chartView(false);
 
@@ -65,7 +65,7 @@ class Builder
      *
      * @return HtmlString
      */
-    public function apiChartScript(
+    public function apiChartScripts(
         string $url,
         string $fireEventElementId = null,
         ...$filterElementIds

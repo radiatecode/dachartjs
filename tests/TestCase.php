@@ -1,10 +1,10 @@
 <?php
 
 
-namespace RadiateCode\DaChart\tests;
+namespace RadiateCode\DaChartjs\tests;
 
 
-use RadiateCode\DaChart\ChartServiceProvider;
+use RadiateCode\DaChartjs\ChartServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

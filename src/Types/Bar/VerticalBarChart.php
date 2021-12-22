@@ -1,12 +1,12 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Types\Bar;
+namespace RadiateCode\DaChartjs\Types\Bar;
 
 
-use RadiateCode\DaChart\Abstracts\BaseChartType;
-use RadiateCode\DaChart\Enums\ChartType;
-use RadiateCode\DaChart\Enums\GeneralOption;
+use RadiateCode\DaChartjs\Abstracts\BaseChartType;
+use RadiateCode\DaChartjs\Enums\ChartType;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 class VerticalBarChart extends BaseChartType
 {

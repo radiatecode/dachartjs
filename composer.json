@@ -1,5 +1,5 @@
 {
-    "name": "radiatecode/dachart",
+    "name": "radiatecode/dachartjs",
     "description": "Chart js back-end service for laravel",
     "keywords": [
         "laravel-charts",
@@ -7,9 +7,12 @@
         "laravel-dachart",
         "laravel-the-chart",
         "laravel chart",
-        "larachart"
+        "larachart",
+        "the-chartjs",
+        "da-chartjs",
+        "da chartjs"
     ],
-    "homepage": "https://github.com/radiatecode/dachart",
+    "homepage": "https://github.com/radiatecode/dachartjs",
     "license": "MIT",
     "authors": [
         {
@@ -27,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "RadiateCode\\DaChart\\" : "src/"
+            "RadiateCode\\DaChartjs\\" : "src/"
         },
         "files": [
             "src/helpers.php"
@@ -35,7 +38,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "RadiateCode\\DaChart\\tests\\" : "tests/"
+            "RadiateCode\\DaChartjs\\tests\\" : "tests/"
         }
     },
     "scripts": {
@@ -48,7 +51,7 @@
     "extra": {
         "laravel": {
             "providers" : [
-                "RadiateCode\\DaChart\\ChartServiceProvider"
+                "RadiateCode\\DaChartjs\\ChartServiceProvider"
             ]
         }
     },

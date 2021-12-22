@@ -8,11 +8,11 @@ It will dynamically render HTML & JS configuration.
 ### Example 1: Monthly Project, Task and Issue Completion Chart
 ![Stats](img/example-1.png)
 
-**Configuration:**
+**Configuration in controller:**
 ```php
-use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Facades\Dataset;
+use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller 
 {
@@ -45,10 +45,10 @@ class ReportController extends Controller
 </div>
 
 ......
-<!-- generate chart js and dependents CDN script -->
+<!-- generate chart js CDN scripts -->
 {!! $monthlyChart->chartLibraries() !!}
 <!-- generate chart configured scripts -->
-{!! $monthlyChart->chartScript() !!}
+{!! $monthlyChart->chartScripts() !!}
 ```
 ### Example 2: API or AJAX Chart
 ![Stats](img/example-2.png)
@@ -59,8 +59,8 @@ The chart shows top sales products according to the month selection.
 
 **Configuration in controller:**
 ```php
-use RadiateCode\DaChart\Chart;
-use RadiateCode\DaChart\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller 
 {
@@ -86,10 +86,10 @@ class ReportController extends Controller
 </div>
 
 ......
-<!-- generate chart js and dependents CDN script -->
+<!-- generate chart js CDN scripts -->
 {!! $monthlyChart->chartLibraries() !!}
 <!-- generate ajax chart scripts -->
-{!! $monthlyChart->apiChartScript(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
+{!! $monthlyChart->apiChartScripts(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
 > When "search-btn" is triggered it will get value from input element of month, 
 > attach the value with the given url as query string and send request to server to fetch data.
@@ -102,9 +102,9 @@ Route::get('fetch/monthly/top/sales/chart','ReportController@monthlyTopSales');
 **Api Response:**
 ```php
 ............
-use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Facades\ChartResponse;
-use RadiateCode\DaChart\Enums\ChartColor;
+use RadiateCode\DaChartjs\Facades\Dataset;
+use RadiateCode\DaChartjs\Facades\ChartResponse;
+use RadiateCode\DaChartjs\Enums\ChartColor;
 use App\Models\Order;
 
 class ReportController extends Controller 
@@ -142,27 +142,30 @@ class ReportController extends Controller
 # Installation
 You can install the package via composer:
 
-    composer require radiatecode/dachart
+    composer require radiatecode/dachartjs
+
 ### Register Service Provider (Optional on Laravel 5.5+)
 Register provider on your **config/app.php** file.
 ```php
 'providers' => [
     ...,
-    RadiateCode\DaChart\ChartServiceProvider::class,
+    RadiateCode\DaChartjs\ChartServiceProvider::class,
 ]
 ```
 
 # Usages
 In two ways you can generate chart such as
-- [Generate by ***Chart*** class](#generate-by-chart-class)
+- [Generate by ***Chart*** service](#generate-by-chart-service)
 - Or, [Generate by dedicated class](#generate-chart-by-dedicated-class).
 
-## Generate by Chart class
+## Generate by Chart service
 
 ```php
+use RadiateCode\DaChartjs\Chart;
+...................
+
 $barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
 ```
-> 
 > ***Note: 2nd arg is [type of chart](#chart-types)***. 
 
 ### Available Methods of Chart object:
@@ -227,18 +230,20 @@ So, in some scenario you may need to update the values of default options. In th
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
 ```
-> Note: dot used in key arg is to indicate the nested array level of the options.
-> The method only works when the options are in php array format
-
 For multiple modification you can chain the method as we needs
+
 ```php
 $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
         ->changeDefaultOption('plugins.title.color','blue')
 ```
+> Note: dot used in key arg is to indicate the nested array level of the options.
+> The method only works when the options are in php array format
+
 #### options() [Optional]
 If you don't want to use default options then use your custom options
 
-Options could be **php array** format
+You can pass **php array** format options
+
 ```php
 $barChart->options([
         'responsive' => false,
@@ -256,7 +261,7 @@ $barChart->options([
         ],
     ])
 ```
-Or, you can pass **json string** format
+Or, you can pass **json string** format options
 ```php
 $barChart->options("{
         responsive : false,
@@ -291,10 +296,10 @@ $barChart->template();
 > **Template method return a html builder instance.**
 #### Methods of html builder
  - **chartHtml()** : generate html canvas tag
- - **chartLibraries()** : generate the chart.js CDN and chart plugins libraries (if plugin integrate)
- - **chartScript()** : generate back-end configured chart scripts
+ - **chartLibraries()** : generate the chart js CDN scripts
+ - **chartScripts()** : generate back-end configured chart scripts
    > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
- - **apiChartScript($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
+ - **apiChartScripts($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
     It also allows update or refresh the chart via firing click event.
     > **For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
    
@@ -308,16 +313,17 @@ $barChart->template();
 ## Generate chart by dedicated class
 Run the command to create a chart class
 
-    php artisan make:dachart MonthlyCompletionChart
+    php artisan make:dachartjs MonthlyCompletionChart
+
 This will create a dedicated chart class under **App\Charts** namespace.
 
 ### Sample Code:
 ```php
 namespace App\Charts;
 
-use RadiateCode\DaChart\Abstracts\AbstractChart;
-use RadiateCode\DaChart\Facades\Dataset;
-use RadiateCode\DaChart\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Facades\Dataset;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 
 class MonthlyCompletionChart extends AbstractChart
 {
@@ -403,7 +409,7 @@ class MonthlyCompletionChart extends AbstractChart
 >     protected function changeDefaultOptions(): array
 >     {
 >         return [
->              // dot used in key is to indicate nested level of option properties
+>              // dot used in key is to indicate nested array level of option properties
 >             'plugins.title.text' => 'Monthly Completion Chart',
 >             'plugins.title.color' => 'red',
 >         ];
@@ -446,7 +452,6 @@ class MonthlyCompletionChart extends AbstractChart
 >            /** 
 >            * Json string can be use
 >            */
->    
 >            // return "{
 >            //   responsive : true,
 >            //   plugins    : {
@@ -493,11 +498,11 @@ class ReportController extends Controller
 
 ......
 
-<!-- generate chart.js and any dependents CDN scripts-->
+<!-- generate chart.js CDN scripts-->
 {!! $myChart->chartLibraries() !!}
 
 <!-- generate configured chart script -->
-{!! $myChart->chartScript() !!}
+{!! $myChart->chartScripts() !!}
 ```
 > See sample code [here](examples/TEMPLATE-EXAMPLE-4.md) if you want to use api chart script using dedicated chart class
 ## Chart Types

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace RadiateCode\DaChart\Response;
+namespace RadiateCode\DaChartjs\Response;
 
 
 use Illuminate\Http\JsonResponse;
