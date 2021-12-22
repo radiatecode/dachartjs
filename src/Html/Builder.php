@@ -59,9 +59,9 @@ class Builder
      * [note: api call by AJAX]
      *
      * @param  string  $url  // api link
-     * @param  string|null  $fireEventElementId  // event trigger to load api data to chart
+     * @param  string|null  $fireEventElementId  // trigger event to load api data to chart
      *
-     * @param  null  $filterElementIds  // ids used to get value from input and attach it as query string
+     * @param  null  $filterElementIds  // ids used to get value from form elements and attach it as query string
      *
      * @return HtmlString
      */

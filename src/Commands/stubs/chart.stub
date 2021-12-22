@@ -8,7 +8,6 @@ use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 
 class DummyClass extends AbstractChart
 {
-
 	/**
      * Chart title
      *
@@ -26,6 +25,9 @@ class DummyClass extends AbstractChart
      */
     protected function chartType(): string
     {
+     	// sample
+        // return RadiateCode\DaChartjs\Types\Bar\VerticalBarChart::class
+
         return '';
     }
 

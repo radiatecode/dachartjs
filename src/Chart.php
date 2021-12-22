@@ -178,7 +178,7 @@ class Chart implements ChartInterface
         $chartType = new $chart();
 
         if ( ! $chartType instanceof TypeInterface) {
-            throw new InvalidArgumentException('Argument 2 must be a class of TypeInterface!');
+            throw new InvalidArgumentException('Argument 2 must be a concrete class of TypeInterface!');
         }
 
         $this->chartType = $chartType;
