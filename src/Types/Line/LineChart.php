@@ -6,6 +6,7 @@ namespace RadiateCode\DaChartjs\Types\Line;
 
 use RadiateCode\DaChartjs\Abstracts\BaseChartType;
 use RadiateCode\DaChartjs\Enums\ChartType;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 class LineChart extends BaseChartType
 {
@@ -14,4 +15,13 @@ class LineChart extends BaseChartType
         return ChartType::LINE_CHART;
     }
 
+    /**
+     * Default Options
+     *
+     * @return array|string
+     */
+    protected function defaultOptions()
+    {
+        return GeneralOption::OPTIONS;
+    }
 }

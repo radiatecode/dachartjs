@@ -7,7 +7,6 @@ namespace RadiateCode\DaChartjs\Abstracts;
 use InvalidArgumentException;
 use RadiateCode\DaChartjs\Contracts\TypeInterface;
 use ErrorException;
-use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 abstract class BaseChartType implements TypeInterface
 {
@@ -98,8 +97,5 @@ abstract class BaseChartType implements TypeInterface
      *
      * @return array|string
      */
-    protected function defaultOptions()
-    {
-        return GeneralOption::OPTIONS;
-    }
+    abstract protected function defaultOptions();
 }

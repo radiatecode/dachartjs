@@ -6,6 +6,7 @@ namespace RadiateCode\DaChartjs\Types\Radar;
 
 use RadiateCode\DaChartjs\Abstracts\BaseChartType;
 use RadiateCode\DaChartjs\Enums\ChartType;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 class RadarChart extends BaseChartType
 {
@@ -14,4 +15,13 @@ class RadarChart extends BaseChartType
         return ChartType::RADAR_CHART;
     }
 
+    /**
+     * Default Options
+     *
+     * @return array|string
+     */
+    protected function defaultOptions()
+    {
+        return GeneralOption::OPTIONS;
+    }
 }

@@ -6,6 +6,7 @@ namespace RadiateCode\DaChartjs\Types\Doughnut;
 
 use RadiateCode\DaChartjs\Abstracts\BaseChartType;
 use RadiateCode\DaChartjs\Enums\ChartType;
+use RadiateCode\DaChartjs\Enums\GeneralOption;
 
 class DoughnutChart extends BaseChartType
 {
@@ -14,4 +15,13 @@ class DoughnutChart extends BaseChartType
         return ChartType::DOUGHNUT_CHART;
     }
 
+    /**
+     * Default Options
+     *
+     * @return array|string
+     */
+    protected function defaultOptions()
+    {
+        return GeneralOption::OPTIONS;
+    }
 }

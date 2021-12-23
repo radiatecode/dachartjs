@@ -16,6 +16,8 @@ class VerticalBarChart extends BaseChartType
     }
 
     /**
+     * Default options
+     *
      * @return array|string
      */
     protected function defaultOptions()

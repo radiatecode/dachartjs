@@ -15,15 +15,12 @@ class StackedBarChart extends BaseChartType
     }
 
     /**
-     * ------------------------------------
-     * Override the base default options
-     * -------------------------------------
+     * Default options
      *
      * @return array|string
      */
     protected function defaultOptions()
     {
-
         return array_merge(GeneralOption::OPTIONS,[
             'scales' => [
                 'x' => [

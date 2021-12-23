@@ -16,9 +16,7 @@ class MultiAxisLineChart extends BaseChartType
     }
 
     /**
-     * ------------------------------------
-     * Override the base default options
-     * -------------------------------------
+     * Default options
      *
      * @return array|string
      */
