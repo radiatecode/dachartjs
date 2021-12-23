@@ -1,4 +1,3 @@
-# Da Chartjs
 ![Stats](img/da-chart.png)
 
 The package used to generate charts in Laravel without implementing javascript in the front-side. It is used as a back-end service of [chart js](https://www.chartjs.org).
@@ -8,32 +7,54 @@ It will dynamically render HTML & JS configuration.
 ### Example 1: Monthly Project, Task and Issue Completion Chart
 ![Stats](img/example-1.png)
 
-**Configuration in controller:**
+**Chart Class**
+
 ```php
-use RadiateCode\DaChartjs\Chart;
+namespace App\Charts;
+
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 use RadiateCode\DaChartjs\Facades\Dataset;
-use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+
+class MonthlyChart extends AbstractChart
+{
+    protected function chartTitle(): string
+    {
+        return 'Month Chart';
+    }
+
+    protected function chartType(): string
+    {
+        return HorizontalBarChart::class;
+    }
+
+    protected function labels(): array
+    {
+        return ['January','February','March'];
+    }
+
+    protected function datasets(): array
+    {
+        return [
+            Dataset::general('Project',[20, 30,55])->make(),
+            Dataset::general('Task',[50, 80,44])->make(),
+            Dataset::general('Task',[70, 75,99])->make()
+        ];
+    }
+}
+```
+**In controller:**
+```php
+use App\Charts\MonthlyChart;
 
 class ReportController extends Controller 
-{
-    .........................
+{  
+    public function monthlyChart()
+    {
+        // generate by dedicated chart class 
+        $monthlyChart = new MonthlyChart();
         
-    public function monthlyChart(){
-        $datasets = [
-            Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
-                ->borderColor('black')->make(),
-            Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
-                ->borderColor('white')->make(),
-            Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
-                ->borderColor('white')->make(),
-        ];
-    
-        $monthlyChart = (new Chart('Monthly Chart', VerticalBarChart::class))
-                ->labels(['January', 'February','March'])
-                ->datasets($datasets)
-                ->template();
-        
-        return view('reports.monthly')->with('monthlyChart',$monthlyChart);
+        return view('reports.monthly')->with('monthlyChart',$monthlyChart->template());
     }
 }
 ```
@@ -55,8 +76,6 @@ class ReportController extends Controller
 
 The chart shows top sales products according to the month selection.
 
-**Code:**
-
 **Configuration in controller:**
 ```php
 use RadiateCode\DaChartjs\Chart;
@@ -64,8 +83,8 @@ use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
 
 class ReportController extends Controller 
 {
-    .........................
     public function salesChart(){
+        // generate by chart service 
         $monthlyChart = (new Chart('Monthly Sales Chart', VerticalBarChart::class))
                 ->datasets([]) // empty datasets
                 ->template();
@@ -101,7 +120,6 @@ Route::get('fetch/monthly/top/sales/chart','ReportController@monthlyTopSales');
 ```
 **Api Response:**
 ```php
-............
 use RadiateCode\DaChartjs\Facades\Dataset;
 use RadiateCode\DaChartjs\Facades\ChartResponse;
 use RadiateCode\DaChartjs\Enums\ChartColor;
@@ -155,161 +173,8 @@ Register provider on your **config/app.php** file.
 
 # Usages
 In two ways you can generate chart such as
-- [Generate by ***Chart*** service](#generate-by-chart-service)
-- Or, [Generate by dedicated class](#generate-chart-by-dedicated-class).
-
-## Generate by Chart service
-
-```php
-use RadiateCode\DaChartjs\Chart;
-...................
-
-$barChart = new Chart('Monthly Chart', HorizontalBarChart::class);
-```
-> ***Note: 2nd arg is [type of chart](#chart-types)***. 
-
-### Available Methods of Chart object:
-#### labels()
-labeling the data index of the chart. it could be x-axis or y-axis, by default it is x-axis.
-```php
-$barChart->labels(['January', 'February','March'])
-```
-> labels axis change by **indexAxis** property which used in the **options** configuration
-#### datasets()
-
-```php
-$barChart->datasets([])
-```
-> Datasets can be build by **Dataset Facades**
-
-Example:
-```php
- $datasets = [
-    Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
-        ->borderColor('black')->make(),
-    Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
-        ->borderColor('white')->make(),
-    Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
-        ->borderColor('white')->make(),
-];
-        
-$barChart->datasets($datasets);
-```
-> Or datasets can be configured as manual
-
-Example:
-```php
- $datasets = [
-    [
-        "label"           => "Task",
-        "backgroundColor" => "yellow",
-        "data"            => [20, 30,55],
-        "borderColor"     => "yellow",
-    ],
-    [
-        "label"           => "Project",
-        "backgroundColor" => "green",
-        "data"            => [50, 80,44],
-        "borderColor"     => "green",
-    ],
-    [
-        "label"           => "Issue",
-        "backgroundColor" => "red",
-        "data"            => [70, 75,99],
-        "borderColor"     => "red",
-    ],
-];
-        
-$barChart->datasets($datasets);
-```
-#### changeDefaultOption() [Optional]
-Every type of chart has a dedicated class, and each type of chart class comes with predefined options. For example see the **defaultOptions()** methods of **[HorizontalBarChart](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart](src/Types/Line/MultiAxisLineChart.php)**
-
-So, in some scenario you may need to update the values of default options. In that case you can use **changeDefaultOption('optionKey','value')**
-
-```php
-$barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
-```
-For multiple modification you can chain the method as we needs
-
-```php
-$barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
-        ->changeDefaultOption('plugins.title.color','blue')
-```
-> Note: dot used in key arg is to indicate the nested array level of the options.
-> The method only works when the options are in php array format
-
-#### options() [Optional]
-If you don't want to use default options then use your custom options
-
-You can pass **php array** format options
-
-```php
-$barChart->options([
-        'responsive' => false,
-        'plugins'    => [
-            'legend' => [
-                'display'  => true,
-                'position' => 'top',
-            ],
-            'title'  => [
-                'text'     => 'Custom Title',
-                'position' => 'top',
-                'display'  => true,
-                'color'    => 'black',
-            ],
-        ],
-    ])
-```
-Or, you can pass **json string** format options
-```php
-$barChart->options("{
-        responsive : false,
-        plugins    : {
-            legend : {
-                display  : true,
-                position : 'top',
-            },
-            title  : {
-                text     : 'Custom Title',
-                position : 'top',
-                display  : true,
-                color    : 'black',
-            },
-        },
-    }")
-```
-> To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
-
-#### render()
-Render method will return array of chart configurations. The configuration later can be manually used in javascript
-```php
-$barChart->render();
-```
-#### Check the sample code [here](examples/RENDER-EXAMPLE.md)
-
-#### template()
-If you don't want to setup javascript manually in view file then use **template()** instead of **render()**
-```php
-$barChart->template();
-```
-> **Template method return a html builder instance.**
-#### Methods of html builder
- - **chartHtml()** : generate html canvas tag
- - **chartLibraries()** : generate the chart js CDN scripts
- - **chartScripts()** : generate back-end configured chart scripts
-   > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
- - **apiChartScripts($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
-    It also allows update or refresh the chart via firing click event.
-    > **For api chart response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
-   
-    >  If you just want to load chart data by ajax then only pass value to 1st argument. 
-    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
-
-    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
-    in the 3rd argument. 
-    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
-   
+- [Generate by dedicated class](#generate-chart-by-dedicated-class).
+- Or, [Generate by ***Chart*** service](#generate-by-chart-service)
 ## Generate chart by dedicated class
 Run the command to create a chart class
 
@@ -333,7 +198,6 @@ class MonthlyCompletionChart extends AbstractChart
      * ---------------------------------------------------------------------
      * Note: it can be use as chart id or chart name in js & html
      * ---------------------------------------------------------------------
-     *
      * @return string
      */
     protected function chartTitle(): string
@@ -348,7 +212,6 @@ class MonthlyCompletionChart extends AbstractChart
      * Note: Chart type must be path of a concrete class of TypeInterface
      * [ex: HorizontalBarChart::class]
      * ---------------------------------------------------------------------
-     *
      * @return string
      */
     protected function chartType(): string
@@ -356,32 +219,26 @@ class MonthlyCompletionChart extends AbstractChart
         return HorizontalBarChart::class;
     }
 
-	/**
+    /**
      * Chart labels
      *
-     * ---------------------------------------------------------------------------------
-     * Note: This labels are used to label the data index (default x axis) in the chart view
-     * ---------------------------------------------------------------------------------
-     *
+     * -----------------------------------------------------------------------
+     * Note: This labels are used to label the data index (default x axis)
+     * -----------------------------------------------------------------------
      * @return array
      */
     protected function labels(): array
     {
-        return [
-            'January',
-            'February',
-            'March'
-        ];
+        return ['January','February','March'];
     }
 
-	/**
+     /**
      * Dataset
      *
-     * -------------------------------------------------------------------------------------------------
+     * --------------------------------------------------------------
      * Note: datasets can be generate by Dataset Facade 
      * Or, we can pass custom array with dataset properties,
-     * -------------------------------------------------------------------------------------------------
-     *
+     * --------------------------------------------------------------
      * @return array
      */
     protected function datasets(): array
@@ -394,9 +251,9 @@ class MonthlyCompletionChart extends AbstractChart
     }
 }
 ```
-> **Note:** If you want to change chart default options then **override** ***changeDefaultOptions()***
-> 
-> See the sample below
+> **Note:** 
+> **[HorizontalBarChart::class](src/Types/Bar/HorizontalBarChart.php)** has some predefined default options. 
+> So if you want to change the default options then **override** ***changeDefaultOptions()***.
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
@@ -416,7 +273,7 @@ class MonthlyCompletionChart extends AbstractChart
 >     }
 > }
 > ```
-> Or, if you want to provide custom options instead of default options then **override** ***options()***. See the sample below
+> Or, if you want to provide custom options instead of default options then **override** ***options()***.
 > ```php
 > class MonthlyCompletionChart extends AbstractChart
 > {
@@ -474,8 +331,6 @@ use App\Charts\MonthlyCompletionChart;
 
 class ReportController extends Controller
 {
-    .........................
-
     public function monthlyChart(){
         $myChart =  new MonthlyCompletionChart();
         
@@ -484,7 +339,7 @@ class ReportController extends Controller
 }
 ```
 > Dedicated chart class object provides two methods
-> - **render():** Render method return array of chart configurations
+> - **render():** Render method will return array of chart configurations. The configuration later can be manually used in javascript
 > - **template():** Template method return a [html builder instance](#methods-of-html-builder)
 
 **In view (blade) file:**
@@ -505,6 +360,150 @@ class ReportController extends Controller
 {!! $myChart->chartScripts() !!}
 ```
 > See sample code [here](examples/TEMPLATE-EXAMPLE-4.md) if you want to use api chart script using dedicated chart class
+
+## Generate by Chart service
+
+```php
+use RadiateCode\DaChartjs\Chart;
+...................
+
+$barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+        ->labels(['January', 'February','March']) //labeling the data index of the chart
+        ->datasets(
+            // Datasets build by Dataset facade
+            [
+                Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
+                ->borderColor('black')->make(),
+                Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
+                    ->borderColor('white')->make(),
+                Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
+                    ->borderColor('white')->make()
+            ]
+        )
+        ->template();
+```
+### Available Methods of Chart service class:
+#### 1. labels()
+labeling the data index of the chart. it could be x-axis or y-axis, by default it is x-axis.
+
+> labels axis change by **indexAxis** property which used in the **options** configuration
+#### 2. datasets()
+
+Datasets can be build by **Dataset Facades**
+
+```php
+$barChart->datasets([
+    Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
+        ->borderColor('black')->make(),
+    Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
+        ->borderColor('white')->make(),
+    Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
+        ->borderColor('white')->make(),
+]);
+```
+Or datasets can be configured as manual
+```php
+$barChart->datasets(
+    [
+        [
+            "label"           => "Task",
+            "backgroundColor" => "yellow",
+            "data"            => [20, 30,55],
+            "borderColor"     => "yellow",
+        ],
+        [
+            "label"           => "Project",
+            "backgroundColor" => "green",
+            "data"            => [50, 80,44],
+            "borderColor"     => "green",
+        ],
+        [
+            "label"           => "Issue",
+            "backgroundColor" => "red",
+            "data"            => [70, 75,99],
+            "borderColor"     => "red",
+        ],
+    ]
+);
+```
+#### 3. changeDefaultOption() [Optional]
+Each type of chart class has some predefined default options. For example see the **defaultOptions()** methods of **[HorizontalBarChart](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart](src/Types/Line/MultiAxisLineChart.php)**
+
+So, in some scenario you may need to update the values of default options. In that case you can use **changeDefaultOption('optionKey','value')**
+
+```php
+// example
+$barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
+        ->changeDefaultOption('plugins.title.color','blue')
+```
+> Note: dot used in key arg is to indicate the nested array level of the options.
+> The method only works when the options are in php array format
+
+#### 4. options() [Optional]
+If you don't want to use default options then use your custom options
+
+You can pass **php array** format options
+
+```php
+$barChart->options([
+        'responsive' => false,
+        'plugins'    => [
+            'legend' => [
+                'display'  => true,
+                'position' => 'top',
+            ],
+            'title'  => [
+                'text'     => 'Custom Title',
+                'position' => 'top',
+                'display'  => true,
+                'color'    => 'black',
+            ],
+        ],
+    ])
+```
+Or, you can pass **json string** format options
+```php
+$barChart->options("{
+        responsive : false,
+        plugins    : {
+            legend : {
+                display  : true,
+                position : 'top',
+            },
+            title  : {
+                text     : 'Custom Title',
+                position : 'top',
+                display  : true,
+                color    : 'black',
+            },
+        },
+    }")
+```
+> To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
+
+#### 5. render()
+Render method will return array of chart configurations. The configuration later can be manually used in javascript
+
+#### Check the sample code [here](examples/RENDER-EXAMPLE.md)
+
+#### 6. template()
+If you don't want to setup javascript manually in view file then use **template()** instead of **render()**. Template method return a **html builder** instance
+
+### Methods of html builder
+ - **chartHtml()** : generate html canvas tag
+ - **chartLibraries()** : generate the chart js CDN scripts
+ - **chartScripts()** : generate back-end configured chart scripts
+   > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
+ - **apiChartScripts($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
+    It also allows update or refresh the chart via firing click event.
+    > **For apiChartScripts() response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
+   
+    >  If you just want to load chart data by ajax then only pass value to 1st argument. 
+    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
+
+    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
+    in the 3rd argument. 
+    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
 ## Chart Types
 There are various predefined types of chart (configured) available such as
 #### Bar chart
