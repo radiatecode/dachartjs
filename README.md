@@ -51,7 +51,6 @@ class ReportController extends Controller
 {  
     public function monthlyChart()
     {
-        // generate by dedicated chart class 
         $monthlyChart = new MonthlyChart();
         
         return view('reports.monthly')->with('monthlyChart',$monthlyChart->template());
@@ -76,20 +75,46 @@ class ReportController extends Controller
 
 The chart shows top sales products according to the month selection.
 
-**Configuration in controller:**
+**Chart Class**
 ```php
-use RadiateCode\DaChartjs\Chart;
+namespace App\Charts;
+
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
+
+class SalesChart extends AbstractChart
+{
+    protected function chartTitle(): string
+    {
+        return 'Monthly Sales Chart';
+    }
+
+    protected function chartType(): string
+    {
+        return VerticalBarChart::class;
+    }
+
+    protected function labels(): array
+    {
+        return []; // empty labels, will be loaded by ajax
+    }
+
+    protected function datasets(): array
+    {
+        return []; // empty datasets, will be loaded by ajax
+    }
+}
+```
+**In controller:**
+```php
+use App\Charts\SalesChart;
 
 class ReportController extends Controller 
 {
     public function salesChart(){
-        // generate by chart service 
-        $monthlyChart = (new Chart('Monthly Sales Chart', VerticalBarChart::class))
-                ->datasets([]) // empty datasets
-                ->template();
+        $monthlySalesChart = new SalesChart();
         
-        return view('reports.top_sales')->with('monthlyChart',$monthlyChart);
+        return view('reports.top_sales')->with('monthlySalesChart',$monthlySalesChart->template());
     }
 }
 ```
@@ -101,14 +126,14 @@ class ReportController extends Controller
         <i class="fa fa-search-plus"></i>
     </button>
     <!-- generate chart html canvas -->
-    {!! $monthlyChart->chartHtml() !!}
+    {!! $monthlySalesChart->chartHtml() !!}
 </div>
 
 ......
 <!-- generate chart js CDN scripts -->
-{!! $monthlyChart->chartLibraries() !!}
+{!! $monthlySalesChart->chartLibraries() !!}
 <!-- generate ajax chart scripts -->
-{!! $monthlyChart->apiChartScripts(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
+{!! $monthlySalesChart->apiChartScripts(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
 ```
 > When "search-btn" is triggered it will get value from input element of month, 
 > attach the value with the given url as query string and send request to server to fetch data.
