@@ -199,7 +199,7 @@ Register provider on your **config/app.php** file.
 # Usages
 In two ways you can generate chart such as
 - [Generate by dedicated class](#generate-chart-by-dedicated-class).
-- Or, [Generate by service](#generate-by-service)
+- Or, [Generate by service](#generate-chart-by-service)
 ## Generate chart by dedicated class
 Run the command to create a chart class
 
@@ -384,7 +384,7 @@ class ReportController extends Controller
 <!-- generate configured chart script -->
 {!! $myChart->chartScripts() !!}
 ```
-## Generate by service
+## Generate chart by service
 
 ```php
 use RadiateCode\DaChartjs\Chart;
