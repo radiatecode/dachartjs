@@ -7,7 +7,7 @@ In both ways we will configure chart, chose either one.
 namespace App\Charts;
 
 use RadiateCode\DaChartjs\Abstracts\AbstractChart;
-use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 
 class TopSalesChart extends AbstractChart
 {
@@ -18,7 +18,7 @@ class TopSalesChart extends AbstractChart
 
     protected function chartType(): string
     {
-        return VerticalBarChart::class;
+        return HorizontalBarChart::class;
     }
 
     protected function labels(): array
@@ -61,7 +61,6 @@ class ChartController extends Controller {
 }
 ```
 ### 2. Or, Generate chart by service
-
 ```php
 use RadiateCode\DaChartjs\Chart;
 use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
@@ -76,32 +75,11 @@ class ReportController extends Controller {
 }
 ```
 > Note: **datasets() and labels()** are missing because these will be loaded by ajax.
-## Front-End configuration
-**In view (blade) file:**
-```html
-<div class="chart">
-    <div class="chart">
-        <!-- generate chart canvas html -->
-        {!! $chart->chartHtml() !!}
-    </div>
-</div>
-
-......
-
-<!-- generate chart.js CDN -->
-{!! $chart->chartLibraries() !!}
-
-<!-- use it when you need to load chart data by ajax -->
-{!! $chart->apiChartScripts(url('fetch/monthly/top/sales/chart'))) !!}
-```
-**Api Route:**
-
+### Api Route
 ```php
 Route::get('fetch/monthly/top/sales/chart','ChartController@topSalesMonthly');
-
 ```
-**Api Response:**
-
+### Api Response
 For api response we used **ChartResponse**
 ```php
 use RadiateCode\DaChartjs\Facades\ChartResponse;
@@ -126,4 +104,22 @@ class ChartController {
         return ChartResponse::labels(['Jan','Feb','March'])->datasets($datasets)->toJson();
     }
 }
+```
+## Front-End configuration
+**In view (blade) file:**
+```html
+<div class="chart">
+    <div class="chart">
+        <!-- generate chart canvas html -->
+        {!! $chart->chartHtml() !!}
+    </div>
+</div>
+
+......
+
+<!-- generate chart.js CDN -->
+{!! $chart->chartLibraries() !!}
+
+<!-- use it when you need to load chart data by ajax -->
+{!! $chart->apiChartScripts(url('fetch/monthly/top/sales/chart'))) !!}
 ```

@@ -384,8 +384,6 @@ class ReportController extends Controller
 <!-- generate configured chart script -->
 {!! $myChart->chartScripts() !!}
 ```
-> See sample code [here](examples/TEMPLATE-EXAMPLE-4.md) if you want to use api chart script using dedicated chart class
-
 ## Generate by service
 
 ```php
