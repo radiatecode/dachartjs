@@ -47,7 +47,7 @@ class MonthlyCompletionDataset
     }
 }
 ```
-### Use it in controller:
+### Use it in chart service
 ```php
 use App\Charts\Datasets\MonthlyCompletionDataset;
 
@@ -68,7 +68,7 @@ class ReportController extends Controller
     }
 }
 ```
-### Or, use it in dedicated chart class:
+### Or, use it in dedicated chart class
 
 ```php
 <?php

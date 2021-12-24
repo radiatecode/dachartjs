@@ -3,6 +3,7 @@ Here we will show how to configure and use html builder.
 ## Back-End Configuration
 In both ways we will configure chart, chose either one.
 ### 1. Generate chart by dedicated class
+    php artisan make:dachartjs MonthlyCompletionChart
 ```php
 namespace App\Charts;
 

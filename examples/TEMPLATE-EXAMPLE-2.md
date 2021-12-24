@@ -3,6 +3,7 @@
 ## Back-End Configuration
 In both ways we will configure chart, chose either one.
 ### 1. Generate chart by dedicated class
+    php artisan make:dachartjs TopSalesChart
 ```php
 namespace App\Charts;
 

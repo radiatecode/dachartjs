@@ -3,6 +3,7 @@ Here we will show how to use back-end configured chart in javascript.
 ## Back-End Configuration
 In both ways we will configure chart, chose either one.
 ### 1. Generate chart by dedicated class
+    php artisan make:dachartjs MonthlyChart
 ```php
 namespace App\Charts;
 
@@ -10,7 +11,7 @@ use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 use RadiateCode\DaChartjs\Facades\Dataset;
 use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 
-class MonthlyCompletionChart extends AbstractChart
+class MonthlyChart extends AbstractChart
 {
     protected function chartTitle(): string
     {
@@ -39,11 +40,11 @@ class MonthlyCompletionChart extends AbstractChart
 ```
 **In controller: now use the class in the controller**
 ```php
-use App\Charts\MonthlyCompletionChart;
+use App\Charts\MonthlyChart;
 
 class ChartController extends Controller {
     public function index(){
-        $chart = new MonthlyCompletionChart();
+        $chart = new MonthlyChart();
         
         return view('charts.monthly_completion')->with('chart',$chart->render());
     }
