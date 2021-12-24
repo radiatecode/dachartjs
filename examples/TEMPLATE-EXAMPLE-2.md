@@ -1,36 +1,82 @@
-## Examples Html Builder
-#### Load chart data by ajax
-**Configuration:**
+# Examples of Html builder: apiChartScripts()
+**Load chart data by ajax**
+## Back-End Configuration
+In both ways we will configure chart, chose either one.
+### 1. Generate chart by dedicated class
 ```php
-class ReportController extends Controller {
-    public function index()
+namespace App\Charts;
+
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
+
+class TopSalesChart extends AbstractChart
+{
+    protected function chartTitle(): string
     {
-        $barChart = (new Chart('Top Sales Chart', HorizontalBarChart::class))
-            ->labels(['January','February','March']) // fixed labels
-            ->datasets([])
-//                ->options([
-//                        'responsive' => false,
-//                        'plugins'    => [
-//                            'legend' => [
-//                                'display'  => true,
-//                                'position' => 'top',
-//                            ],
-//                            'title'  => [
-//                                'text'     => 'Custom Title',
-//                                'position' => 'top',
-//                                'display'  => true,
-//                                'color'    => 'black',
-//                            ],
-//                        ],
-//                ])
-            ->template();    
-              
-        return view('dashboard')->with('chart',$barChart);       
+        return 'Top Sales Chart';
+    }
+
+    protected function chartType(): string
+    {
+        return VerticalBarChart::class;
+    }
+
+    protected function labels(): array
+    {
+        return []; // empty labels, will be loaded by ajax
+    }
+
+    protected function datasets(): array
+    {
+        return []; // empty datasets, will be loaded by ajax
+    }
+    
+    /**
+    * Change default options when necessary
+    * 
+    * @override method
+    * @return array
+    */
+    protected function changeDefaultOptions(): array
+    {
+        return [
+            'plugins.title.text' => 'Monthly Project, Task And Issue Chart',
+            'plugins.title.color' => 'red'
+        ];
     }
 }
 ```
-> Note: **datasets([])** is empty because the datasets will be loaded by ajax.
+> Note: **datasets() and labels()** are empty because these data will be loaded by ajax.
 
+**In controller: now use the class in the controller**
+```php
+use App\Charts\TopSalesChart;
+
+class ChartController extends Controller {
+    public function index(){
+        $chart = new TopSalesChart();
+        
+        return view('charts.report')->with('chart',$chart->template());
+    }
+}
+```
+### 2. Or, Generate chart by service
+
+```php
+use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+
+class ReportController extends Controller {
+    public function index()
+    {
+        $chart = (new Chart('Top Sales Chart', HorizontalBarChart::class))->template();    
+              
+        return view('charts.report')->with('chart',$chart);    
+    }
+}
+```
+> Note: **datasets() and labels()** are missing because these will be loaded by ajax.
+## Front-End configuration
 **In view (blade) file:**
 ```html
 <div class="chart">
@@ -56,11 +102,10 @@ Route::get('fetch/monthly/top/sales/chart','ChartController@topSalesMonthly');
 ```
 **Api Response:**
 
-For api response we can use **ChartResponse**
+For api response we used **ChartResponse**
 ```php
-............
-
 use RadiateCode\DaChartjs\Facades\ChartResponse;
+use RadiateCode\DaChartjs\Facades\Dataset;
 
 class ChartController {
     public function topSalesMonthly(Request $request){
@@ -78,7 +123,7 @@ class ChartController {
                 ->borderColor('black')->make(),
         ];
         
-        return ChartResponse::datasets($datasets)->toJson();
+        return ChartResponse::labels(['Jan','Feb','March'])->datasets($datasets)->toJson();
     }
 }
 ```

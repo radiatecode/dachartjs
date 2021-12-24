@@ -14,7 +14,7 @@ namespace App\Charts;
 
 use RadiateCode\DaChartjs\Abstracts\AbstractChart;
 use RadiateCode\DaChartjs\Facades\Dataset;
-use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+use RadiateCode\DaChartjs\Types\Bar\VerticalBarChart;
 
 class MonthlyChart extends AbstractChart
 {
@@ -25,7 +25,7 @@ class MonthlyChart extends AbstractChart
 
     protected function chartType(): string
     {
-        return HorizontalBarChart::class;
+        return VerticalBarChart::class;
     }
 
     protected function labels(): array
@@ -199,7 +199,7 @@ Register provider on your **config/app.php** file.
 # Usages
 In two ways you can generate chart such as
 - [Generate by dedicated class](#generate-chart-by-dedicated-class).
-- Or, [Generate by ***Chart*** service](#generate-by-chart-service)
+- Or, [Generate by service](#generate-by-service)
 ## Generate chart by dedicated class
 Run the command to create a chart class
 
@@ -386,25 +386,23 @@ class ReportController extends Controller
 ```
 > See sample code [here](examples/TEMPLATE-EXAMPLE-4.md) if you want to use api chart script using dedicated chart class
 
-## Generate by Chart service
+## Generate by service
 
 ```php
 use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 ...................
 
 $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
         ->labels(['January', 'February','March']) //labeling the data index of the chart
-        ->datasets(
-            // Datasets build by Dataset facade
-            [
-                Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
-                ->borderColor('black')->make(),
-                Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
-                    ->borderColor('white')->make(),
-                Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
-                    ->borderColor('white')->make()
-            ]
-        )
+        ->datasets([ // Datasets build by Dataset facade
+            Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
+            ->borderColor('black')->make(),
+            Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
+                ->borderColor('white')->make(),
+            Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
+                ->borderColor('white')->make(),
+        ])
         ->template();
 ```
 ### Available Methods of Chart service class:
@@ -426,7 +424,7 @@ $barChart->datasets([
         ->borderColor('white')->make(),
 ]);
 ```
-Or datasets can be configured as manual
+Or datasets can be configured as raw array
 ```php
 $barChart->datasets(
     [
@@ -509,7 +507,7 @@ $barChart->options("{
 #### 5. render()
 Render method will return array of chart configurations. The configuration later can be manually used in javascript
 
-#### Check the sample code [here](examples/RENDER-EXAMPLE.md)
+**Check the sample code [here](examples/RENDER-EXAMPLE.md)**
 
 #### 6. template()
 If you don't want to setup javascript manually in view file then use **template()** instead of **render()**. Template method return a **html builder** instance

@@ -1,65 +1,67 @@
-## Example of render()
-**Back-End Configuration:**
+# Example of render()
+Here we will show how to use back-end configured chart in javascript.
+## Back-End Configuration
+In both ways we will configure chart, chose either one.
+### 1. Generate chart by dedicated class
 ```php
-class WelcomeController extends Controller {
+namespace App\Charts;
+
+use RadiateCode\DaChartjs\Abstracts\AbstractChart;
+use RadiateCode\DaChartjs\Facades\Dataset;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+
+class MonthlyCompletionChart extends AbstractChart
+{
+    protected function chartTitle(): string
+    {
+        return 'Month Chart';
+    }
+
+    protected function chartType(): string
+    {
+        return HorizontalBarChart::class;
+    }
+
+    protected function labels(): array
+    {
+        return ['January','February','March'];
+    }
+
+    protected function datasets(): array
+    {
+        return [
+            Dataset::general('Project',[20, 30,55])->make(),
+            Dataset::general('Task',[50, 80,44])->make(),
+            Dataset::general('Issue',[70, 75,99])->make()
+        ];
+    }
+}
+```
+**In controller: now use the class in the controller**
+```php
+use App\Charts\MonthlyCompletionChart;
+
+class ChartController extends Controller {
+    public function index(){
+        $chart = new MonthlyCompletionChart();
+        
+        return view('charts.monthly_completion')->with('chart',$chart->render());
+    }
+}
+```
+### 2. Or, generate chart by service
+```php
+use RadiateCode\DaChartjs\Chart;
+use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
+
+class ChartController extends Controller {
     public function index(){
             /**
             * --------------------------------------
-            * 1. Dataset configure with Dataset Facades
+            * 1. create chart with modification of default options 
             * --------------------------------------
             */
-            $datasets = [
-                Dataset::label('Task')->data([20, 30,55])->backgroundColor('yellow')
-                    ->borderColor('black')->make(),
-                Dataset::label('Project')->data([50, 80,44])->backgroundColor('green')
-                    ->borderColor('white')->make(),
-                Dataset::label('Issue')->data([70, 75,99])->backgroundColor('red')
-                    ->borderColor('white')->make(),
-            ];
-            
-            /**
-            * --------------------------------------
-            * 2. Dataset configure manually
-            * --------------------------------------
-            */
-//            $datasets = [
-//                [
-//                    "label"           => "Task",
-//                    "backgroundColor" => "yellow",
-//                    "data"            => [20, 30,55],
-//                    "borderColor"     => "yellow",
-//                ],
-//                [
-//                    "label"           => "Project",
-//                    "backgroundColor" => "green",
-//                    "data"            => [50, 80,44],
-//                    "borderColor"     => "green",
-//                ],
-//                [
-//                    "label"           => "Issue",
-//                    "backgroundColor" => "red",
-//                    "data"            => [70, 75,99],
-//                    "borderColor"     => "red",
-//                ],
-//            ];
-            
-         
-            /**
-            * -------------------------------------- 
-            * 1. create chart with default options
-            * --------------------------------------
-            */
-            $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
-                ->labels(['January', 'February','March'])
-                ->datasets($datasets)
-                ->render();
-                 
-            /**
-            * --------------------------------------
-            * 2. create chart with modification of default options 
-            * --------------------------------------
-            */
-//            $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+//            $chart = (new Chart('Monthly Chart', HorizontalBarChart::class))
 //                ->changeDefaultOption('plugins.title.text','Monthly Project, Task And Issue Chart')
 //                ->changeDefaultOption('plugins.title.color','blue')
 //                ->labels(['January', 'February','March'])
@@ -68,36 +70,55 @@ class WelcomeController extends Controller {
                 
             /**
             * --------------------------------------
-            * 3. create chart with custom options 
+            * 2. create chart with custom options 
             * --------------------------------------
             */
-//            $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
-//                ->options([
-//                        'responsive' => false,
-//                        'plugins'    => [
-//                            'legend' => [
-//                                'display'  => true,
-//                                'position' => 'top',
-//                            ],
-//                            'title'  => [
-//                                'text'     => 'Custom Title',
-//                                'position' => 'top',
-//                                'display'  => true,
-//                                'color'    => 'black',
-//                            ],
-//                        ],
-//                ])
-//                ->labels(['January', 'February','March'])
-//                ->datasets($datasets)
-//                ->render();     
-            
-            // dd($barChart);   
+            $chart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+                ->options([ // Custom options
+                        'responsive' => false,
+                        'plugins'    => [
+                            'legend' => [
+                                'display'  => true,
+                                'position' => 'top',
+                            ],
+                            'title'  => [
+                                'text'     => 'Custom Title',
+                                'position' => 'top',
+                                'display'  => true,
+                                'color'    => 'black',
+                            ],
+                        ],
+                ])
+                ->labels(['January', 'February','March'])
+                ->datasets([ // Dataset configured in raw array
+                    [
+                        "label"           => "Task",
+                        "backgroundColor" => "yellow",
+                        "data"            => [20, 30,55],
+                        "borderColor"     => "yellow",
+                    ],
+                    [
+                        "label"           => "Project",
+                        "backgroundColor" => "green",
+                        "data"            => [50, 80,44],
+                        "borderColor"     => "green",
+                    ],
+                    [
+                        "label"           => "Issue",
+                        "backgroundColor" => "red",
+                        "data"            => [70, 75,99],
+                        "borderColor"     => "red",
+                    ],
+                ])
+                ->render();     
                
-            return view('dashboard')->with('barChart',$barChart);       
+            return view('charts.monthly_completion')->with('chart',$chart);       
     }
 }
 ```
-**In view (dashboard.blade.php) file:**
+
+## Front-End configuration
+**In view (monthly_completion.blade.php):**
 ```html
 <div class="chart">
     <div class="chart">
@@ -105,10 +126,9 @@ class WelcomeController extends Controller {
         <canvas id="monthly_chart_canvas"></canvas>
     </div>
 </div>
-```
-```javascript
+
 <script>
-var serversideRenderedChartConfig = {!! json_encode($barChart) !!}
+var serversideRenderedChartConfig = {!! json_encode($chart) !!}
 
 var chartCtx = document.getElementById("monthly_chart_canvas").getContext('2d');
 
