@@ -146,7 +146,7 @@ class ChartController {
 >     'type' => 'POST',
 >     'headers' => [
 >         'X-CSRF-TOKEN' => csrf_token(),
->         'Authorization => 'Bearer someauthorizedtoken'
+>         'Authorization' => 'Bearer someauthorizedtoken'
 >     ]
 > ])
 > ```
