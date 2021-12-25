@@ -71,7 +71,7 @@ class ReportController extends Controller {
     {
         $chart = (new Chart('Top Sales Chart', HorizontalBarChart::class))->template();    
               
-        return view('charts.report')->with('chart',$chart);    
+        return view('charts.report')->with('salesChart',$chart);    
     }
 }
 ```
@@ -112,15 +112,27 @@ class ChartController {
 <div class="chart">
     <div class="chart">
         <!-- generate chart canvas html -->
-        {!! $chart->chartHtml() !!}
+        {!! $salesChart->chartHtml() !!}
     </div>
 </div>
 
 ......
 
 <!-- generate chart.js CDN -->
-{!! $chart->chartLibraries() !!}
+{!! $salesChart->chartLibraries() !!}
 
-<!-- use it when you need to load chart data by ajax -->
-{!! $chart->apiChartScripts(url('fetch/monthly/top/sales/chart'))) !!}
+<!-- use it when you need to load chart data by POST Route -->
+{!! $salesChart->apiChartScripts(url('fetch/monthly/top/sales/chart')) !!}
 ```
+> **Note:** by default AJAX type is **GET** when you pass only url to apiChartScripts.
+
+> **Note:** If you want more control then pass an array of ajax options
+> ```html
+> $salesChart->apiChartScripts([
+>     'url' => url('fetch/monthly/top/sales/chart'), 
+>     'type' => 'GET',
+>     'headers' => [
+>         'Authorization' => 'Bearer someauthorizedtoken'
+>     ]
+> ])
+> ```

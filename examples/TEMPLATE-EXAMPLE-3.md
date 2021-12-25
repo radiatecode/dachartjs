@@ -68,7 +68,7 @@ class ReportController extends Controller {
 > Note: **datasets** & **labels** are empty because these values will be loaded by ajax
 ### Api Route
 ```php
-Route::get('project/charts','ChartController@projectCharts');
+Route::post('project/charts','ChartController@projectCharts');
 ```
 ### Api Response
 ```php
@@ -128,8 +128,25 @@ class ChartController {
 <!-- generate chart.js CDN -->
 {!! $chart->chartLibraries() !!}
 
-<!-- use it when chart need to update or refresh by firing an event -->
-{!! $chart->apiChartScripts(url('project/charts'), 'search-btn', "start_date","end_date")) !!}
+<!-- update or refresh by firing an event -->
+{!! $chart->apiChartScripts([
+    'url' => url('project/charts'),
+    'type' => 'POST',
+    'headers' => [
+        'X-CSRF-TOKEN' => csrf_token()
+    ]
+], 'search-btn', ["start_date","end_date"]) !!}
 ```
-> When **'search-btn'** is clicked it get values from start_date, end_date inputs and attach
-> the values as query string like **http://demo.test/project/charts?start_date=2021-11-01&end_date=2021-11-30**
+> When **'search-btn'** is clicked it get values from start_date, end_date inputs and update the chart based on inputs.
+
+> **Note:** If your route need authorization then make sure you added Authorization header
+> ```html
+> $chart->apiChartScripts([
+>     'url' => url('project/charts'), 
+>     'type' => 'POST',
+>     'headers' => [
+>         'X-CSRF-TOKEN' => csrf_token(),
+>         'Authorization => 'Bearer someauthorizedtoken'
+>     ]
+> ])
+> ```

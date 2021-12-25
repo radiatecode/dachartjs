@@ -58,17 +58,20 @@ class Builder
      *
      * [note: api call by AJAX]
      *
-     * @param  string  $url  // api link
-     * @param  string|null  $fireEventElementId  // trigger event to load api data to chart
+     * @param  array|string $ajaxOptions  // can be url string or array of ajaxOptions
      *
-     * @param  null  $filterElementIds  // ids used to get value from form elements and attach it as query string
+     * --------------------------------------------------------------------------------
+     * Chart Update params
      *
+     * @param  string|null  $clickEventId  // trigger event to load api data to chart
+     * @param  array  $filterElementIds  // ids used to get value from form elements and attach it as query string
+     * --------------------------------------------------------------------------------
      * @return HtmlString
      */
     public function apiChartScripts(
-        string $url,
-        string $fireEventElementId = null,
-        ...$filterElementIds
+        $ajaxOptions,
+        string $clickEventId = null,
+        array $filterElementIds = []
     ): HtmlString {
         $script = $this->chartView();
 
@@ -76,20 +79,21 @@ class Builder
 
         $chartConfigVar = $this->chart->getChartName()."_config";
 
-        $inputs = implode("#", $filterElementIds);
+        if (is_string($ajaxOptions)){
+            $ajaxOptions = ['url' => $ajaxOptions];
+        }
 
         return new HtmlString(
             sprintf(
                 "<script type='".('text/javascript')."'>\n{$script}\n</script>",
                 $chartCtxVar,
                 $chartConfigVar,
-                $fireEventElementId,
-                $url,
-                $inputs
+                $clickEventId,
+                json_encode($ajaxOptions),
+                json_encode($filterElementIds)
             )
         );
     }
-
 
     /**
      * Recent chart js cdn library

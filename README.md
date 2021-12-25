@@ -133,7 +133,7 @@ class ReportController extends Controller
 <!-- generate chart js CDN scripts -->
 {!! $monthlySalesChart->chartLibraries() !!}
 <!-- generate ajax chart scripts -->
-{!! $monthlySalesChart->apiChartScripts(url('fetch/monthly/top/sales/chart'), 'search-btn', "month_name")) !!}
+{!! $monthlySalesChart->apiChartScripts(url('fetch/monthly/top/sales/chart'), 'search-btn', ["month_name"]) !!}
 ```
 > When "search-btn" is triggered it will get value from input element of month, 
 > attach the value with the given url as query string and send request to server to fetch data.
@@ -511,20 +511,29 @@ Render method will return array of chart configurations. The configuration later
 If you don't want to setup javascript manually in view file then use **template()** instead of **render()**. Template method return a **html builder** instance
 
 ### Methods of html builder
- - **chartHtml()** : generate html canvas tag
- - **chartLibraries()** : generate the chart js CDN scripts
- - **chartScripts()** : generate back-end configured chart scripts
-   > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
- - **apiChartScripts($url, $fireEventElementId = null, ...$filterElementIds)** : generate back-end configured chart and ajax scripts. It loads chart data & labels via ajax. 
-    It also allows update or refresh the chart via firing click event.
-    > **For apiChartScripts() response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
-   
-    >  If you just want to load chart data by ajax then only pass value to 1st argument. 
-    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
+**1. chartHtml()** : generate html canvas tag
 
-    > If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
-    in the 3rd argument. 
-    >> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
+**2. chartLibraries()** : generate the chart js CDN scripts
+
+**3. chartScripts()** : generate back-end chart configuration and loads data from back-end
+   > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
+
+**4. apiChartScripts($ajaxOptions, string $clickEventId = null, array  $filterElementIds = [])** : generate back-end chart configuration and loads chart data & labels via ajax. 
+    It also allows update or refresh the chart via firing click event.
+    
+> **For api response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
+   
+**load chart data by ajax:**
+If you just want to load chart data by ajax then only pass value to 1st argument
+
+> 1st argument accept string **(url)** or array **[url, type, headers]**
+
+> **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
+> 
+**Update chart data by ajax:**
+If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
+in the 3rd argument. 
+>**Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
 ## Chart Types
 There are various predefined types of chart (configured) available such as
 #### Bar chart
