@@ -511,20 +511,20 @@ Render method will return array of chart configurations. The configuration later
 If you don't want to setup javascript manually in view file then use **template()** instead of **render()**. Template method return a **html builder** instance
 
 ### Methods of html builder
-**1. chartHtml()** : generate html canvas tag
+**1. chartHtml()** : Generate html canvas tag
 
-**2. chartLibraries()** : generate the chart js CDN scripts
+**2. chartLibraries()** : Generate the chart js CDN scripts
 
-**3. chartScripts()** : generate back-end chart configuration and loads data from back-end
+**3. chartScripts()** : Generate chart with back-end configuration and data 
    > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
 
-**4. apiChartScripts($ajaxOptions, string $clickEventId = null, array  $filterElementIds = [])** : generate back-end chart configuration and loads chart data & labels via ajax. 
+**4. apiChartScripts($ajaxOptions, string $clickEventId = null, array  $filterElementIds = [])** : Generate chart with back-end configuration. It loads chart data & labels via ajax. 
     It also allows update or refresh the chart via firing click event.
     
 > **For api response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**
    
 **load chart data by ajax:**
-If you just want to load chart data by ajax then only pass value to 1st argument
+If you just want to load chart data by ajax then only pass value to 1st argument of apiChartScripts
 
 > 1st argument accept string **(url)** or array **[url, type, headers]**
 
@@ -532,7 +532,7 @@ If you just want to load chart data by ajax then only pass value to 1st argument
 > 
 **Update chart data by ajax:**
 If you want to update the chart based on some input values then you have to pass a trigger ID in the 2nd argument and input IDs 
-in the 3rd argument. 
+in the 3rd argument of apiChartScripts. 
 >**Check the sample Code [here](examples/TEMPLATE-EXAMPLE-3.md)**
 ## Chart Types
 There are various predefined types of chart (configured) available such as

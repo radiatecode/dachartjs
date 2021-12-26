@@ -121,7 +121,7 @@ class ChartController {
 <!-- generate chart.js CDN -->
 {!! $salesChart->chartLibraries() !!}
 
-<!-- use it when you need to load chart data by POST Route -->
+<!-- load chart -->
 {!! $salesChart->apiChartScripts(url('fetch/monthly/top/sales/chart')) !!}
 ```
 > **Note:** by default AJAX type is **GET** when you pass only url to apiChartScripts.
