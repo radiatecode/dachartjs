@@ -3,13 +3,12 @@
 
 namespace RadiateCode\DaChartjs;
 
-use RadiateCode\DaChartjs\Contracts\ChartInterface;
 use RadiateCode\DaChartjs\Contracts\TypeInterface;
 use RadiateCode\DaChartjs\Html\Builder;
 use RadiateCode\DaChartjs\Types\Bar\HorizontalBarChart;
 use \InvalidArgumentException;
 
-class Chart implements ChartInterface
+class Chart
 {
     /**
      * @var TypeInterface $chartType
@@ -30,6 +29,8 @@ class Chart implements ChartInterface
      * @var array $labels
      */
     private $labels = [];
+
+    private $size = [];
 
     /**
      * Chart constructor.
@@ -63,6 +64,28 @@ class Chart implements ChartInterface
     public function labels(array $labels): Chart
     {
         $this->labels = $labels;
+
+        return $this;
+    }
+
+    /**
+     * Chart size
+     *
+     * @param  int  $height
+     * @param  int|null  $width // width is optional. If we want responsive chart
+     *
+     * @return $this
+     */
+    public function size(int $height, int $width = null): Chart
+    {
+        $this->size = [
+            'height' => $height,
+            'width' => $width
+        ];
+
+        if (isset($width)){ // if width is set then responsive option is false
+            $this->changeDefaultOption('responsive', false);
+        }
 
         return $this;
     }
@@ -139,7 +162,7 @@ class Chart implements ChartInterface
      */
     public function template(): Builder
     {
-        return new Builder($this);
+        return new Builder($this->chartName,$this->render(),$this->size);
     }
 
     /**
@@ -152,14 +175,6 @@ class Chart implements ChartInterface
     private function chartName(string $name)
     {
         $this->chartName = slugify($name, '_');
-    }
-
-    /**
-     * @return string
-     */
-    public function getChartName(): string
-    {
-        return $this->chartName;
     }
 
     /**

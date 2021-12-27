@@ -30,14 +30,18 @@ class VerticalBarChart extends BaseChartType
                         'borderColor' => 'red'
                     ],
                     'ticks' => [
+                        'autoSkip' => false,
                         'beginAtZero' => true,
                         'color' => 'black', // labels color
                         /**
                          * Rotate the labels orientation
                          */
-                        'maxRotation' => 0,
-                        'minRotation' => 0,
+                        'maxRotation' => 45,
+                        'minRotation' => 45,
                     ],
+                    'gridLines' => [
+                        'display' => false
+                    ]
                 ],
             ],
             'elements'   => [

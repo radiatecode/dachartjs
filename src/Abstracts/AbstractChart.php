@@ -52,6 +52,17 @@ abstract class AbstractChart
     abstract protected function datasets(): array;
 
     /**
+     * Chart size
+     *
+     * [Note: Set height and width. Width can be optional when we want responsive chart]
+     * @return array
+     */
+    protected function chartSize(): array
+    {
+        return [];
+    }
+
+    /**
      * change default options
      *
      * ---------------------------------------------------------------------------------------------
@@ -110,6 +121,8 @@ abstract class AbstractChart
 
         $optionModifications = $this->changeDefaultOptions();
 
+        $chartSize = $this->chartSize();
+
         if ( ! empty($this->options())) {
             $chart->options($this->options());
         }
@@ -117,6 +130,15 @@ abstract class AbstractChart
         if ( ! empty($optionModifications)) {
             foreach ($optionModifications as $key => $value) {
                 $chart->changeDefaultOption($key, $value);
+            }
+        }
+
+        if ( ! empty($chartSize)) {
+            if (array_key_exists('height', $chartSize)) {
+                $chart->size($chartSize['height']);
+            }
+            if (array_key_exists('height', $chartSize) && array_key_exists('width', $chartSize)) {
+                $chart->size($chartSize['height'], $chartSize['width']);
             }
         }
 

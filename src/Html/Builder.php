@@ -4,19 +4,22 @@
 namespace RadiateCode\DaChartjs\Html;
 
 use Illuminate\Support\Facades\View;
-use RadiateCode\DaChartjs\Contracts\ChartInterface;
 use Illuminate\Support\HtmlString;
 
 class Builder
 {
-    /**
-     * @var ChartInterface $chart
-     */
-    private $chart;
+    private $chartName;
+    private $renderedData = [];
+    private $size = [];
 
-    public function __construct(ChartInterface $chart)
-    {
-        $this->chart = $chart;
+    public function __construct(
+        string $chartName,
+        array $renderedData,
+        array $chartSize
+    ) {
+        $this->chartName    = $chartName;
+        $this->renderedData = $renderedData;
+        $this->size         = $chartSize;
     }
 
     /**
@@ -26,8 +29,20 @@ class Builder
      */
     public function chartHtml(): HtmlString
     {
+        if (empty($this->size)){
+            return new HtmlString(
+                "<canvas id='".$this->chartName."'></canvas>\n"
+            );
+        }
+
+        if (empty($this->size['width'])){
+            return new HtmlString(
+                "<canvas id='".$this->chartName."' height='".$this->size['height']."'></canvas>\n"
+            );
+        }
+
         return new HtmlString(
-            "<canvas id='".$this->chart->getChartName()."'></canvas>\n"
+            "<canvas id='".$this->chartName."' height='".$this->size['height']."' width='".$this->size['width']."'></canvas>\n"
         );
     }
 
@@ -40,9 +55,9 @@ class Builder
     {
         $script = $this->chartView(false);
 
-        $chartCtxVar = $this->chart->getChartName();
+        $chartCtxVar = $this->chartName;
 
-        $chartConfigVar = $this->chart->getChartName()."_config";
+        $chartConfigVar = $this->chartName."_config";
 
         return new HtmlString(
             sprintf(
@@ -58,7 +73,7 @@ class Builder
      *
      * [note: api call by AJAX]
      *
-     * @param  array|string $ajaxOptions  // can be url string or array of ajaxOptions
+     * @param  array|string  $ajaxOptions  // can be url string or array of ajaxOptions
      *
      * --------------------------------------------------------------------------------
      * Chart Update params
@@ -66,6 +81,7 @@ class Builder
      * @param  string|null  $clickEventId  // trigger event to load api data to chart
      * @param  array  $filterElementIds  // ids used to get value from form elements and attach it as query string
      * --------------------------------------------------------------------------------
+     *
      * @return HtmlString
      */
     public function apiChartScripts(
@@ -75,11 +91,11 @@ class Builder
     ): HtmlString {
         $script = $this->chartView();
 
-        $chartCtxVar = $this->chart->getChartName();
+        $chartCtxVar = $this->chartName;
 
-        $chartConfigVar = $this->chart->getChartName()."_config";
+        $chartConfigVar = $this->chartName."_config";
 
-        if (is_string($ajaxOptions)){
+        if (is_string($ajaxOptions)) {
             $ajaxOptions = ['url' => $ajaxOptions];
         }
 
@@ -126,15 +142,15 @@ class Builder
      */
     protected function encoded(): array
     {
-        $config = $this->chart->render();
+        $config = $this->renderedData;
 
         return [
-            'type'            => $config['type'],
-            'labels'          => json_encode($config['data']['labels']),
-            'datasets'        => json_encode($config['data']['datasets']),
-            'options'         => is_array($config['options'])
+            'type'     => $config['type'],
+            'labels'   => json_encode($config['data']['labels']),
+            'datasets' => json_encode($config['data']['datasets']),
+            'options'  => is_array($config['options'])
                 ? json_encode($config['options'])
-                : $config['options']
+                : $config['options'],
         ];
     }
 }

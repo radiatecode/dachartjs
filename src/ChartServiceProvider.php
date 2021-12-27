@@ -13,10 +13,6 @@ class ChartServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton('html.builder',function ($app){
-            return $this->app->make(Builder::class);
-        });
-
         $this->app->singleton('dataset.builder',function ($app){
             return $this->app->make(Dataset::class);
         });

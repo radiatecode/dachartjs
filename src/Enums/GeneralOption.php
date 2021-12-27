@@ -12,8 +12,6 @@ class GeneralOption
              * Chart responsive options
              */
             'responsive'          => true,
-            'maintainAspectRatio' => true,
-            'aspectRatio' => 2,
 
             /**
              * Interaction options
@@ -23,7 +21,7 @@ class GeneralOption
                 'intersect' => false,
 
                 // Sets which elements appear in the interaction
-                'mode'      => 'index', // point, nearest, index, dataset, x, y,
+                'mode'      => 'nearest', // point, nearest, index, dataset, x, y,
 
                 // Can be set to 'x', 'y', or 'xy' to define which directions are used in calculating distances.
                 // Defaults to 'x' for 'index' mode and 'xy' in dataset and 'nearest' modes.
