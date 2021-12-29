@@ -65,6 +65,7 @@ class Dataset
             ->addProperty('pointHoverBackgroundColor', 'array','string')
             ->addProperty('hoverBackgroundColor', 'array','string')
             ->addProperty('pointHoverBorderColor', 'array','string')
+            ->addProperty('pointBorderWidth', 'float','integer')
             ->addProperty('hoverBorderColor', 'array','string')
             ->addProperty('data', 'array')
             ->addProperty('segment', 'array');

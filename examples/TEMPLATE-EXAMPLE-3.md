@@ -138,6 +138,7 @@ class ChartController {
 ], 'search-btn', ["start_date","end_date"]) !!}
 ```
 > When **'search-btn'** is clicked it get values from start_date, end_date inputs and update the chart based on inputs.
+> Input ids used as http request key to get data in the back-end (**e:g; $request->get('start_date'), $request->get('end_date')**) 
 
 > **Note:** If your route need authorization then make sure you added Authorization header
 > ```html

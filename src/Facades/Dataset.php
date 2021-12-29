@@ -51,6 +51,7 @@ use RadiateCode\DaChartjs\Contracts\DatasetInterface;
  * @method static DatasetInterface pointBorderColor($color)
  * @method static DatasetInterface pointHoverBackgroundColor($color)
  * @method static DatasetInterface pointHoverBorderColor($color)
+ * @method static DatasetInterface pointBorderWidth($width)
  * @method static DatasetInterface hoverBackgroundColor($color)
  * @method static DatasetInterface hoverBorderColor($color)
  * @method static DatasetInterface data(array $data)

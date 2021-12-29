@@ -63,7 +63,9 @@ interface DatasetInterface
     public function hoverBorderRadius($radius): DatasetInterface;
 
     public function pointHoverBorderWidth($width): DatasetInterface;
-    
+
+    public function pointBorderWidth($width): DatasetInterface;
+
     public function pointHitRadius($radius): DatasetInterface;
     
     public function pointHoverRadius($radius): DatasetInterface;

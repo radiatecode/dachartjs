@@ -518,7 +518,7 @@ If you don't want to setup javascript manually in view file then use **template(
 **3. chartScripts()** : Generate chart with back-end configuration and data 
    > **Check the sample code [here](examples/TEMPLATE-EXAMPLE-1.md)**
 
-**4. apiChartScripts($ajaxOptions, string $clickEventId = null, array  $filterElementIds = [])** : Generate chart with back-end configuration. It loads chart data & labels via ajax. 
+**4. apiChartScripts($ajaxOptions, string $clickEventId = null, array  $inputElementIds = [])** : Generate chart with back-end configuration. It loads chart data & labels via ajax. 
     It also allows update or refresh the chart via firing click event.
     
 > **For api response you have to use [ChartResponse Facade](src/Facades/ChartResponse.php)**

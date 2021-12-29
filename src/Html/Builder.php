@@ -11,6 +11,7 @@ class Builder
     private $chartName;
     private $renderedData = [];
     private $size = [];
+    protected $isAjaxScriptCalled = false;
 
     public function __construct(
         string $chartName,
@@ -79,7 +80,7 @@ class Builder
      * Chart Update params
      *
      * @param  string|null  $clickEventId  // trigger event to load api data to chart
-     * @param  array  $filterElementIds  // ids used to get value from form elements and attach it as query string
+     * @param  array  $inputElementIds  // ids used to get value from form elements and attach it as query string
      * --------------------------------------------------------------------------------
      *
      * @return HtmlString
@@ -87,8 +88,10 @@ class Builder
     public function apiChartScripts(
         $ajaxOptions,
         string $clickEventId = null,
-        array $filterElementIds = []
+        array $inputElementIds = []
     ): HtmlString {
+        $ajaxScripts = $this->ajaxView();
+
         $script = $this->chartView();
 
         $chartCtxVar = $this->chartName;
@@ -101,12 +104,12 @@ class Builder
 
         return new HtmlString(
             sprintf(
-                "<script type='".('text/javascript')."'>\n{$script}\n</script>",
+                "<script type='".('text/javascript')."'>\n{$script}\n{$ajaxScripts}\n</script>",
                 $chartCtxVar,
                 $chartConfigVar,
                 $clickEventId,
                 json_encode($ajaxOptions),
-                json_encode($filterElementIds)
+                json_encode($inputElementIds)
             )
         );
     }
@@ -135,6 +138,14 @@ class Builder
         $view = $isApiView ? 'dachart::api' : 'dachart::script';
 
         return View::make($view, $this->encoded())->render();
+    }
+
+    /**
+     * @return string
+     */
+    protected function ajaxView(): string
+    {
+        return View::make('dachart::ajax_min')->render();
     }
 
     /**
