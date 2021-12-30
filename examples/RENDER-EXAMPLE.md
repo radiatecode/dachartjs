@@ -74,7 +74,7 @@ class ChartController extends Controller {
             * 2. create chart with custom options 
             * --------------------------------------
             */
-            $chart = (new Chart('Monthly Chart', HorizontalBarChart::class))
+            $chart = Chart::build('Monthly Chart', HorizontalBarChart::class)
                 ->options([ // Custom options
                         'responsive' => false,
                         'plugins'    => [

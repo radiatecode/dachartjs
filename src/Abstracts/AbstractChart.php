@@ -117,7 +117,7 @@ abstract class AbstractChart
      */
     private function chart(): Chart
     {
-        $chart = new Chart($this->chartTitle(), $this->chartType());
+        $chart = Chart::build($this->chartTitle(), $this->chartType());
 
         $optionModifications = $this->changeDefaultOptions();
 

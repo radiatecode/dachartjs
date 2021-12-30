@@ -55,6 +55,17 @@ class Chart
     }
 
     /**
+     * @param  string  $title
+     * @param  string  $type
+     *
+     * @return Chart
+     */
+    public static function build(string $title, string $type): Chart
+    {
+        return new self($title,$type);
+    }
+
+    /**
      * Set chat labels
      *
      * @param  array  $labels
@@ -72,7 +83,7 @@ class Chart
      * Chart size
      *
      * @param  int  $height
-     * @param  int|null  $width // width is optional. If we want responsive chart
+     * @param  int|null  $width // width is optional for responsive chart
      *
      * @return $this
      */

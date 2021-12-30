@@ -31,6 +31,13 @@ class ProjectCharts extends AbstractChart
     {
         return []; // empty datasets, will be loaded by ajax
     }
+    
+    protected function chartSize(): array
+    {
+        return [
+            'height' => 250
+        ];
+    }
 }
 ```
 > Note: **datasets() and labels()** are empty because these data will be loaded by ajax.
@@ -77,20 +84,30 @@ use \RadiateCode\DaChartjs\Facades\ChartResponse;
 class ChartController {
     public function projectCharts(Request $request)
     {
+        // default dates
+        $start_date = date('Y-m')."-"."01";
+        $end_date   = date("Y-m-t");
+
+        // replace default dates with user inputs
+        if ($request->has('start_date') && $request->get('end_date')) {
+            $start_date = $request->get('start_date');
+            $end_date   = $request->get('end_date');
+        }
+        
        $projectPending = Project::where('status','pending')
-                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->whereBetween('date',[$start_date,$end_date])
                    ->count();
                    
        $projectCompleted = Project::where('status','completed')
-                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->whereBetween('date',[$start_date,$end_date])
                    ->count();
                    
        $taskPending = Task::where('status','pending')
-                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->whereBetween('date',[$start_date,$end_date])
                    ->count();
        
        $taskCompleted = Task::where('status','completed')
-                   ->whereBetween('date',[$request->get('start_date'),$request->get('end_date')])
+                   ->whereBetween('date',[$start_date,$end_date])
                    ->count();
        
        $datasets = [

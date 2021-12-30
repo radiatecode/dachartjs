@@ -348,6 +348,17 @@ class MonthlyCompletionChart extends AbstractChart
 >     }
 > }
 > ```
+
+>  **Note:** If you want to define chart size  override **chartSize()**
+> ```php
+>  protected function chartSize(): array
+>    {
+>        return [
+>            'height' => 230
+>            // 'width' => 400 // width is optional for responsive chart
+>        ];
+>    }
+> ```
 **In controller:**
 
 After all the configuration you can use the dedicated class in the controller
@@ -404,11 +415,18 @@ $barChart = (new Chart('Monthly Chart', HorizontalBarChart::class))
         ->template();
 ```
 ### Available Methods of Chart service class:
-#### 1. labels()
+#### 1. build()
+Create chart service instance in a static way.
+```php
+// example
+Chart::build('title',HorizontalBarChart::class)->labels([])->datasets([])
+```
+> It could be helpful if we want to avoid creating chart instance like **new Chart()**
+#### 2. labels()
 labeling the data index of the chart. it could be x-axis or y-axis, by default it is x-axis.
 
 > labels axis change by **indexAxis** property which used in the **options** configuration
-#### 2. datasets()
+#### 3. datasets()
 
 Datasets can be build by **Dataset Facades**
 
@@ -447,7 +465,7 @@ $barChart->datasets(
     ]
 );
 ```
-#### 3. changeDefaultOption() [Optional]
+#### 4. changeDefaultOption() [Optional]
 Each type of chart class has some predefined default options. For example see the **defaultOptions()** methods of **[HorizontalBarChart](src/Types/Bar/HorizontalBarChart.php)** , **[MultiAxisLineChart](src/Types/Line/MultiAxisLineChart.php)**
 
 So, in some scenario you may need to update the values of default options. In that case you can use **changeDefaultOption('optionKey','value')**
@@ -460,7 +478,7 @@ $barChart->changeDefaultOption('plugins.title.text','Monthly Project, Task And I
 > Note: dot used in key arg is to indicate the nested array level of the options.
 > The method only works when the options are in php array format
 
-#### 4. options() [Optional]
+#### 5. options() [Optional]
 If you don't want to use default options then use your custom options
 
 You can pass **php array** format options
@@ -501,13 +519,19 @@ $barChart->options("{
     }")
 ```
 > To know more about the **options** properties see chart js official [documentation](https://www.chartjs.org/docs/latest).
+#### 6. size() [Optional]
+Chart size 
+```php
+$barChart->size($height,$width = null)
+```
+> Width is optional for responsive chart
 
-#### 5. render()
+#### 6. render()
 Render method will return array of chart configurations. The configuration later can be manually used in javascript
 
 **Check the sample code [here](examples/RENDER-EXAMPLE.md)**
 
-#### 6. template()
+#### 7. template()
 If you don't want to setup javascript manually in view file then use **template()** instead of **render()**. Template method return a **html builder** instance
 
 ### Methods of html builder
@@ -526,7 +550,7 @@ If you don't want to setup javascript manually in view file then use **template(
 **load chart data by ajax:**
 If you just want to load chart data by ajax then only pass value to 1st argument of apiChartScripts
 
-> 1st argument accept string **(url)** or array **[url, type, headers]**
+> 1st argument accept string **(url)** or array of ajax options **[url, type, headers]**
 
 > **Check the sample Code [here](examples/TEMPLATE-EXAMPLE-2.md)**
 > 
