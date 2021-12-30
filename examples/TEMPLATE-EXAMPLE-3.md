@@ -64,15 +64,14 @@ class ReportController extends Controller {
     public function index()
     {
         $barChart = (new Chart('Project Charts', HorizontalBarChart::class))
-            ->labels([])
-            ->datasets([])
+            ->labels([]) // empty labels, will be loaded by ajax
+            ->datasets([]) // empty datasets, will be loaded by ajax
             ->template();    
               
         return view('dashboard')->with('chart',$barChart);       
     }
 }
 ```
-> Note: **datasets** & **labels** are empty because these values will be loaded by ajax
 ### Api Route
 ```php
 Route::post('project/charts','ChartController@projectCharts');
@@ -89,7 +88,7 @@ class ChartController {
         $end_date   = date("Y-m-t");
 
         // replace default dates with user inputs
-        if ($request->has('start_date') && $request->get('end_date')) {
+        if ($request->has('start_date') && $request->has('end_date')) {
             $start_date = $request->get('start_date');
             $end_date   = $request->get('end_date');
         }
