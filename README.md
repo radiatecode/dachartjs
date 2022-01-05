@@ -1,5 +1,8 @@
 ![Stats](img/da-chart.png)
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/radiatecode/dachartjs.svg?style=flat-square)](https://packagist.org/packages/radiatecode/dachartjs)
+[![Total Downloads](https://img.shields.io/packagist/dt/radiatecode/dachartjs.svg?style=flat-square)](https://packagist.org/packages/radiatecode/dachartjs)
+
 The package used to generate charts in Laravel without implementing javascript in the front-side. It is used as a back-end service of [chart js](https://www.chartjs.org).
 It will dynamically render HTML & JS configuration.
 
